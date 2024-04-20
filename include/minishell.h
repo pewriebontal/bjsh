@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/04/20 22:40:16 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/04/20 22:50:03 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <byamc/gnl.h>
 # include <byamc/gzdef.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 
 typedef struct s_bjsh
 {
