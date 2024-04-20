@@ -1,0 +1,3 @@
+[submodule "byamc"]
+	path = byamc
+	url = https://github.com/pewriebontal/byamc.git
