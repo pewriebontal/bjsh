@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:16:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/04/20 22:40:13 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/04/25 02:08:15 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ int	bjsh_exec(char **args)
 	{
 		if (execvp(args[0], args) == -1)
 		{
-			spill_the_tea("🍦bjsh👎: %s: command not found\n", args[0]);
+			ft_printf("🍦bjsh👎: %s: command not found\n", args[0]);
 		}
 		exit(BUSTED);
 	}
 	else if (pid < 0)
 	{
-		spill_the_tea("🍦bjsh👎: fork failed\n");
+		ft_printf("🍦bjsh👎: fork failed\n");
 	}
 	else
 	{

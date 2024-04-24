@@ -6,7 +6,7 @@
 #    By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/26 18:18:13 by mkhaing           #+#    #+#              #
-#    Updated: 2024/04/20 22:44:09 by mkhaing          ###   ########.fr        #
+#    Updated: 2024/04/25 02:01:37 by mkhaing          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,8 @@ RM      = rm -f
 MINISHELL_SRC = $(SRC_DIR)bjsh/main.c \
 				$(SRC_DIR)bjsh/shell.c \
 				$(SRC_DIR)bjsh/builtins.c \
-				$(SRC_DIR)bjsh/exec.c
+				$(SRC_DIR)bjsh/exec.c \
+				$(SRC_DIR)bjsh/extras.c \
 
 SRCS        =   $(MINISHELL_SRC)
 

@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/04/20 22:50:03 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/04/25 02:02:08 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <byamc/gzdef.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+
+# define DEBUG_MODE 1
 
 typedef struct s_bjsh
 {
@@ -38,4 +40,6 @@ int		bjsh_exit(void);
 // exec
 int		bjsh_exec(char **args);
 
+// extras
+int		bjsh_show_error(char *msg);
 #endif // MINISHELL_H

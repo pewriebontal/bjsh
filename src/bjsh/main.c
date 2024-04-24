@@ -20,9 +20,9 @@ int	init_bjsh(t_bjsh *bjsh)
 
 int	main(int argc, char *argv[])
 {
-	t_bjsh bjsh;
+	t_bjsh	bjsh;
+
 	init_bjsh(&bjsh);
 	bjsh_loop(&bjsh);
-
 	return (UNDERSTOOD_THE_ASSIGNMENT);
 }
