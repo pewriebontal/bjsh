@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
+/*   By: jason <jason@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/04/25 02:02:08 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/05/15 22:02:56 by jason            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 typedef struct s_bjsh
 {
 	int	status;
+	int in;// for stdin
+	int out;// for stdout
 }		t_bjsh;
 
 void	bjsh_loop(t_bjsh *bjsh);

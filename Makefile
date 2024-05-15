@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+         #
+#    By: jason <jason@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/26 18:18:13 by mkhaing           #+#    #+#              #
-#    Updated: 2024/04/25 02:01:37 by mkhaing          ###   ########.fr        #
+#    Updated: 2024/05/14 18:56:48 by jason            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,7 @@ SRCS        =   $(MINISHELL_SRC)
 
 OBJS        =   ${SRCS:.c=.o}
 
-all:            $(BYAMC) $(NAME)        
+all:			$(BYAMC) $(NAME)        
 
 $(NAME):		$(OBJS) $(BYAMC)
 				$(CC) $(CFLAGS) $(OBJS) $(BYAMC) -o $(NAME)

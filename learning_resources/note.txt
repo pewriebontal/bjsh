@@ -1,0 +1,12 @@
+# Things to do
+
+- save a working history
+    - !!
+- handle quotes 
+- redirections
+- pipe
+- handle environment variables
+- handle #? , Ctrl c v z 
+- buildins
+
+
