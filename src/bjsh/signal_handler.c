@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/23 01:06:55 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/05/18 17:51:43 by mkhaing          ###   ########.fr       */
+/*   Created: 2024/05/19 16:44:15 by mkhaing           #+#    #+#             */
+/*   Updated: 2024/05/19 17:03:07 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	init_bjsh(t_bjsh *bjsh)
+void	handle_signal(int sig)
 {
-	bjsh->status = CHILLING;
-	// create the history file
-	bjsh_hist_file_create();
-	// bjsh_hist_build();
-	return (UNDERSTOOD_THE_ASSIGNMENT);
-}
-
-int	main(int argc, char *argv[])
-{
-	t_bjsh	bjsh;
-
-	init_bjsh(&bjsh);
-	bjsh_loop(&bjsh);
-	return (UNDERSTOOD_THE_ASSIGNMENT);
+	if (sig == SIGINT)
+	{
+		ft_putstr_fd("\n", 1);
+		display_prompt_msg();
+	}
 }

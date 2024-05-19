@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jason <jason@student.42.fr>                +#+  +:+       +#+         #
+#    By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/26 18:18:13 by mkhaing           #+#    #+#              #
-#    Updated: 2024/05/14 18:56:48 by jason            ###   ########.fr        #
+#    Updated: 2024/05/19 16:56:15 by mkhaing          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,6 @@
 #               佛祖保佑         永无BUG
 #
 
-
 NAME    = bjsh
 
 SRC_DIR = src/
@@ -43,18 +42,14 @@ BYAMC_D =./byamc
 
 BYAMC   = $(BYAMC_D)/byamc.a
 
-CC      = clang
+CC      = gcc #clang
 
-CFLAGS  = -Wall -Wextra -Werror -D LINUX #-fsanitize=leak -g
+#CFLAGS  = -Wall -Wextra -Werror -D LINUX #-fsanitize=leak -g
 CFLAGS	= -Ibyamc/include -Iinclude
 
 RM      = rm -f
 
-MINISHELL_SRC = $(SRC_DIR)bjsh/main.c \
-				$(SRC_DIR)bjsh/shell.c \
-				$(SRC_DIR)bjsh/builtins.c \
-				$(SRC_DIR)bjsh/exec.c \
-				$(SRC_DIR)bjsh/extras.c \
+MINISHELL_SRC = $(wildcard $(SRC_DIR)bjsh/*.c)
 
 SRCS        =   $(MINISHELL_SRC)
 
@@ -71,6 +66,10 @@ $(BYAMC):
 clean:
 				${RM} ${OBJS}
 				make -C $(BYAMC_D) clean
+
+format:
+				c_formatter_42 ./include/*.h
+				c_formatter_42 ./src/bjsh/*.c
 
 fclean:         clean
 				${RM} ${BYAMC}

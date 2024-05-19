@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jason <jason@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/05/15 22:02:56 by jason            ###   ########.fr       */
+/*   Updated: 2024/05/19 16:51:46 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <byamc/ft_printf.h>
 # include <byamc/gnl.h>
 # include <byamc/gzdef.h>
+# include <fcntl.h>
+# include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 
@@ -26,22 +28,31 @@
 
 typedef struct s_bjsh
 {
-	int	status;
-	int in;// for stdin
-	int out;// for stdout
-}		t_bjsh;
+	int					status;
+	int in;  // for stdin
+	int out; // for stdout
+}						t_bjsh;
 
-void	bjsh_loop(t_bjsh *bjsh);
+typedef struct s_bjsh_hist
+{
+	char				*cmd;
+	struct s_bjsh_hist	*next;
+	struct s_bjsh_hist	*prev;
+}						t_bjsh_hist;
+
+void					bjsh_loop(t_bjsh *bjsh);
 
 // builtin cmds
-int		bjsh_pwd(void);
-int		bjsh_cd(char *path);
-int		bjsh_help(char **args);
-int		bjsh_exit(void);
+int						bjsh_pwd(void);
+int						bjsh_cd(char *path);
+int						bjsh_help(char **args);
+int						bjsh_exit(void);
 
 // exec
-int		bjsh_exec(char **args);
+int						bjsh_exec(char **args);
 
 // extras
-int		bjsh_show_error(char *msg);
+int						bjsh_show_error(char *msg);
+
+void					handle_signal(int sig);
 #endif // MINISHELL_H

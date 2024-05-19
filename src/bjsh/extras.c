@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   extras.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/23 01:06:55 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/05/18 17:51:43 by mkhaing          ###   ########.fr       */
+/*   Created: 2024/04/25 01:57:36 by mkhaing           #+#    #+#             */
+/*   Updated: 2024/04/25 02:02:53 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	init_bjsh(t_bjsh *bjsh)
+void	bjsh_debug_msg(char *msg)
 {
-	bjsh->status = CHILLING;
-	// create the history file
-	bjsh_hist_file_create();
-	// bjsh_hist_build();
-	return (UNDERSTOOD_THE_ASSIGNMENT);
+	if (DEBUG_MODE == 1)
+	{
+		ft_printf("DEBUG: %s\n", msg);
+	}
 }
 
-int	main(int argc, char *argv[])
+int	bjsh_show_error(char *msg)
 {
-	t_bjsh	bjsh;
-
-	init_bjsh(&bjsh);
-	bjsh_loop(&bjsh);
+	ft_printf("🍦bjsh👎: %s\n", msg);
 	return (UNDERSTOOD_THE_ASSIGNMENT);
 }
