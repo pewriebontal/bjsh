@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/05/19 17:04:05 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/05/19 20:21:18 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	bjsh_loop(t_bjsh *bjsh)
 			bjsh_exec(args);
 		}
 		free(line);
+		ft_free_multi_dimensional_array((void **)args, 2);
 	}
 }
 
