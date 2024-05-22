@@ -6,7 +6,7 @@
 #    By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/26 18:18:13 by mkhaing           #+#    #+#              #
-#    Updated: 2024/05/19 16:56:15 by mkhaing          ###   ########.fr        #
+#    Updated: 2024/05/22 20:21:24 by mkhaing          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ BYAMC   = $(BYAMC_D)/byamc.a
 CC      = gcc #clang
 
 #CFLAGS  = -Wall -Wextra -Werror -D LINUX #-fsanitize=leak -g
-CFLAGS	= -Ibyamc/include -Iinclude
+CFLAGS	= -Ibyamc/include -Iinclude -lreadline
 
 RM      = rm -f
 

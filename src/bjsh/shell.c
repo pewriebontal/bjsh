@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/05/19 20:21:18 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/05/22 21:10:24 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,22 @@ void	bjsh_loop(t_bjsh *bjsh)
 	char	*line;
 	char	**args;
 	char	*path;
+	char	*history_file_path;
+	char	*prompt;
 
+	prompt = "🍦bjsh👍 ";
+	history_file_path = bjsh_get_history_path();
+	read_history(history_file_path);
 	while (bjsh->status == CHILLING)
 	{
-		display_prompt_msg();
+		// display_prompt_msg();
 		signal(SIGINT, handle_signal);
-		line = get_next_line(1);
+		signal(SIGTSTP, handle_signal);
+		// line = get_next_line(1);
+		line = readline(prompt);
 		line[strcspn(line, "\n")] = 0;
 		bjsh_hist_file_append(line);
+		add_history(line);
 		//  TODO: replace with own implementation// ft_strtrim
 		args = ft_split(line, ' ');
 		if (args[0] == NULL)
@@ -34,6 +42,7 @@ void	bjsh_loop(t_bjsh *bjsh)
 		}
 		if (ft_strncmp(args[0], "exit", 5) == 0)
 		{
+			write_history(history_file_path);
 			bjsh->status = NOT_CHILLING;
 		}
 		else if (ft_strncmp(args[0], "cd", 3) == 0)

@@ -4,6 +4,7 @@
         "bool.h": "c",
         "types.h": "c",
         "wait.h": "c",
-        "signal.h": "c"
+        "signal.h": "c",
+        "history.h": "c"
     }
 }

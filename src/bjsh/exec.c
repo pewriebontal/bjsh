@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:16:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/05/02 20:33:02 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/05/22 21:09:16 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,16 @@
 int	bjsh_exec(char **args)
 {
 	pid_t	pid;
+	int		status;
+	char	*path;
+	char	*cmd;
 
 	// wpid
 	pid = fork();
+	if (pid < 0)
+	{
+		ft_printf("🍦bjsh👎: fork failed\n");
+	}
 	if (pid == 0)
 	{
 		if (execvp(args[0], args) == -1)
@@ -27,13 +34,6 @@ int	bjsh_exec(char **args)
 		}
 		exit(BUSTED);
 	}
-	else if (pid < 0)
-	{
-		ft_printf("🍦bjsh👎: fork failed\n");
-	}
-	else
-	{
-		waitpid(pid, NULL, 0);
-	}
+	waitpid(pid, &status, 0);
 	return (UNDERSTOOD_THE_ASSIGNMENT);
 }
