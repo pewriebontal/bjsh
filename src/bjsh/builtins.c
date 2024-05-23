@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:00:06 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/05/02 21:06:14 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/05/23 13:51:02 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 int	bjsh_cd(char *path)
 {
+	// if no path is given, go to the home directory
+	if (path == NULL || *path == '\0')
+	{
+		path = getenv("HOME");
+	}
 	if (chdir(path) == -1)
 	{
 		ft_printf("🍦bjsh👎: %s : No such file or directory\n", path);
