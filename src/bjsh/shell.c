@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: klinn <klinn@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/05/25 16:25:52 by klinn            ###   ########.fr       */
+/*   Updated: 2024/05/25 18:18:21 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	bjsh_loop(t_bjsh *bjsh)
 {
-	t_bjsh bjsh;
+
 	char	*line;
 	char	**args;
 	char	*path;
@@ -34,8 +34,7 @@ void	bjsh_loop(t_bjsh *bjsh)
 		// line[strcspn(line, "\n")] = 0;
 		bjsh->argv = readline(prompt);
 		bjsh->argv[strcspn(bjsh->argv, "\n")] = 0;
-
-		save_token(bjsh);
+		count_token(bjsh);
 		bjsh_hist_file_append(bjsh->argv);
 		add_history(bjsh->argv);
 		//  TODO: replace with own implementation// ft_strtrim
