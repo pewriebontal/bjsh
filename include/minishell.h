@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/05/22 20:18:10 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/05/24 19:13:33 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,15 @@
 # include <sys/wait.h>
 
 # define DEBUG_MODE 1
+
+# define SHELL_SHORT_NAME "bjsh"
+# define SHELL_LONG_NAME "Bon & Jason's shell"
+# define SHELL_VERSION "development build"
+# define SHELL_PROMPT "🍦bjsh👍 "
+
+# ifndef SHELL_BUILD_DATE
+#  define SHELL_BUILD_DATE "unknown"
+# endif
 
 typedef struct s_bjsh
 {

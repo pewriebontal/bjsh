@@ -6,7 +6,7 @@
 #    By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/26 18:18:13 by mkhaing           #+#    #+#              #
-#    Updated: 2024/05/22 20:21:24 by mkhaing          ###   ########.fr        #
+#    Updated: 2024/05/24 19:13:30 by mkhaing          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,11 +45,13 @@ BYAMC   = $(BYAMC_D)/byamc.a
 CC      = gcc #clang
 
 #CFLAGS  = -Wall -Wextra -Werror -D LINUX #-fsanitize=leak -g
-CFLAGS	= -Ibyamc/include -Iinclude -lreadline
+CFLAGS	= -DSHELL_BUILD_DATE="\"`date`\"" -Ibyamc/include -Iinclude -lreadline
 
 RM      = rm -f
 
-MINISHELL_SRC = $(wildcard $(SRC_DIR)bjsh/*.c)
+MINISHELL_SRC = $(wildcard $(SRC_DIR)bjsh/*.c)	\
+				$(wildcard $(SRC_DIR)token_handler/*.c)	\
+				$(wildcard $(SRC_DIR)utils/*.c)
 
 SRCS        =   $(MINISHELL_SRC)
 
@@ -70,6 +72,9 @@ clean:
 format:
 				c_formatter_42 ./include/*.h
 				c_formatter_42 ./src/bjsh/*.c
+
+install:
+				sudo cp ./bjsh /bin/bjsh --force
 
 fclean:         clean
 				${RM} ${BYAMC}

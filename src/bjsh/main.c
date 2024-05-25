@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:06:55 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/05/23 13:49:36 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/05/25 15:31:29 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,23 @@ int	main(int argc, char *argv[])
 	// --version
 	// if ./bjsh --version then print version and exit
 	// only implemented for neofetch haha
-	if (argc == 2 && ft_strncmp(argv[1], "--version", 10) == 0)
+	if (argc == 2)
 	{
-		ft_putstr_fd("bjsh (Bon & Jason shell) [development build]\n", 1);
-		return (UNDERSTOOD_THE_ASSIGNMENT);
+		if (ft_strncmp(argv[1], "--version", 10) == 0)
+		{
+			ft_printf("%s (%s) [%s %s]\n", SHELL_SHORT_NAME, SHELL_LONG_NAME,
+				SHELL_VERSION, SHELL_BUILD_DATE);
+			return (UNDERSTOOD_THE_ASSIGNMENT);
+		}
+		if (ft_strncmp(argv[1], "--help", 7) == 0)
+		{
+			ft_printf("%s (%s) [%s %s]\n", SHELL_SHORT_NAME, SHELL_LONG_NAME,
+				SHELL_VERSION, SHELL_BUILD_DATE);
+			ft_printf("Usage: %s [OPTION]...\n", SHELL_SHORT_NAME);
+			ft_printf("  --version\t\tprint version and exit\n");
+			ft_printf("  --help\t\tprint this help and exit\n");
+			return (UNDERSTOOD_THE_ASSIGNMENT);
+		}
 	}
 	init_bjsh(&bjsh);
 	bjsh_loop(&bjsh);
