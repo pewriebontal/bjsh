@@ -6,6 +6,7 @@
         "wait.h": "c",
         "signal.h": "c",
         "history.h": "c",
-        "cerrno": "c"
+        "cerrno": "c",
+        "readline.h": "c"
     }
 }

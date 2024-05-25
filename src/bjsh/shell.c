@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
+/*   By: klinn <klinn@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/05/24 19:06:26 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/05/25 16:25:52 by klinn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	bjsh_loop(t_bjsh *bjsh)
 {
+	t_bjsh bjsh;
 	char	*line;
 	char	**args;
 	char	*path;
@@ -29,15 +30,19 @@ void	bjsh_loop(t_bjsh *bjsh)
 		signal(SIGINT, handle_signal);
 		signal(SIGTSTP, handle_signal);
 		// line = get_next_line(1);
-		line = readline(prompt);
-		line[strcspn(line, "\n")] = 0;
-		bjsh_hist_file_append(line);
-		add_history(line);
+		// line = readline(prompt);
+		// line[strcspn(line, "\n")] = 0;
+		bjsh->argv = readline(prompt);
+		bjsh->argv[strcspn(bjsh->argv, "\n")] = 0;
+
+		save_token(bjsh);
+		bjsh_hist_file_append(bjsh->argv);
+		add_history(bjsh->argv);
 		//  TODO: replace with own implementation// ft_strtrim
 		args = ft_split(line, ' ');
 		if (args[0] == NULL)
 		{
-			free(line);
+			free(bjsh->argv);
 			continue ;
 		}
 		if (ft_strncmp(args[0], "exit", 5) == 0)
