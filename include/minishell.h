@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
+/*   By: klinn <klinn@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/05/25 18:17:26 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/05/27 17:04:11 by klinn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,29 @@
 # define SHELL_VERSION "development build"
 # define SHELL_PROMPT "🍦bjsh👍 "
 
+//token type
+# define PIPE 0
+# define RDIR_R 1;
+# define RDIR_RR 2;
+# define RDIR_L 3;
+# define END 4;
+
 # ifndef SHELL_BUILD_DATE
 #  define SHELL_BUILD_DATE "unknown"
 # endif
 
+// ls -a | grep e
+// | 	  ---> type
+// ls -a  ---> tmp_left
+// grep e ---> tmp_right
 typedef struct s_token
 {
-	int					pipe;
-	int					redir_right;
-	int					redir_left;
-	int					end;
+	int type;
+	int tmp_left;
+	int tmp_right;
+	struct s_token *next;
 }						t_token;
+
 typedef struct s_bjsh
 {
 	t_token				*token;
@@ -85,5 +97,10 @@ int						bjsh_show_error(char *msg);
 void					handle_signal(int sig);
 
 // token.c
-t_bjsh					*save_token(t_bjsh *bjsh);
+t_token	*ft_new_token(int left_cmd, int right_cmd, int type);
+t_token	*ft_last_token(t_token *token);
+void    ft_token_addback(t_token **token, t_token *new);
+void    init_token(t_bjsh *bjsh,int type);
+void    set_token(t_bjsh *bjsh);
+
 #endif // MINISHELL_H
