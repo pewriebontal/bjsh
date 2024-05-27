@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/05/25 18:18:21 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/05/27 17:24:10 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	bjsh_loop(t_bjsh *bjsh)
 {
-
 	char	*line;
 	char	**args;
 	char	*path;
@@ -29,19 +28,19 @@ void	bjsh_loop(t_bjsh *bjsh)
 		// display_prompt_msg();
 		signal(SIGINT, handle_signal);
 		signal(SIGTSTP, handle_signal);
-		// line = get_next_line(1);
+		line = readline(SHELL_PROMPT);
 		// line = readline(prompt);
-		// line[strcspn(line, "\n")] = 0;
-		bjsh->argv = readline(prompt);
-		bjsh->argv[strcspn(bjsh->argv, "\n")] = 0;
-		count_token(bjsh);
-		bjsh_hist_file_append(bjsh->argv);
-		add_history(bjsh->argv);
+		line[strcspn(line, "\n")] = 0;
+		// bjsh->argv = readline(prompt);
+		// bjsh->argv[strcspn(bjsh->argv, "\n")] = 0;
+		set_token(bjsh);
+		// bjsh_hist_file_append(bjsh->argv);
+		add_history(line);
 		//  TODO: replace with own implementation// ft_strtrim
 		args = ft_split(line, ' ');
 		if (args[0] == NULL)
 		{
-			free(bjsh->argv);
+			free(line);
 			continue ;
 		}
 		if (ft_strncmp(args[0], "exit", 5) == 0)
