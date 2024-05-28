@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
+/*   By: jason <jason@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/05/27 17:24:10 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/05/28 21:33:44 by jason            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,60 +74,3 @@ void	bjsh_loop(t_bjsh *bjsh)
 		ft_free_multi_dimensional_array((void **)args, 2);
 	}
 }
-
-// combine all the builtin commands into one function
-//  ??????????????????????
-void	run_cmd(t_bjsh *bjsh, char **args)
-{
-	char	*path;
-
-	if (args[0] == NULL)
-	{
-		// free(line);
-		// continue ;
-	}
-	if (ft_strncmp(args[0], "exit", 5) == 0)
-	{
-		bjsh->status = NOT_CHILLING;
-	}
-	else if (ft_strncmp(args[0], "cd", 3) == 0)
-	{
-		path = chope(1024);
-		ft_memset(path, 0, 1024);
-		ft_strlcpy(path, args[1], ft_strlen(args[1]) + 1);
-		// null terminate the path
-		path[ft_strlen(path) + 1] = '\0';
-		bjsh_cd(path);
-		free(path);
-	}
-	else if (ft_strncmp(args[0], "pwd", 4) == 0)
-	{
-		bjsh_pwd();
-	}
-	else if (ft_strncmp(args[0], "help", 5) == 0)
-	{
-		bjsh_help(args);
-	}
-	else
-	{
-		bjsh_exec(args);
-	}
-}
-
-// if detected pipe, do run the next command
-//* need to change ptr before pasing to run_cmd
-// void pipe(t_bjsh *bjsh, char **args)
-//{
-//	int i;
-//
-//	i = 0;
-//	while (args[i])
-//	{
-//		if (ft_strncmp(args[i], "|", 2) == 0)
-//		{
-//			run_cmd(bjsh, args);
-//		}
-//		i++;
-//	}
-//}
-//

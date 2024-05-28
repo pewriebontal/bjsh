@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
+/*   By: jason <jason@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:16:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/05/22 21:09:16 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/05/28 21:31:42 by jason            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,25 @@ int	bjsh_exec(char **args)
 	}
 	waitpid(pid, &status, 0);
 	return (UNDERSTOOD_THE_ASSIGNMENT);
+}
+
+int	exec_cmd(t_bjsh *bjsh, int type)
+{
+	if (type == PIPE || type == END)
+	{
+		bjsh_exec(bjsh->argv);
+	}
+	if (type == RDIR_R)
+	{
+		// redirect right
+	}
+	if (type == RDIR_RR)
+	{
+		// redirect right
+	}
+	if (type == RDIR_L)
+	{
+		// redirect left
+	}
+
 }
