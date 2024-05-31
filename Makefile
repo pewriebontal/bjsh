@@ -6,7 +6,7 @@
 #    By: jason <jason@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/26 18:18:13 by mkhaing           #+#    #+#              #
-#    Updated: 2024/05/31 22:20:47 by jason            ###   ########.fr        #
+#    Updated: 2024/05/31 23:29:30 by jason            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ BYAMC   = $(BYAMC_D)/byamc.a
 CC      = gcc #clang
 
 #CFLAGS  = -Wall -Wextra -Werror -D LINUX #-fsanitize=leak -g
-CFLAGS	= -DSHELL_BUILD_DATE="\"`date`\"" -Ibyamc/include -Iinclude -lreadline -lhistory 
+CFLAGS	= -DSHELL_BUILD_DATE="\"`date`\"" -Ibyamc/include -Iinclude -lreadline
 
 RM      = rm -f
 
@@ -60,7 +60,7 @@ OBJS        =   ${SRCS:.c=.o}
 all:			$(BYAMC) $(NAME)        
 
 $(NAME):		$(OBJS) $(BYAMC)
-				$(CC) $(CFLAGS) $(OBJS) $(BYAMC) -o $(NAME)
+				$(CC) $(CFLAGS) $(OBJS) $(BYAMC) $(LDFLAGS) -o $(NAME)
 
 $(BYAMC):
 				make -C $(BYAMC_D) all

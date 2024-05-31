@@ -38,12 +38,11 @@ int	bjsh_exec(char **args)
 	return (UNDERSTOOD_THE_ASSIGNMENT);
 }
 
-int exec_redir_r(t_bjsh *bjsh)
+int	exec_redir_r(t_bjsh *bjsh)
 {
-	int fd;
-	int status;
-	pid_t pid;
-
+	int		fd;
+	int		status;
+	pid_t	pid;
 
 	pid = fork();
 	if (pid < 0)
