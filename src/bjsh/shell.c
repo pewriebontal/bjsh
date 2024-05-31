@@ -36,7 +36,7 @@ void	bjsh_loop(t_bjsh *bjsh)
 		line[strcspn(line, "\n")] = 0;
 		// bjsh->argv = readline(prompt);
 		// bjsh->argv[strcspn(bjsh->argv, "\n")] = 0;
-		//set_token(bjsh);
+		// set_token(bjsh);
 		// bjsh_hist_file_append(bjsh->argv);
 		add_history(line);
 		//  TODO: replace with own implementation// ft_strtrim

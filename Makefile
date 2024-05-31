@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jason <jason@student.42.fr>                +#+  +:+       +#+         #
+#    By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/26 18:18:13 by mkhaing           #+#    #+#              #
-#    Updated: 2024/05/31 23:29:30 by jason            ###   ########.fr        #
+#    Updated: 2024/05/31 22:42:52 by mkhaing          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,8 +45,8 @@ BYAMC   = $(BYAMC_D)/byamc.a
 CC      = gcc #clang
 
 #CFLAGS  = -Wall -Wextra -Werror -D LINUX #-fsanitize=leak -g
-CFLAGS	= -DSHELL_BUILD_DATE="\"`date`\"" -Ibyamc/include -Iinclude -lreadline
-
+CFLAGS	= -DSHELL_BUILD_DATE="\"`date`\"" -Ibyamc/include -Iinclude
+LDFLAGS = -L/lib/x86_64-linux-gnu -lreadline -lhistory     # Ubuntu is so dumb need -L flag to find readline
 RM      = rm -f
 
 MINISHELL_SRC = $(wildcard $(SRC_DIR)bjsh/*.c)	\
