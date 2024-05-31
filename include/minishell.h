@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/05/27 17:28:21 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/05/31 19:41:58 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int						bjsh_show_error(char *msg);
 
 // signal_handaler
 void					handle_signal(int sig);
-
+void					handle_eof(void);
 // token.c
 t_token					*ft_new_token(int left_cmd, int right_cmd, int type);
 t_token					*ft_last_token(t_token *token);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jason <jason@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/05/28 21:33:44 by jason            ###   ########.fr       */
+/*   Updated: 2024/05/31 20:03:18 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,11 @@ void	bjsh_loop(t_bjsh *bjsh)
 		// display_prompt_msg();
 		signal(SIGINT, handle_signal);
 		signal(SIGTSTP, handle_signal);
+		signal(SIGQUIT, SIG_IGN); // CTRL + \ is ignored
 		line = readline(SHELL_PROMPT);
 		// line = readline(prompt);
+		if (!line) // if ctrl-D is pressed
+			break ;
 		line[strcspn(line, "\n")] = 0;
 		// bjsh->argv = readline(prompt);
 		// bjsh->argv[strcspn(bjsh->argv, "\n")] = 0;
@@ -65,6 +68,10 @@ void	bjsh_loop(t_bjsh *bjsh)
 		else if (ft_strncmp(args[0], "help", 5) == 0)
 		{
 			bjsh_help(args);
+		}
+		else if (ft_strncmp(args[0], "echo", 5) == 0)
+		{
+			bjsh_echo(args);
 		}
 		else
 		{
