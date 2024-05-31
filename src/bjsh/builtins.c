@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
+/*   By: jason <jason@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:00:06 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/05/31 19:41:32 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/05/31 21:31:17 by jason            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	bjsh_cd(char *path)
 	}
 	if (chdir(path) == -1)
 	{
-		display_error_msg("cd: no such file or directory: ");
+		//display_error_msg("cd: no such file or directory: ");
 		ft_printf("%s\n", path);
 		return (BUSTED);
 	}
