@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/05/31 20:03:18 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/05/31 22:48:42 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	bjsh_loop(t_bjsh *bjsh)
 		line[strcspn(line, "\n")] = 0;
 		// bjsh->argv = readline(prompt);
 		// bjsh->argv[strcspn(bjsh->argv, "\n")] = 0;
-		set_token(bjsh);
+		//set_token(bjsh);
 		// bjsh_hist_file_append(bjsh->argv);
 		add_history(line);
 		//  TODO: replace with own implementation// ft_strtrim
