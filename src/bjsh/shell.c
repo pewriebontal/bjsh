@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/05/31 22:48:42 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/01 15:58:54 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	bjsh_loop(t_bjsh *bjsh)
 {
 	char	*line;
 	char	**args;
-	char	*path;
 	char	*history_file_path;
 	char	*prompt;
 
@@ -46,32 +45,9 @@ void	bjsh_loop(t_bjsh *bjsh)
 			free(line);
 			continue ;
 		}
-		if (ft_strncmp(args[0], "exit", 5) == 0)
+		if (check_builtin(args[0]))
 		{
-			write_history(history_file_path);
-			bjsh->status = NOT_CHILLING;
-		}
-		else if (ft_strncmp(args[0], "cd", 3) == 0)
-		{
-			path = chope(1024);
-			ft_memset(path, 0, 1024);
-			ft_strlcpy(path, args[1], ft_strlen(args[1]) + 1);
-			// null terminate the path
-			path[ft_strlen(path) + 1] = '\0';
-			bjsh_cd(path);
-			free(path);
-		}
-		else if (ft_strncmp(args[0], "pwd", 4) == 0)
-		{
-			bjsh_pwd();
-		}
-		else if (ft_strncmp(args[0], "help", 5) == 0)
-		{
-			bjsh_help(args);
-		}
-		else if (ft_strncmp(args[0], "echo", 5) == 0)
-		{
-			bjsh_echo(args);
+			bjsh_exec_builtin(args);
 		}
 		else
 		{
@@ -80,4 +56,57 @@ void	bjsh_loop(t_bjsh *bjsh)
 		free(line);
 		ft_free_multi_dimensional_array((void **)args, 2);
 	}
+}
+
+int	check_builtin(char *cmd)
+{
+	if (ft_strncmp(cmd, "exit", 5) == 0)
+		return (1);
+	else if (ft_strncmp(cmd, "cd", 3) == 0)
+		return (1);
+	else if (ft_strncmp(cmd, "pwd", 4) == 0)
+		return (1);
+	else if (ft_strncmp(cmd, "help", 5) == 0)
+		return (1);
+	else if (ft_strncmp(cmd, "echo", 5) == 0)
+		return (1);
+	return (0);
+}
+
+int	bjsh_exec_builtin(char **args)
+{
+	char *path;
+
+	if (ft_strncmp(args[0], "exit", 5) == 0)
+	{
+		bjsh_exit();
+		return (1);
+	}
+	else if (ft_strncmp(args[0], "cd", 3) == 0)
+	{
+		path = chope(1024);
+		ft_memset(path, 0, 1024);
+		ft_strlcpy(path, args[1], ft_strlen(args[1]) + 1);
+		// null terminate the path
+		path[ft_strlen(path) + 1] = '\0';
+		bjsh_cd(path);
+		free(path);
+		return (1);
+	}
+	else if (ft_strncmp(args[0], "pwd", 4) == 0)
+	{
+		bjsh_pwd();
+		return (1);
+	}
+	else if (ft_strncmp(args[0], "help", 5) == 0)
+	{
+		bjsh_help(args);
+		return (1);
+	}
+	else if (ft_strncmp(args[0], "echo", 5) == 0)
+	{
+		bjsh_echo(args);
+		return (1);
+	}
+	return (0);
 }
