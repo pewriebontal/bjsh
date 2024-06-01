@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/01 15:58:54 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/01 16:09:47 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ void	bjsh_loop(t_bjsh *bjsh)
 	char	*line;
 	char	**args;
 	char	*history_file_path;
-	char	*prompt;
 
-	prompt = "🍦bjsh👍 ";
 	history_file_path = bjsh_get_history_path();
 	read_history(history_file_path);
 	while (bjsh->status == CHILLING)

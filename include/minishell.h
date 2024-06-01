@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/05/31 19:41:58 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/01 16:24:49 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int						bjsh_exec(char **args);
 
 // extras
 int						bjsh_show_error(char *msg);
+void					display_error_msg(char *msg);
 
 // signal_handaler
 void					handle_signal(int sig);
