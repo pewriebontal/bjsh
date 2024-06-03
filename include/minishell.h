@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
+/*   By: klinn <klinn@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/01 16:24:49 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/03 16:43:46 by klinn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,16 @@ typedef struct s_token
 	struct s_token		*next;
 }						t_token;
 
+typedef struct s_env
+{
+	char				*value;
+	struct s_env		*next;
+}				t_env;
+
 typedef struct s_bjsh
 {
 	t_token				*token;
+	t_env				*env;
 	char				*argv;
 	int					status;
 	int st_in;  // for stdin
@@ -80,6 +87,11 @@ int						bjsh_cd(char *path);
 int						bjsh_help(char **args);
 int						bjsh_exit(void);
 
+// env.c
+
+int init_env(t_bjsh *bjsh,char **env_avg);
+void show_env(t_bjsh *bjsh);
+
 // exec
 int						bjsh_exec(char **args);
 
@@ -90,6 +102,7 @@ void					display_error_msg(char *msg);
 // signal_handaler
 void					handle_signal(int sig);
 void					handle_eof(void);
+
 // token.c
 t_token					*ft_new_token(int left_cmd, int right_cmd, int type);
 t_token					*ft_last_token(t_token *token);
