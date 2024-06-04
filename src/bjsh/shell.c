@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/04 23:14:11 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/04 23:36:01 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	pre_execute(char **args, t_bjsh *bjsh)
 	}
 	else
 	{
-		bjsh_exec(args);
+		bjsh_exec(args, bjsh);
 	}
 	return (1);
 }

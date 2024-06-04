@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: klinn <klinn@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/03 16:43:46 by klinn            ###   ########.fr       */
+/*   Updated: 2024/06/04 23:36:22 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int						init_env(t_bjsh *bjsh, char **env_avg);
 void					show_env(t_bjsh *bjsh);
 
 // exec
-int						bjsh_exec(char **args);
+int						bjsh_exec(char **args, t_bjsh *bjsh);
 
 // extras
 int						bjsh_show_error(char *msg);
