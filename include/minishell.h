@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/04 23:36:22 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/05 00:23:15 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ typedef struct s_env
 typedef struct s_bjsh
 {
 	t_token				*token;
-	t_env				*env;
+	// t_env				*env;
+	char				**env;
 	char				*argv;
 	int					status;
 	int st_in;  // for stdin

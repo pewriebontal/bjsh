@@ -6,15 +6,55 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:16:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/04 23:59:56 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/05 00:21:50 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 #include <sys/types.h>
 
-// need rewrite with allowed functions
 int	find_executable(char *command, char *path_buffer)
+{
+	char		*path_env;
+	char		*start;
+	size_t		remaining_size;
+	char		*end;
+	struct stat	statbuf;
+	size_t		path_buffer_size;
+
+	path_buffer_size = 1024;
+	path_env = getenv("PATH");
+	start = path_env;
+	remaining_size = path_buffer_size;
+	if (!path_env)
+		return (0);
+	while (start)
+	{
+		end = ft_strchr(start, ':');
+		if (!end)
+			end = start + ft_strlen(start);
+		// Check if there's enough space in the buffer
+		if (end - start + 1 + ft_strlen(command) + 1 > remaining_size)
+		{
+			// Handle buffer overflow (e.g., return an error code)
+			return (-1);
+		}
+		// Copy directory path
+		ft_strncpy(path_buffer, start, end - start);
+		path_buffer[end - start] = '\0';
+		// Construct full path
+		ft_strlcat(path_buffer, "/", remaining_size);
+		ft_strlcat(path_buffer, command, remaining_size);
+		if (stat(path_buffer, &statbuf) == 0 && (statbuf.st_mode & S_IXUSR))
+			return (1);
+		start = (*end) ? end + 1 : NULL;
+		remaining_size -= end - start + 1; // Update remaining buffer size
+	}
+	return (0);
+}
+
+// need rewrite with allowed functions
+int	find_executable2(char *command, char *path_buffer)
 {
 	char		*path_env;
 	char		*path;
@@ -49,16 +89,12 @@ int	bjsh_exec(char **args, t_bjsh *bjsh)
 
 	if (!find_executable(args[0], path))
 	{
-		perror("minishell");
-		display_error_msg("cannot find executable: ");
-		return (1);
+		display_error_msg("command not found: ");
+		ft_putendl_fd(args[0], STDERR_FILENO);
+		return (127); // Return 127 for command not found
 	}
 	// wpid
 	pid = fork();
-	if (pid < 0)
-	{
-		ft_printf("🍦bjsh👎: fork failed\n");
-	}
 	if (pid == 0)
 	{
 		// handle_redirections(args);
@@ -66,11 +102,22 @@ int	bjsh_exec(char **args, t_bjsh *bjsh)
 		if (execve(path, args, bjsh->env) == -1)
 		{
 			ft_printf("🍦bjsh👎 command not found: %s\n", args[0]);
+			exit(126);
 		}
-		exit(BUSTED);
 	}
-	waitpid(pid, &status, 0);
-	return (UNDERSTOOD_THE_ASSIGNMENT);
+	else if (pid > 0)
+	{
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			return (WEXITSTATUS(status));
+		else if (WIFSIGNALED(status))
+			return (128 + WTERMSIG(status));
+	}
+	else
+	{
+		perror("minishell: fork");
+		return (1); // Return a general error code
+	}
 }
 
 int	exec_cmd(t_bjsh *bjsh, int type)

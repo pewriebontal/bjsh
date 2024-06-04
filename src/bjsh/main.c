@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: klinn <klinn@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:06:55 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/03 16:44:23 by klinn            ###   ########.fr       */
+/*   Updated: 2024/06/05 00:25:19 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	init_bjsh(t_bjsh *bjsh)
+int	init_bjsh(t_bjsh *bjsh, char *env[])
 {
 	bjsh->status = CHILLING;
+	bjsh->env = env;
 	// create the history file
 	bjsh_hist_file_create();
 	// bjsh_hist_build();
@@ -47,7 +48,7 @@ int	main(int argc, char *argv[], char *env[])
 		}
 	}
 	init_env(&bjsh, env);
-	init_bjsh(&bjsh);
+	init_bjsh(&bjsh, env);
 	bjsh_loop(&bjsh);
 	return (UNDERSTOOD_THE_ASSIGNMENT);
 }
