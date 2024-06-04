@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/01 16:09:47 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/04 23:14:11 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,40 +20,40 @@ void	bjsh_loop(t_bjsh *bjsh)
 
 	history_file_path = bjsh_get_history_path();
 	read_history(history_file_path);
+	signal(SIGINT, handle_signal);
+	signal(SIGTSTP, handle_signal);
+	signal(SIGQUIT, SIG_IGN); // CTRL + \ is ignored
 	while (bjsh->status == CHILLING)
 	{
-		// display_prompt_msg();
-		signal(SIGINT, handle_signal);
-		signal(SIGTSTP, handle_signal);
-		signal(SIGQUIT, SIG_IGN); // CTRL + \ is ignored
 		line = readline(SHELL_PROMPT);
-		// line = readline(prompt);
 		if (!line) // if ctrl-D is pressed
 			break ;
 		line[strcspn(line, "\n")] = 0;
-		// bjsh->argv = readline(prompt);
-		// bjsh->argv[strcspn(bjsh->argv, "\n")] = 0;
-		// set_token(bjsh);
-		// bjsh_hist_file_append(bjsh->argv);
-		add_history(line);
-		//  TODO: replace with own implementation// ft_strtrim
+		if (*line)
+			add_history(line);
 		args = ft_split(line, ' ');
-		if (args[0] == NULL)
-		{
-			free(line);
-			continue ;
-		}
-		if (check_builtin(args[0]))
-		{
-			bjsh_exec_builtin(args);
-		}
-		else
-		{
-			bjsh_exec(args);
-		}
+		// args = parse_command(line);
+		if (args && *args)
+			pre_execute(args, bjsh);
 		free(line);
 		ft_free_multi_dimensional_array((void **)args, 2);
 	}
+}
+
+int	pre_execute(char **args, t_bjsh *bjsh)
+{
+	if (args[0] == NULL)
+		return (1);
+	if (check_builtin(args[0]))
+	{
+		if (bjsh_exec_builtin(args))
+			return (1);
+	}
+	else
+	{
+		bjsh_exec(args);
+	}
+	return (1);
 }
 
 int	check_builtin(char *cmd)

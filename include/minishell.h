@@ -60,7 +60,7 @@ typedef struct s_env
 {
 	char				*value;
 	struct s_env		*next;
-}				t_env;
+}						t_env;
 
 typedef struct s_bjsh
 {
@@ -89,8 +89,8 @@ int						bjsh_exit(void);
 
 // env.c
 
-int init_env(t_bjsh *bjsh,char **env_avg);
-void show_env(t_bjsh *bjsh);
+int						init_env(t_bjsh *bjsh, char **env_avg);
+void					show_env(t_bjsh *bjsh);
 
 // exec
 int						bjsh_exec(char **args);

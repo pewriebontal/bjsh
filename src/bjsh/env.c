@@ -1,46 +1,46 @@
 #include <minishell.h>
 
-//test
-void show_env(t_bjsh *bjsh)
+// test
+void	show_env(t_bjsh *bjsh)
 {
-    printf("\n#start_TEST#\n");
-    while (bjsh->env)
-    {
-        printf("\n-->%s",bjsh->env->value);
-        bjsh->env = bjsh->env->next;
-    }
-    printf("\n#end_TEST#\n");
+	printf("\n#start_TEST#\n");
+	while (bjsh->env)
+	{
+		printf("\n-->%s", bjsh->env->value);
+		bjsh->env = bjsh->env->next;
+	}
+	printf("\n#end_TEST#\n");
 }
 
-//var_name (e.g)USER, DBUS, ....
-//chg_value -- the value that u want to chg with
-void    chg_value_of_env(t_bjsh *bjsh,char *var_name, char *chg_value)
+// var_name (e.g)USER, DBUS, ....
+// chg_value -- the value that u want to chg with
+void	chg_value_of_env(t_bjsh *bjsh, char *var_name, char *chg_value)
 {
-    int i;
-    int j;
-    char *tmp;
-
-    while (bjsh->env)
-    {
-        if (ft_strncmp(bjsh->env->value,var_name,sizeof(var_name)) == 0)
-        {
-            i = 0;
-            j = 0;
-            while (bjsh->env->value[i + 1] != '=')
-            {
-                i++;
-            }
-            //still thinking...... 
-        }
-        bjsh->env = env->next;
-    }
+	//	int		i;
+	//	int		j;
+	//	char	*tmp;
+	//
+	//	while (bjsh->env)
+	//	{
+	//		if (ft_strncmp(bjsh->env->value, var_name, sizeof(var_name)) == 0)
+	//		{
+	//			i = 0;
+	//			j = 0;
+	//			while (bjsh->env->value[i + 1] != '=')
+	//			{
+	//				i++;
+	//			}
+	//			// still thinking......
+	//		}
+	//		bjsh->env = env->next;
+	//	}
 }
 
-int init_env(t_bjsh *bjsh,char **env_avg)
+int	init_env(t_bjsh *bjsh, char **env_avg)
 {
-    t_env	*env;
-	t_env	*new;
-	int		i;
+	t_env *env;
+	t_env *new;
+	int i;
 
 	if (!(env = malloc(sizeof(t_env))))
 		return (-1);
@@ -58,6 +58,6 @@ int init_env(t_bjsh *bjsh,char **env_avg)
 		env = new;
 		i++;
 	}
-    show_env(bjsh);
+	show_env(bjsh);
 	return (0);
 }

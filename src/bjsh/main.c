@@ -21,7 +21,7 @@ int	init_bjsh(t_bjsh *bjsh)
 	return (UNDERSTOOD_THE_ASSIGNMENT);
 }
 
-int	main(int argc, char *argv[],char *env[])
+int	main(int argc, char *argv[], char *env[])
 {
 	t_bjsh	bjsh;
 
@@ -46,7 +46,7 @@ int	main(int argc, char *argv[],char *env[])
 			return (UNDERSTOOD_THE_ASSIGNMENT);
 		}
 	}
-	init_env(&bjsh,env);
+	init_env(&bjsh, env);
 	init_bjsh(&bjsh);
 	bjsh_loop(&bjsh);
 	return (UNDERSTOOD_THE_ASSIGNMENT);

@@ -6,15 +6,47 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:00:06 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/05/31 19:41:32 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/04 23:14:42 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+int	bjsh_help(char **args)
+{
+	ft_printf("%s (%s) [%s %s]\n", SHELL_SHORT_NAME, SHELL_LONG_NAME,
+		SHELL_VERSION, SHELL_BUILD_DATE);
+	ft_printf("💀 No help available!🫣🤭\n");
+	ft_printf("😗 Go cry about it! 🤓🙊\n");
+	return (UNDERSTOOD_THE_ASSIGNMENT);
+}
+
+int	bjsh_echo(char **args)
+{
+	int	i;
+	int	newline_flag;
+
+	i = 1;
+	newline_flag = 1;
+	if (args[i] && ft_strncmp(args[i], "-n", 2) == 0)
+	{
+		newline_flag = 0;
+		i++;
+	}
+	while (args[i])
+	{
+		ft_putstr_fd(args[i], STDOUT_FILENO);
+		if (args[i + 1])
+			ft_putchar_fd(' ', STDOUT_FILENO);
+		i++;
+	}
+	if (newline_flag)
+		ft_putchar_fd('\n', STDOUT_FILENO);
+	return (UNDERSTOOD_THE_ASSIGNMENT);
+}
+
 int	bjsh_cd(char *path)
 {
-	// if no path is given, go to the home directory
 	if (path == NULL || *path == '\0')
 	{
 		path = getenv("HOME");
@@ -42,41 +74,31 @@ int	bjsh_pwd(void)
 	return (UNDERSTOOD_THE_ASSIGNMENT);
 }
 
+int	bjsh_export(void)
+{
+	return (UNDERSTOOD_THE_ASSIGNMENT);
+}
+
+int	bjsh_unset(void)
+{
+	return (UNDERSTOOD_THE_ASSIGNMENT);
+}
+
+int	bjsh_env(t_bjsh *bjsh)
+{
+	//	t_env	*env;
+	//
+	//	env = bjsh->env;
+	//	while (env)
+	//	{
+	//		ft_printf("%s=%s\n", env->key, env->value);
+	//		env = env->next;
+	//	}
+	return (UNDERSTOOD_THE_ASSIGNMENT);
+}
+
 int	bjsh_exit(void)
 {
 	atexit(handle_eof); // handle EOF when the program exits
 	exit(UNDERSTOOD_THE_ASSIGNMENT);
-}
-
-int	bjsh_echo(char **args)
-{
-	int	i;
-	int	newline_flag;
-
-	i = 1;
-	newline_flag = 1;
-	if (args[i] && ft_strncmp(args[i], "-n", 2) == 0)
-	{
-		newline_flag = 0;
-		i++;
-	}
-	while (args[i])
-	{
-		ft_putstr_fd(args[i], STDOUT_FILENO);
-		if (args[i + 1])
-			ft_putchar_fd(' ', STDOUT_FILENO);
-		i++;
-	}
-	if (newline_flag)
-		ft_putchar_fd('\n', STDOUT_FILENO);
-	return (UNDERSTOOD_THE_ASSIGNMENT);
-}
-
-int	bjsh_help(char **args)
-{
-	ft_printf("%s (%s) [%s %s]\n", SHELL_SHORT_NAME, SHELL_LONG_NAME,
-		SHELL_VERSION, SHELL_BUILD_DATE);
-	ft_printf("💀 No help available!🫣🤭\n");
-	ft_printf("😗 Go cry about it! 🤓🙊\n");
-	return (UNDERSTOOD_THE_ASSIGNMENT);
 }
