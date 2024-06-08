@@ -89,12 +89,15 @@ int						bjsh_help(char **args);
 int						bjsh_exit(void);
 
 // env.c
-
 int						init_env(t_bjsh *bjsh, char **env_avg);
 void					show_env(t_bjsh *bjsh);
 
 // exec
 int						bjsh_exec(char **args, t_bjsh *bjsh);
+
+//pipe.c
+void    check_perr(char *a, int p);
+void    execve_pipe(t_bjsh *bjsh);
 
 // extras
 int						bjsh_show_error(char *msg);

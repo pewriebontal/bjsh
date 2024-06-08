@@ -9,3 +9,70 @@
 /*   Updated: 2024/06/04 23:05:42 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <minishell.h>
+
+//check -1 and perror
+void    check_perr(char *a, int p)
+{
+    if (p < 0)
+    {
+        if (ft_strcmp(a,"pipe"))
+        {
+            perror("pipe");
+            exit(EXIT_FAILURE);
+        }
+        if (ft_strcmp(a,"pid_left"))
+        {
+            perror("pid_left");
+            exit(EXIT_FAILURE);
+        }
+        if (ft_strcmp(a,"pid_right"))
+        {
+            perror("pid_right");
+            exit(EXIT_FAILURE);
+        }
+    }
+}
+
+void    execve_pipe(t_bjsh *bjsh)
+{
+    int pid_left;
+    int pid_right;
+    int fd[2];
+
+    check_perr("pipe",pipe(fd));//havn't tested
+
+    pid_left = fork();
+    check_perr("pid_left",pid_left);
+    if (pid_left == 0)
+    {
+        close(fd[0]);
+        dup2(fd[1],STDIN_FILENO);
+        close(fd[1]);
+        //tmp
+        char *argc[] = {"ls","-a",NULL};
+        char *envp[] = { NULL };
+        execve("/bin/ls",argc,envp);
+        perror("execve for ls");
+        exit (EXIT_FAILURE);
+    }
+    pid_right = fork();
+    check_perr("pid_right",pid_right);
+    if (pid_right == 0)
+    {
+        close(fd[1]);
+        dup2(fd[0],STDIN_FILENO);
+        close(fd[0]);
+        //tmp
+        char *argc[] = {"grep","e",NULL};
+        char *envp[] = { NULL };
+        execve("/bin/grep",argc,envp);
+        perror("execve for grep");
+        exit (EXIT_FAILURE);
+    }
+    close(fd[0]);
+    close(fd[1]);
+    waitpid(pid_left, NULL, 0);
+    waitpid(pid_right, NULL, 0);
+}

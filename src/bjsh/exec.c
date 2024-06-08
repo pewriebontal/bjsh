@@ -32,7 +32,7 @@ int	find_executable(char *command, char *path_buffer)
 	{
 		end = ft_strchr(start, ':');
 		if (!end)
-			end = start + ft_strlen(start);
+			end = start + ft_strlen(start);//??
 		// Check if there's enough space in the buffer
 		if (end - start + 1 + ft_strlen(command) + 1 > remaining_size)
 		{
@@ -87,6 +87,8 @@ int	bjsh_exec(char **args, t_bjsh *bjsh)
 	char	path[1024];
 	char	*cmd;
 
+	//execve_pipe(bjsh);//!!!test!!!
+	
 	if (!find_executable(args[0], path))
 	{
 		display_error_msg("command not found: ");
