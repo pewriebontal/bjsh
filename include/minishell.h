@@ -44,24 +44,12 @@
 #  define SHELL_BUILD_DATE "unknown"
 # endif
 
-// ls -a | grep e
-// | 		---> type
-// ls -a  ---> tmp_left
-// grep e ---> tmp_right
 typedef struct s_token
-{
-	int					type;
-	int					tmp_left;
-	int					tmp_right;
-	struct s_token		*next;
-}						t_token;
-
-typedef struct s_avg
 {
 	char				*str;
 	struct s_avg		*prev;
 	struct s_avg		*next;
-}				t_avg;
+}				t_token;
 
 typedef struct s_env
 {
@@ -114,19 +102,12 @@ void					display_error_msg(char *msg);
 void					handle_signal(int sig);
 void					handle_eof(void);
 
-// token.c
-t_token					*ft_new_token(int left_cmd, int right_cmd, int type);
-t_token					*ft_last_token(t_token *token);
-void					ft_token_addback(t_token **token, t_token *new);
-void					init_token(t_bjsh *bjsh, int type);
-void					set_token(t_bjsh *bjsh);
-
 // avg.c
-t_avg	*new_avg(char *cmd);
-t_avg	*add_avg(t_avg *old_cmd, t_avg *new_cmd);
-void    print_avg(t_avg *cmd);
-void	free_avg(t_avg **cmd);
-int		set_avg_list(t_bjsh *bjsh);
+t_token	*new_token(char *cmd);
+t_token	*update_token(t_token *old_cmd, t_token *new_cmd);
+void    print_token(t_token *cmd);
+void	free_token(t_token **cmd);
+int		set_token_list(t_bjsh *bjsh);
 
 
 #endif // MINISHELL_H

@@ -1,75 +1,125 @@
 #include <minishell.h>
 
-t_token	*ft_new_token(int left_cmd, int right_cmd, int type)
+t_token   *new_token(char *cmd)
 {
-	t_token	*new;
+    t_token *new;
 
-	new = (t_token *)malloc(sizeof(t_token));
-	if (!new)
-		return (NULL);
-	new->type = type;
-	new->tmp_left = left_cmd;
-	new->tmp_right = right_cmd;
-	new->next = NULL;
-	return (new);
+    new = (t_token *)malloc(sizeof(t_token));
+    if (!new)
+        return (NULL);
+    new->str = strdup(cmd);
+    new->next = NULL;
+    new->prev = NULL;
+    return (new);
 }
 
-t_token	*ft_last_token(t_token *token)
+t_token   *update_token(t_token *old_cmd, t_token *new_cmd)
 {
-	if (token == NULL)
-		return (0);
-	while (token)
-	{
-		if (token->next == NULL)
-			return (token);
-		token = token->next;
-	}
-	return (token);
+    old_cmd->next = new_cmd;
+    new_cmd->prev = old_cmd;
+    return (old_cmd);
 }
 
-void	ft_token_addback(t_token **token, t_token *new)
+void    print_token(t_token *cmd)
+{
+    t_token *tmp;
+
+    tmp = cmd;
+
+    //reset the header node 
+    while (tmp->prev)
+        tmp = tmp->prev;
+
+    while (tmp)
+    {
+        printf("%s\n", tmp->str);
+        tmp = tmp->next;
+    }
+}
+
+void	free_token(t_token **cmd)
 {
 	t_token	*tmp;
+	t_token	*next;
 
-	if (*token)
+	if (!cmd)
+		return ;
+	tmp = *cmd;
+    //reset the header node 
+    while (tmp->prev)
+        tmp = tmp->prev;
+	while (tmp)
 	{
-		tmp = ft_last_token(token);
-		tmp->next = new;
+		next = tmp->next;
+        free(tmp);
+		tmp = next;
 	}
-	else
-		*token = new;
+	*cmd = NULL;
 }
 
-void	init_token(t_bjsh *bjsh, int type)
+//get the avg and change to list
+int set_token_list(t_bjsh *bjsh)
 {
-	// ft_find_cmd(t_bjsh *bjsh,int type);//find left and rignt cmds of the token symbol
-	if (!bjsh->token)
-	{
-		bjsh->token = ft_new_token(1, 1, type);
-	}
-	else
-	{
-		ft_token_addback(&bjsh->token, ft_new_token(1, 1, type));
-	}
-}
+    int i;
+    t_token *token;
+    t_token *tmp_token;
 
-void	set_token(t_bjsh *bjsh)
-{
-	int i;
+    char *arr = {"ls -a | grep e | wc -l"};
+    char *tmp_arr;
+    int arr_len;
 
-	i = 0;
-	while (bjsh->argv[i])
-	{
-		if (bjsh->argv[i] == "|")
-			init_token(bjsh, PIPE);
-		if (bjsh->argv[i] == ">")
-			init_token(bjsh, RDIR_R);
-		if (bjsh->argv[i] == ">>")
-			init_token(bjsh, RDIR_RR);
-		if (bjsh->argv[i] == "<<")
-			init_token(bjsh, RDIR_L);
-		if (bjsh->argv[i] == ";")
-			init_token(bjsh, END);
-		i++;
-	}
+    token = NULL;
+   
+   // -->with history file 
+    arr_len = strlen(arr);
+    i = 0;
+    while (i <= arr_len)
+    {
+        if (arr[i] == ' ' || arr[i] == '|' || i == arr_len )
+        {
+            tmp_arr = (char *)malloc(sizeof(char) * i + 1);
+            tmp_arr = strndup(arr, i);
+            if (!token)
+                token = new_token(tmp_arr);
+            else
+            {
+                tmp_token = new_token(tmp_arr);
+                while (token->next)
+                    token = token->next;
+                token = update_token(token, tmp_token);
+            }
+            arr += i + 1;
+            arr_len -= i + 1;
+            i = 0;
+            free(tmp_token);
+        }
+        i++;
+    }
+    print_token(token);
+    
+    // --> with user input
+    // i = 1;
+    // if (ac < 2)
+    //     return (-1);
+    
+    // while(av[i] != NULL)
+    // {   
+    //     if (!cmd)
+    //        cmd = new_cmd(av[i]); 
+    //     else
+    //     {
+    //         t_cmd *tmp;
+    //         tmp = new_cmd(av[i]);
+    //         while (cmd->next)//set to the last node
+    //             cmd = cmd->next;
+    //         cmd = add_cmd(cmd, tmp);
+    //     }
+    //     //reset ptr to head
+    //     while (cmd->prev)
+    //         cmd = cmd->prev;
+    //     i++;
+    // }
+    // print_cmd(cmd);
+    // free_cmd(&cmd);
+    return (0);
 }
