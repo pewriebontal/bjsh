@@ -88,6 +88,7 @@ int	bjsh_exec(char **args, t_bjsh *bjsh)
 	char	*cmd;
 
 	//execve_pipe(bjsh);//!!!test!!!
+	//set_avg_list(bjsh);//!!!test!!!
 	
 	if (!find_executable(args[0], path))
 	{

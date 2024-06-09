@@ -56,6 +56,13 @@ typedef struct s_token
 	struct s_token		*next;
 }						t_token;
 
+typedef struct s_avg
+{
+	char				*str;
+	struct s_avg		*prev;
+	struct s_avg		*next;
+}				t_avg;
+
 typedef struct s_env
 {
 	char				*value;
@@ -113,5 +120,13 @@ t_token					*ft_last_token(t_token *token);
 void					ft_token_addback(t_token **token, t_token *new);
 void					init_token(t_bjsh *bjsh, int type);
 void					set_token(t_bjsh *bjsh);
+
+// avg.c
+t_avg	*new_avg(char *cmd);
+t_avg	*add_avg(t_avg *old_cmd, t_avg *new_cmd);
+void    print_avg(t_avg *cmd);
+void	free_avg(t_avg **cmd);
+int		set_avg_list(t_bjsh *bjsh);
+
 
 #endif // MINISHELL_H
