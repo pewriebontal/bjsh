@@ -57,33 +57,88 @@ void	free_token(t_token **cmd)
 	*cmd = NULL;
 }
 
+//replace with env variabel
+char    *expand_env(char *arr)
+{
+    int     len;
+    char    *env_arr;
+
+    env_arr = (char *)malloc(sizeof(char *) * 1024);
+    if (*arr == '$')
+    {
+        *arr++;
+        ft_strlcpy(env_arr,arr,sizeof(env_arr));
+        return (getenv(env_arr));
+    }
+    return (arr) ;
+}
+
 //get the avg and change to list
-int set_token_list(t_bjsh *bjsh)
+int set_token_list(t_bjsh *bjsh, char *arr)
 {
     int i;
+    int q;
+    
     t_token *token;
     t_token *tmp_token;
 
-    char *arr = {"ls -a | grep e | wc -l"};
+    //char *arr = {"ls -a | grep e | wc -l"};
+    
     char *tmp_arr;
     int arr_len;
 
     token = NULL;
    
    // -->with history file 
-    arr_len = strlen(arr);
+    arr_len = ft_strlen(arr);
     i = 0;
     while (i <= arr_len)
     {
-        if (arr[i] == ' ' || arr[i] == '|' || i == arr_len )
+        //for quote
+        //need to check the ptr of arr
+        if (arr[i] == '"')
         {
-            tmp_arr = (char *)malloc(sizeof(char) * i + 1);
-            tmp_arr = strndup(arr, i);
+            q = 1;//+i
+            i++;//change ptr
+            while (arr[i] != '"')
+            {
+                i++;
+                q++;
+                if (q > arr_len)//need to check
+                {
+                    perror("can't find end quot");
+                    exit(EXIT_FAILURE);
+                }
+            }
+            tmp_arr = (char *)malloc(sizeof(char *) * q - 1);// reduce place for << " >>
+            *arr++;//to avoid the starting << " >>
+            tmp_arr = ft_strncpy(tmp_arr,arr,q - 1);
             if (!token)
                 token = new_token(tmp_arr);
             else
             {
                 tmp_token = new_token(tmp_arr);
+                while (token->next)
+                    token = token->next;
+                token = update_token(token, tmp_token);
+            }
+            arr += i + 1;
+            arr_len -= i + 1;
+            i = 0;
+            free(tmp_token);
+        }
+
+
+        //for normal
+        if (arr[i] == ' ' || arr[i] == '|' || i == arr_len )
+        {
+            tmp_arr = (char *)malloc(sizeof(char) * i + 1);
+            tmp_arr = strndup(arr, i);
+            if (!token)
+                token = new_token(expand_env(tmp_arr));
+            else
+            {
+                tmp_token = new_token(expand_env(tmp_arr));
                 while (token->next)
                     token = token->next;
                 token = update_token(token, tmp_token);

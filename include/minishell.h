@@ -105,9 +105,10 @@ void					handle_eof(void);
 // avg.c
 t_token	*new_token(char *cmd);
 t_token	*update_token(t_token *old_cmd, t_token *new_cmd);
+char 	*expand_env(char *arr);
 void    print_token(t_token *cmd);
 void	free_token(t_token **cmd);
-int		set_token_list(t_bjsh *bjsh);
+int		set_token_list(t_bjsh *bjsh, char *arr);
 
 
 #endif // MINISHELL_H

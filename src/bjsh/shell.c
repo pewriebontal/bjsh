@@ -31,12 +31,14 @@ void	bjsh_loop(t_bjsh *bjsh)
 		line[strcspn(line, "\n")] = 0;
 		if (*line)
 			add_history(line);
-		args = ft_split(line, ' ');
+		//args = ft_split(line, ' ');
+		set_token_list(bjsh,line);
+		
 		// args = parse_command(line);
-		if (args && *args)
-			pre_execute(args, bjsh);
+		// if (args && *args)
+		// 	pre_execute(args, bjsh);
 		free(line);
-		ft_free_multidi((void **)args, 2);
+		// ft_free_multidi((void **)args, 2);
 	}
 }
 

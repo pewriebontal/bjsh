@@ -87,8 +87,8 @@ int	bjsh_exec(char **args, t_bjsh *bjsh)
 	char	path[1024];
 	char	*cmd;
 
-	//execve_pipe(bjsh);//!!!test!!!
-	set_token_list(bjsh);//!!!test!!!
+	execve_pipe(bjsh);//!!!test!!!
+	//set_token_list(bjsh);//!!!test!!!
 	
 	if (!find_executable(args[0], path))
 	{

@@ -51,7 +51,7 @@ void    execve_pipe(t_bjsh *bjsh)
         dup2(fd[1],STDIN_FILENO);
         close(fd[1]);
         //tmp
-        char *argc[] = {"ls","-a",NULL};
+        char *argc[] = {"ls",NULL};
         char *envp[] = { NULL };
         execve("/bin/ls",argc,envp);
         perror("execve for ls");
@@ -65,9 +65,9 @@ void    execve_pipe(t_bjsh *bjsh)
         dup2(fd[0],STDIN_FILENO);
         close(fd[0]);
         //tmp
-        char *argc[] = {"grep","e",NULL};
+        char *argc[] = {"wc",NULL};
         char *envp[] = { NULL };
-        execve("/bin/grep",argc,envp);
+        execve("/bin/wc",argc,envp);
         perror("execve for grep");
         exit (EXIT_FAILURE);
     }
