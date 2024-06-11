@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:06:55 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/05 00:25:19 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/10 17:00:31 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ int	main(int argc, char *argv[], char *env[])
 {
 	t_bjsh	bjsh;
 
+	///
+	// execute_pipe(&bjsh, "ls", "wc");
+	// execute_pipe(&bjsh, "pwd", "wc");
+	// execute_pipe(&bjsh, "ls -la", "wc -l");
+	///
 	// --version
 	// if ./bjsh --version then print version and exit
 	// only implemented for neofetch haha

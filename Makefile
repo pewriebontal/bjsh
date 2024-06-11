@@ -6,7 +6,7 @@
 #    By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/26 18:18:13 by mkhaing           #+#    #+#              #
-#    Updated: 2024/05/31 22:42:52 by mkhaing          ###   ########.fr        #
+#    Updated: 2024/06/11 22:44:52 by mkhaing          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,8 +50,7 @@ LDFLAGS = -L/lib/x86_64-linux-gnu -lreadline -lhistory     # Ubuntu is so dumb n
 RM      = rm -f
 
 MINISHELL_SRC = $(wildcard $(SRC_DIR)bjsh/*.c)	\
-				$(wildcard $(SRC_DIR)token_handler/*.c)	\
-				$(wildcard $(SRC_DIR)utils/*.c)
+				$(wildcard $(SRC_DIR)evaluator/*.c)
 
 SRCS        =   $(MINISHELL_SRC)
 

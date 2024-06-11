@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/05 00:44:57 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/12 02:01:54 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	bjsh_loop(t_bjsh *bjsh)
 	char	*line;
 	char	**args;
 	char	*history_file_path;
+	t_token	*token;
+	char	**test;
 
 	history_file_path = bjsh_get_history_path();
 	read_history(history_file_path);
@@ -31,14 +33,32 @@ void	bjsh_loop(t_bjsh *bjsh)
 		line[strcspn(line, "\n")] = 0;
 		if (*line)
 			add_history(line);
-		//args = ft_split(line, ' ');
-		set_token_list(bjsh,line);
-		
+		write_history(history_file_path);
+		args = ft_split(line, ' ');
+		///
+		token = array_to_list(args);
+		debug_print_list(token);
+		///
+		ft_printf("================\n");
+		///
+		token = token_split_redirect(token);
+		evaluate_token_chain(token);
+		debug_print_list(token);
+		///
+		ft_printf("================\n");
+		///
+		test = lst_to_arr(token);
+		debug_print_arr(test);
+		// set_token_list(bjsh, line);
 		// args = parse_command(line);
+		// execute_pipe(bjsh, args[0], args[1]);
+		// execute_pipe(bjsh, args[0], args[1]);
 		// if (args && *args)
 		// 	pre_execute(args, bjsh);
+		clear_list(token);
 		free(line);
-		// ft_free_multidi((void **)args, 2);
+		ft_free_multidi((void **)args, 2);
+		// write_history(history_file_path);
 	}
 }
 

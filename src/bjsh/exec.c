@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:16:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/05 00:21:50 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/11 18:34:28 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	find_executable(char *command, char *path_buffer)
 	{
 		end = ft_strchr(start, ':');
 		if (!end)
-			end = start + ft_strlen(start);//??
+			end = start + ft_strlen(start); //??
 		// Check if there's enough space in the buffer
 		if (end - start + 1 + ft_strlen(command) + 1 > remaining_size)
 		{
@@ -87,9 +87,8 @@ int	bjsh_exec(char **args, t_bjsh *bjsh)
 	char	path[1024];
 	char	*cmd;
 
-	execve_pipe(bjsh);//!!!test!!!
-	//set_token_list(bjsh);//!!!test!!!
-	
+	execve_pipe(bjsh); //!!!test!!!
+	// set_token_list(bjsh);//!!!test!!!
 	if (!find_executable(args[0], path))
 	{
 		display_error_msg("command not found: ");
@@ -125,20 +124,34 @@ int	bjsh_exec(char **args, t_bjsh *bjsh)
 
 int	exec_cmd(t_bjsh *bjsh, int type)
 {
-	if (type == PIPE || type == END)
+}
+//{
+//	if (type == PIPE || type == END)
+//	{
+//		bjsh_exec(bjsh->argv, bjsh);
+//	}
+//	if (type == RDIR_R)
+//	{
+//		// redirect right
+//	}
+//	if (type == RDIR_RR)
+//	{
+//		// redirect right
+//	}
+//	if (type == RDIR_L)
+//	{
+//		// redirect left
+//	}
+//}
+
+int	execute_tokens(t_bjsh *bjsh, t_token *token)
+{
+	while (token)
 	{
-		bjsh_exec(bjsh->argv, bjsh);
-	}
-	if (type == RDIR_R)
-	{
-		// redirect right
-	}
-	if (type == RDIR_RR)
-	{
-		// redirect right
-	}
-	if (type == RDIR_L)
-	{
-		// redirect left
+		if (token->type == 1)
+		{
+			pre_execute(token->str, bjsh);
+		}
+		token = token->next;
 	}
 }

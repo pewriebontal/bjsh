@@ -1,38 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hist.c                                             :+:      :+:    :+:   */
+/*   lst_to_arr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 16:53:06 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/10 13:34:02 by mkhaing          ###   ########.fr       */
+/*   Created: 2024/06/10 17:38:36 by mkhaing           #+#    #+#             */
+/*   Updated: 2024/06/12 00:58:22 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <byamc/gnl.h>
 #include <minishell.h>
 
-char	*bjsh_get_history_path(void)
+char	**lst_to_arr(t_token *token)
 {
-	char	*HOME;
-	char	*path;
+	char **arr;
+	int i;
 
-	HOME = getenv("HOME");
-	path = malloc(strlen(HOME) + strlen("/.bjsh_history") + 1);
-	strcpy(path, HOME);
-	strcat(path, "/.bjsh_history");
-	return (path);
+	i = 0;
+	arr = (char *)malloc(sizeof(char *) * (ft_lstsize(token) + 1) * 69); // 69 is the magic number
+	while (token)
+	{
+		arr[i] = ft_strdup(token->str);
+		token = token->next;
+		i++;
+	}
+	arr[i] = NULL;
+	return (arr);
 }
 
-void	bjsh_hist_file_create(void)
+void debug_print_arr(char **arr)
 {
-	char	*path;
-	int		fd_hist;
+	int i;
 
-	path = bjsh_get_history_path();
-	fd_hist = open(path, O_WRONLY | O_APPEND | O_CREAT, 0644);
-	close(fd_hist);
-	free(path);
-	return ;
+	i = 0;
+	while (arr[i])
+	{
+		ft_printf("arr[%d]: %s\n", i, arr[i]);
+		i++;
+	}
 }

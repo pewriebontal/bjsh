@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/05 00:23:15 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/12 01:56:17 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,14 @@
 # define SHELL_PROMPT "🍦bjsh👍 "
 
 // token type
-# define PIPE 0
-# define RDIR_R 1
-# define RDIR_RR 2
-# define RDIR_L 3
-# define END 4
+# define REDIRECT_OUT 111         // >
+# define REDIRECT_OUT_APPEND 222  // >>
+# define REDIRECT_IN 333          // <
+# define REDIRECT_IN_HERE 444     // <<
+# define REDIRECT_HERE_STRING 555 // <<<
+# define PIPE 666                 // |
+# define COMMAND 777              //
+# define FILE 888                 //
 
 # ifndef SHELL_BUILD_DATE
 #  define SHELL_BUILD_DATE "unknown"
@@ -47,9 +50,11 @@
 typedef struct s_token
 {
 	char				*str;
-	struct s_avg		*prev;
-	struct s_avg		*next;
-}				t_token;
+	int					type;
+	int					executed;
+	struct s_token		*prev;
+	struct s_token		*next;
+}						t_token;
 
 typedef struct s_env
 {
@@ -60,7 +65,6 @@ typedef struct s_env
 typedef struct s_bjsh
 {
 	t_token				*token;
-	// t_env				*env;
 	char				**env;
 	char				*argv;
 	int					status;
@@ -90,9 +94,9 @@ void					show_env(t_bjsh *bjsh);
 // exec
 int						bjsh_exec(char **args, t_bjsh *bjsh);
 
-//pipe.c
-void    check_perr(char *a, int p);
-void    execve_pipe(t_bjsh *bjsh);
+// pipe.c
+void					check_perr(char *a, int p);
+void					execve_pipe(t_bjsh *bjsh);
 
 // extras
 int						bjsh_show_error(char *msg);
@@ -103,12 +107,11 @@ void					handle_signal(int sig);
 void					handle_eof(void);
 
 // avg.c
-t_token	*new_token(char *cmd);
-t_token	*update_token(t_token *old_cmd, t_token *new_cmd);
-char 	*expand_env(char *arr);
-void    print_token(t_token *cmd);
-void	free_token(t_token **cmd);
-int		set_token_list(t_bjsh *bjsh, char *arr);
-
+t_token					*new_token(char *cmd);
+t_token					*update_token(t_token *old_cmd, t_token *new_cmd);
+char					*expand_env(char *arr);
+void					print_token(t_token *cmd);
+void					free_token(t_token **cmd);
+int						set_token_list(t_bjsh *bjsh, char *arr);
 
 #endif // MINISHELL_H
