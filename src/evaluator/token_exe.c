@@ -1,42 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst_to_arr.c                                       :+:      :+:    :+:   */
+/*   token_exe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/10 17:38:36 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/12 09:31:31 by mkhaing          ###   ########.fr       */
+/*   Created: 2024/06/12 09:06:21 by mkhaing           #+#    #+#             */
+/*   Updated: 2024/06/12 09:07:27 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-char	**lst_to_arr(t_token *token)
+void	execute_command(t_token *token)
 {
-	char	**arr;
-	int		i;
-
-	i = 0;
-	arr = (char *)malloc(sizeof(char *) * (420) * 69); // 69 is the magic number
-	while (token)
-	{
-		arr[i] = ft_strdup(token->str);
-		token = token->next;
-		i++;
-	}
-	arr[i] = NULL;
-	return (arr);
-}
-
-void	debug_print_arr(char **arr)
-{
-	int i;
-
-	i = 0;
-	while (arr[i] != '\0')
-	{
-		ft_printf("arr[%d]: %s\n", i, arr[i]);
-		i++;
-	}
+	printf("exectuted\n");
 }

@@ -45,7 +45,7 @@ BYAMC   = $(BYAMC_D)/byamc.a
 CC      = gcc #clang
 
 #CFLAGS  = -Wall -Wextra -Werror -D LINUX #-fsanitize=leak -g
-CFLAGS	= -DSHELL_BUILD_DATE="\"`date`\"" -Ibyamc/include -Iinclude
+CFLAGS	= -g -DSHELL_BUILD_DATE="\"`date`\"" -Ibyamc/include -Iinclude
 LDFLAGS = -L/lib/x86_64-linux-gnu -lreadline -lhistory     # Ubuntu is so dumb need -L flag to find readline
 RM      = rm -f
 
@@ -71,6 +71,7 @@ clean:
 format:
 				c_formatter_42 ./include/*.h
 				c_formatter_42 ./src/bjsh/*.c
+				c_formatter_42 ./src/evaluator/*.c
 
 install:
 				sudo cp ./bjsh /bin/bjsh --force

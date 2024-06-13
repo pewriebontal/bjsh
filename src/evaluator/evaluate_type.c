@@ -12,9 +12,9 @@
 
 #include <minishell.h>
 
-void evaluate_token_type(t_token *token)
+void	evaluate_token_type(t_token *token)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	tmp = token;
 	while (tmp)
@@ -24,23 +24,23 @@ void evaluate_token_type(t_token *token)
 	}
 }
 
-void update_token_type(t_token *token)
+void	update_token_type(t_token *token)
 {
-    if (!token || !token->str) // Ensure token and token->str are not NULL
-        return;
+	if (!token || !token->str) // Ensure token and token->str are not NULL
+		return ;
 
-    if (ft_strcmp(token->str, ">") == 0)
-        token->type = REDIRECT_OUT;
-    else if (ft_strcmp(token->str, ">>") == 0)
-        token->type = REDIRECT_OUT_APPEND;
-    else if (ft_strcmp(token->str, "<<<") == 0)
-        token->type = REDIRECT_HERE_STRING;
-    else if (ft_strcmp(token->str, "<") == 0)
-        token->type = REDIRECT_IN;
-    else if (ft_strcmp(token->str, "<<") == 0)
-        token->type = REDIRECT_IN_HERE;
-    else if (ft_strcmp(token->str, "|") == 0)
-        token->type = PIPE;
-    else
-        token->type = -1;
+	if (ft_strcmp(token->str, ">") == 0)
+		token->type = REDIRECT_OUT;
+	else if (ft_strcmp(token->str, ">>") == 0)
+		token->type = REDIRECT_OUT_APPEND;
+	else if (ft_strcmp(token->str, "<<<") == 0)
+		token->type = REDIRECT_HERE_STRING;
+	else if (ft_strcmp(token->str, "<") == 0)
+		token->type = REDIRECT_IN;
+	else if (ft_strcmp(token->str, "<<") == 0)
+		token->type = REDIRECT_IN_HERE;
+	else if (ft_strcmp(token->str, "|") == 0)
+		token->type = PIPE;
+	else
+		token->type = -1;
 }

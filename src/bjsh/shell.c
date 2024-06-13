@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/12 02:01:54 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/14 02:57:29 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	bjsh_loop(t_bjsh *bjsh)
 	char	*history_file_path;
 	t_token	*token;
 	char	**test;
+	int		a;
 
 	history_file_path = bjsh_get_history_path();
 	read_history(history_file_path);
@@ -34,6 +35,14 @@ void	bjsh_loop(t_bjsh *bjsh)
 		if (*line)
 			add_history(line);
 		write_history(history_file_path);
+		replace_spaces_in_quotes(line);
+		ft_printf("line: %s\n", line);
+		// args = ft_split(line, '"');
+		// line = NULL;
+		// line = ft_rejoin_arr(args);
+		ft_printf("line: %s\n", line);
+		// args = ft_split(line, '\'');
+		// line = ft_rejoin_arr(args);
 		args = ft_split(line, ' ');
 		///
 		token = array_to_list(args);
@@ -42,13 +51,17 @@ void	bjsh_loop(t_bjsh *bjsh)
 		ft_printf("================\n");
 		///
 		token = token_split_redirect(token);
+		//		token = token_split_redirect(token);
 		evaluate_token_chain(token);
+		replace_special_characters_in_node(token);
+		token = remove_quotes_from_token(token);
+		execute_command(token);
 		debug_print_list(token);
 		///
 		ft_printf("================\n");
 		///
 		test = lst_to_arr(token);
-		debug_print_arr(test);
+		// debug_print_arr(test);
 		// set_token_list(bjsh, line);
 		// args = parse_command(line);
 		// execute_pipe(bjsh, args[0], args[1]);
@@ -57,9 +70,13 @@ void	bjsh_loop(t_bjsh *bjsh)
 		// 	pre_execute(args, bjsh);
 		clear_list(token);
 		free(line);
-		ft_free_multidi((void **)args, 2);
+		// ft_free_multidi((void **)args, 2);
+		// ft_free_multidi((void **)test, 2);
 		// write_history(history_file_path);
 	}
+	free(history_file_path);
+	ft_free_multidi((void **)args, 2);
+	ft_free_multidi((void **)test, 2);
 }
 
 int	pre_execute(char **args, t_bjsh *bjsh)
