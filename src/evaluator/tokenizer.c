@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 19:02:10 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/14 02:58:04 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/14 07:06:17 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,36 +92,50 @@ void	tokenizer(char *str)
 // then the token will be modified to:
 // 'hello world
 
+t_token	*remove_quotes_from_token(t_token *token)
+{
+	t_token	*current;
 
-t_token *remove_quotes_from_token(t_token *token) {
-    t_token *current = token;
-    while (current != NULL) {
-        if (current->str != NULL) {
-            remove_quotes(current->str);
-        }
-        current = current->next;
-    }
-    return token;
+	current = token;
+	while (current != NULL)
+	{
+		if (current->str != NULL)
+		{
+			remove_quotes(current->str);
+		}
+		current = current->next;
+	}
+	return (token);
 }
 
+void	remove_quotes(char *str)
+{
+	char	*dst;
+	char	*src;
+	int		in_single_quote;
+	int		in_double_quote;
 
-void remove_quotes(char *str) {
-    char *dst = str;
-    char *src = str;
-    int in_single_quote = 0;
-    int in_double_quote = 0;
-
-    while (*src) {
-        if (*src == '\'' && !in_double_quote) {
-            in_single_quote = !in_single_quote;
-        } else if (*src == '\"' && !in_single_quote) {
-            in_double_quote = !in_double_quote;
-        } else {
-            *dst++ = *src;
-        }
-        src++;
-    }
-    *dst = '\0';
+	dst = str;
+	src = str;
+	in_single_quote = 0;
+	in_double_quote = 0;
+	while (*src)
+	{
+		if (*src == '\'' && !in_double_quote)
+		{
+			in_single_quote = !in_single_quote;
+		}
+		else if (*src == '\"' && !in_single_quote)
+		{
+			in_double_quote = !in_double_quote;
+		}
+		else
+		{
+			*dst++ = *src;
+		}
+		src++;
+	}
+	*dst = '\0';
 }
 
 void	fill_up_token_with_env(t_token *token)
@@ -178,19 +192,19 @@ void	replace_env_vars(char **str)
 			free(env_name);
 			if (env_value)
 			{
-				result_len = result ? strlen(result) : 0;
+				result_len = result ? ft_strlen(result) : 0;
 				before_len = p - *str;
-				after_len = strlen(env_end);
+				after_len = ft_strlen(env_end);
 				result = realloc(result, result_len + before_len
-						+ strlen(env_value) + after_len + 1);
+						+ ft_strlen(env_value) + after_len + 1);
 				if (result_len == 0)
 				{
 					strncpy(result, *str, before_len);
 				}
-				strcpy(result + result_len + before_len, env_value);
-				strcpy(result + result_len + before_len + strlen(env_value),
-					env_end);
-				p = result + result_len + before_len + strlen(env_value);
+				ft_strcpy(result + result_len + before_len, env_value);
+				ft_strcpy(result + result_len + before_len
+					+ ft_strlen(env_value), env_end);
+				p = result + result_len + before_len + ft_strlen(env_value);
 			}
 			else
 			{
@@ -239,7 +253,7 @@ t_token	*create_token_node(const char *str, int type)
 	t_token	*new;
 
 	new = (t_token *)malloc(sizeof(t_token));
-	new->str = strdup(str);
+	new->str = ft_strdup(str);
 	new->type = type;
 	new->executed = 0;
 	new->prev = NULL;
@@ -261,7 +275,7 @@ t_token	*split_token(t_token *token, char *pos, const char *redir,
 	if (pos != token->str) // Redirection is not at the beginning
 	{
 		before = strndup(token->str, pos - token->str);
-		after = ft_strdup(pos + strlen(redir));
+		after = ft_strdup(pos + ft_strlen(redir));
 		before_token = create_token_node(before, 0);
 		redirect_token = create_token_node(redir, redir_type);
 		after_token = create_token_node(after, 0);
@@ -286,7 +300,7 @@ t_token	*split_token(t_token *token, char *pos, const char *redir,
 	else // Redirection is at the beginning
 	{
 		redirect_token = create_token_node(redir, redir_type);
-		after = ft_strdup(pos + strlen(redir));
+		after = ft_strdup(pos + ft_strlen(redir));
 		free(token->str);
 		token->str = after;
 		redirect_token->next = token;
@@ -322,27 +336,27 @@ t_token	*token_split_redirect(t_token *token)
 	tmp = token;
 	while (tmp)
 	{
-		if ((pos = strstr(tmp->str, "<<<")) != NULL
+		if ((pos = ft_strstr(tmp->str, "<<<")) != NULL
 			&& !is_within_quotes(tmp->str, pos))
 		{
 			tmp = split_token(tmp, pos, "<<<", REDIRECT_HERE_STRING);
 		}
-		else if ((pos = strstr(tmp->str, "<<")) != NULL
+		else if ((pos = ft_strstr(tmp->str, "<<")) != NULL
 			&& !is_within_quotes(tmp->str, pos))
 		{
 			tmp = split_token(tmp, pos, "<<", REDIRECT_IN_HERE);
 		}
-		else if ((pos = strstr(tmp->str, ">>")) != NULL
+		else if ((pos = ft_strstr(tmp->str, ">>")) != NULL
 			&& !is_within_quotes(tmp->str, pos))
 		{
 			tmp = split_token(tmp, pos, ">>", REDIRECT_OUT_APPEND);
 		}
-		else if ((pos = strstr(tmp->str, ">")) != NULL
+		else if ((pos = ft_strstr(tmp->str, ">")) != NULL
 			&& !is_within_quotes(tmp->str, pos))
 		{
 			tmp = split_token(tmp, pos, ">", REDIRECT_OUT);
 		}
-		else if ((pos = strstr(tmp->str, "<")) != NULL
+		else if ((pos = ft_strstr(tmp->str, "<")) != NULL
 			&& !is_within_quotes(tmp->str, pos))
 		{
 			tmp = split_token(tmp, pos, "<", REDIRECT_IN);

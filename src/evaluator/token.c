@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 13:54:19 by klinn             #+#    #+#             */
-/*   Updated: 2024/06/11 17:19:47 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/14 06:57:40 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_token	*new_token(char *cmd)
 	new = (t_token *)malloc(sizeof(t_token));
 	if (!new)
 		return (NULL);
-	new->str = strdup(cmd);
+	new->str = ft_strdup(cmd);
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);

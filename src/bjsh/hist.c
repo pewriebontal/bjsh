@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:53:06 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/10 13:34:02 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/14 07:06:17 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ char	*bjsh_get_history_path(void)
 	char	*path;
 
 	HOME = getenv("HOME");
-	path = malloc(strlen(HOME) + strlen("/.bjsh_history") + 1);
-	strcpy(path, HOME);
+	path = malloc(ft_strlen(HOME) + ft_strlen("/.bjsh_history") + 1);
+	ft_strcpy(path, HOME);
 	strcat(path, "/.bjsh_history");
 	return (path);
 }

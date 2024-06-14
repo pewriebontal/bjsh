@@ -6,13 +6,13 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 09:06:21 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/12 09:07:27 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/14 15:04:56 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	execute_command(t_token *token)
-{
-	printf("exectuted\n");
-}
+// void	execute_command(t_token *token)
+//{
+//	printf("exectuted\n");
+///}

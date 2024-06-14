@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/12 01:56:17 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/14 17:12:41 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef struct s_env
 typedef struct s_bjsh
 {
 	t_token				*token;
-	char				**env;
+	char				**envp;
 	char				*argv;
 	int					status;
 	int st_in;  // for stdin
@@ -114,4 +114,12 @@ void					print_token(t_token *cmd);
 void					free_token(t_token **cmd);
 int						set_token_list(t_bjsh *bjsh, char *arr);
 
+//
+// Function prototypes
+void					execute_command(t_token *tokens, char **envp);
+void					handle_redirection(t_token **tokens);
+void					handle_pipes(t_token *tokens, char **envp);
+char					*find_executable(const char *command, char **envp);
+int						check_builtin(char *command);
+void					execute_builtin(char **args);
 #endif // MINISHELL_H

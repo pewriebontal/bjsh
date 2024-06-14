@@ -6,52 +6,52 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:16:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/11 18:34:28 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/14 15:10:55 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 #include <sys/types.h>
 
-int	find_executable(char *command, char *path_buffer)
-{
-	char		*path_env;
-	char		*start;
-	size_t		remaining_size;
-	char		*end;
-	struct stat	statbuf;
-	size_t		path_buffer_size;
-
-	path_buffer_size = 1024;
-	path_env = getenv("PATH");
-	start = path_env;
-	remaining_size = path_buffer_size;
-	if (!path_env)
-		return (0);
-	while (start)
-	{
-		end = ft_strchr(start, ':');
-		if (!end)
-			end = start + ft_strlen(start); //??
-		// Check if there's enough space in the buffer
-		if (end - start + 1 + ft_strlen(command) + 1 > remaining_size)
-		{
-			// Handle buffer overflow (e.g., return an error code)
-			return (-1);
-		}
-		// Copy directory path
-		ft_strncpy(path_buffer, start, end - start);
-		path_buffer[end - start] = '\0';
-		// Construct full path
-		ft_strlcat(path_buffer, "/", remaining_size);
-		ft_strlcat(path_buffer, command, remaining_size);
-		if (stat(path_buffer, &statbuf) == 0 && (statbuf.st_mode & S_IXUSR))
-			return (1);
-		start = (*end) ? end + 1 : NULL;
-		remaining_size -= end - start + 1; // Update remaining buffer size
-	}
-	return (0);
-}
+// int	find_executable(char *command, char *path_buffer)
+//{
+//	char		*path_env;
+//	char		*start;
+//	size_t		remaining_size;
+//	char		*end;
+//	struct stat	statbuf;
+//	size_t		path_buffer_size;
+//
+//	path_buffer_size = 1024;
+//	path_env = getenv("PATH");
+//	start = path_env;
+//	remaining_size = path_buffer_size;
+//	if (!path_env)
+//		return (0);
+//	while (start)
+//	{
+//		end = ft_strchr(start, ':');
+//		if (!end)
+//			end = start + ft_strlen(start); //??
+//		// Check if there's enough space in the buffer
+//		if (end - start + 1 + ft_strlen(command) + 1 > remaining_size)
+//		{
+//			// Handle buffer overflow (e.g., return an error code)
+//			return (-1);
+//		}
+//		// Copy directory path
+//		ft_strncpy(path_buffer, start, end - start);
+//		path_buffer[end - start] = '\0';
+//		// Construct full path
+//		ft_strlcat(path_buffer, "/", remaining_size);
+//		ft_strlcat(path_buffer, command, remaining_size);
+//		if (stat(path_buffer, &statbuf) == 0 && (statbuf.st_mode & S_IXUSR))
+//			return (1);
+//		start = (*end) ? end + 1 : NULL;
+//		remaining_size -= end - start + 1; // Update remaining buffer size
+//	}
+//	return (0);
+//}
 
 // need rewrite with allowed functions
 int	find_executable2(char *command, char *path_buffer)
@@ -64,7 +64,7 @@ int	find_executable2(char *command, char *path_buffer)
 	path_env = getenv("PATH");
 	if (!path_env)
 		return (0);
-	path = strdup(path_env);
+	path = ft_strdup(path_env);
 	dir = strtok(path, ":");
 	while (dir != NULL)
 	{
@@ -101,7 +101,7 @@ int	bjsh_exec(char **args, t_bjsh *bjsh)
 	{
 		// handle_redirections(args);
 		// handle_pipes(args, bjsh);
-		if (execve(path, args, bjsh->env) == -1)
+		if (execve(path, args, bjsh->envp) == -1)
 		{
 			ft_printf("🍦bjsh👎 command not found: %s\n", args[0]);
 			exit(126);
@@ -144,14 +144,14 @@ int	exec_cmd(t_bjsh *bjsh, int type)
 //	}
 //}
 
-int	execute_tokens(t_bjsh *bjsh, t_token *token)
-{
-	while (token)
-	{
-		if (token->type == 1)
-		{
-			pre_execute(token->str, bjsh);
-		}
-		token = token->next;
-	}
-}
+// int	execute_tokens(t_bjsh *bjsh, t_token *token)
+//{
+//	while (token)
+//	{
+//		if (token->type == 1)
+//		{
+//			pre_execute(token->str, bjsh);
+//		}
+//		token = token->next;
+//	}
+//}

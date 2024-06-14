@@ -8,7 +8,8 @@
         "history.h": "c",
         "cerrno": "c",
         "readline.h": "c",
-        "gnl.h": "c"
+        "gnl.h": "c",
+        "fcntl.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
