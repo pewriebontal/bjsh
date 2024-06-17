@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:14:48 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/14 02:53:45 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/17 22:26:18 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,28 @@
 
 char	*ft_rejoin_arr(char **arr)
 {
+	size_t	total_length;
+	char	*result;
+	int		i;
+
 	if (arr == NULL)
 		return (NULL);
-
-	// Calculate the total length required for the new string
-	size_t total_length = 0;
-	for (int i = 0; arr[i] != NULL; i++)
+	total_length = 0;
+	i = 0;
+	while (arr[i] != NULL)
 	{
 		total_length += ft_strlen(arr[i]);
+		i++;
 	}
-
-	// Allocate memory for the new string, plus one for the null terminator
-	char *result = (char *)malloc(total_length + 1);
+	*result = (char *)malloc(total_length + 1);
 	if (result == NULL)
 		return (NULL);
-
-	// Copy each string into the result string
-	result[0] = '\0'; // Initialize the result string
-	for (int i = 0; arr[i] != NULL; i++)
+	result[0] = '\0';
+	i = 0;
+	while (arr[i] != NULL)
 	{
-		strcat(result, arr[i]);
+		ft_strcat(result, arr[i]);
+		i++;
 	}
-
 	return (result);
 }

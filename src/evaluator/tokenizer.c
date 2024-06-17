@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 19:02:10 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/17 18:56:01 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/17 22:45:02 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,26 +27,6 @@ t_token	*bon_and_jason_tokenizer(char *command_input)
 	free(command_input);
 	return (token);
 }
-
-// this function will walk through the token chain
-// if current token has valid quotes, it will remove
-// the quotes from the token
-// for example, if the token is like this:
-// "hello world"
-// then the token will be modified to:
-// hello world
-// also if the token is like this:
-// 'hello world'
-// then the token will be modified to:
-// hello world
-// but if the token is like this:
-// "'hello world'"
-// then the token will be modified to:
-// 'hello world'
-// also if the token is like this:
-// "'hello world"
-// then the token will be modified to:
-// 'hello world
 
 t_token	*remove_quotes_from_token(t_token *token)
 {
@@ -88,7 +68,6 @@ void	remove_quotes(char *str)
 	*dst = '\0';
 }
 
-
 void	replace_special_characters(char *str, char special_character)
 {
 	while (*str != '\0')
@@ -100,8 +79,7 @@ void	replace_special_characters(char *str, char special_character)
 		str++;
 	}
 }
-// walk through the token chain and replace special characters
-// with spaces
+
 void	replace_special_characters_in_node(t_token *token)
 {
 	t_token	*current;
@@ -114,8 +92,6 @@ void	replace_special_characters_in_node(t_token *token)
 	}
 }
 
-// Helper function to create a new token node
-// this one is just for token_split_redirect
 t_token	*create_token_node(const char *str, int type)
 {
 	t_token	*new;
@@ -127,112 +103,6 @@ t_token	*create_token_node(const char *str, int type)
 	new->prev = NULL;
 	new->next = NULL;
 	return (new);
-}
-
-t_token	*split_token(t_token *token, char *pos, const char *redir,
-		int redir_type)
-{
-	char	*before;
-	char	*after;
-	t_token	*before_token;
-	t_token	*redirect_token;
-	t_token	*after_token;
-
-	if (pos != token->str) // Redirection is not at the beginning
-	{
-		before = strndup(token->str, pos - token->str);
-		after = ft_strdup(pos + ft_strlen(redir));
-		before_token = create_token_node(before, 0);
-		redirect_token = create_token_node(redir, redir_type);
-		after_token = create_token_node(after, 0);
-		before_token->next = redirect_token;
-		redirect_token->prev = before_token;
-		redirect_token->next = after_token;
-		after_token->prev = redirect_token;
-		after_token->next = token->next;
-		if (token->next)
-			token->next->prev = after_token;
-		if (token->prev)
-			token->prev->next = before_token;
-		else
-			token = before_token; // Update head if it was the first token
-		before_token->prev = token->prev;
-		free(token->str);
-		free(token);
-		free(before);
-		free(after);
-		return (after_token);
-	}
-	else // Redirection is at the beginning
-	{
-		redirect_token = create_token_node(redir, redir_type);
-		after = ft_strdup(pos + ft_strlen(redir));
-		free(token->str);
-		token->str = after;
-		redirect_token->next = token;
-		redirect_token->prev = token->prev;
-		if (token->prev)
-			token->prev->next = redirect_token;
-		token->prev = redirect_token;
-		if (token == token)
-			token = redirect_token; // Update head if it was the first token
-		return (token->next);
-	}
-}
-
-// iterate through a token chain if found a special character
-// inside the token, split the token into two token nodes
-// and insert a new token node with the special character
-// between the two token nodes and return the head of the
-// token chain.
-
-// example: "[echo] [>>hello.txt]" -> "[echo] [>>] [hello.txt]"
-// return : "[echo] [>>] [hello.txt]"
-
-// currently only for >> and <<
-
-// Split the token and insert new token nodes as necessary
-
-//
-t_token	*token_split_redirect(t_token *token)
-{
-	t_token	*tmp;
-	char	*pos;
-
-	tmp = token;
-	while (tmp)
-	{
-		if ((pos = ft_strstr(tmp->str, "<<<")) != NULL
-			&& !is_within_quotes(tmp->str, pos))
-		{
-			tmp = split_token(tmp, pos, "<<<", REDIRECT_HERE_STRING);
-		}
-		else if ((pos = ft_strstr(tmp->str, "<<")) != NULL
-			&& !is_within_quotes(tmp->str, pos))
-		{
-			tmp = split_token(tmp, pos, "<<", REDIRECT_IN_HERE);
-		}
-		else if ((pos = ft_strstr(tmp->str, ">>")) != NULL
-			&& !is_within_quotes(tmp->str, pos))
-		{
-			tmp = split_token(tmp, pos, ">>", REDIRECT_OUT_APPEND);
-		}
-		else if ((pos = ft_strstr(tmp->str, ">")) != NULL
-			&& !is_within_quotes(tmp->str, pos))
-		{
-			tmp = split_token(tmp, pos, ">", REDIRECT_OUT);
-		}
-		else if ((pos = ft_strstr(tmp->str, "<")) != NULL
-			&& !is_within_quotes(tmp->str, pos))
-		{
-			tmp = split_token(tmp, pos, "<", REDIRECT_IN);
-		}
-		else
-		{
-			tmp = tmp->next;
-		}
-	}
-	return (token);
 }
 
 int	is_within_quotes(const char *str, const char *pos)

@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 17:11:52 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/17 18:33:06 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/17 22:33:41 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	update_token_type(t_token *token)
 {
 	if (!token || !token->str)
 		return ;
-
 	if (ft_strcmp(token->str, ">") == 0)
 		token->type = REDIRECT_OUT;
 	else if (ft_strcmp(token->str, ">>") == 0)

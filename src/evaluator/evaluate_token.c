@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 17:22:49 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/17 18:32:59 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/17 22:43:42 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	evaluate_token_chain(t_token *token)
 
 void	remove_empty_nodes(t_token *token)
 {
-	t_token *tmp;
-	t_token *next;
+	t_token	*tmp;
+	t_token	*next;
 
 	tmp = token;
 	while (tmp)

@@ -6,15 +6,13 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:44:22 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/17 16:39:28 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/17 22:27:05 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <byamc/byamc.h>
 #include <minishell.h>
 
-// create token chain from array of strings
-// and return the head of the chain
 t_token	*array_to_list(char **arr)
 {
 	t_token	*head;
@@ -53,10 +51,9 @@ void	debug_print_list(t_token *token)
 	}
 }
 
-// clear token chain
 void	clear_list(t_token *token)
 {
-	t_token *next;
+	t_token	*next;
 
 	while (token)
 	{
