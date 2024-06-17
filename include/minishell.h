@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/14 17:12:41 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/17 16:57:51 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,4 +122,8 @@ void					handle_pipes(t_token *tokens, char **envp);
 char					*find_executable(const char *command, char **envp);
 int						check_builtin(char *command);
 void					execute_builtin(char **args);
+
+t_token *token_split_redirect(t_token *token);
+t_token *remove_quotes_from_token(t_token *token);
+
 #endif // MINISHELL_H

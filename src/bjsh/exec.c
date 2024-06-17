@@ -6,12 +6,154 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:16:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/14 15:10:55 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/17 17:31:05 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 #include <sys/types.h>
+
+char *resolve_path(char *command)
+{
+	char *path = getenv("PATH");
+	char *token = strtok(path, ":");
+	char full_path[1024];
+
+	while (token != NULL)
+	{
+		snprintf(full_path, sizeof(full_path), "%s/%s", token, command);
+		if (access(full_path, X_OK) == 0)
+		{
+			return strdup(full_path);
+		}
+		token = strtok(NULL, ":");
+	}
+	return NULL;
+}
+
+// Function to execute a single command using execve
+void execute_command4(char **args, char **envp)
+{
+	char *path = resolve_path(args[0]);
+	if (path == NULL)
+	{
+		fprintf(stderr, "Command not found: %s\n", args[0]);
+		exit(EXIT_FAILURE);
+	}
+
+	if (execve(path, args, envp) == -1)
+	{
+		perror("execve");
+		exit(EXIT_FAILURE);
+	}
+}
+
+// Function to handle the execution of the t_token chain
+void execute_tokens(t_token *head, char **envp)
+{
+	t_token *current = head;
+	int fd[2];
+	int in_fd = 0; // Initially, input comes from standard input
+
+	while (current != NULL)
+	{
+		char *args[100]; // Assuming no command has more than 100 arguments
+		int argc = 0;
+
+		// Collect arguments for the current command
+		while (current != NULL && current->type == -1)
+		{
+			args[argc++] = current->str;
+			current = current->next;
+		}
+		args[argc] = NULL; // Null-terminate the arguments array
+
+		if (current == NULL || current->type == PIPE)
+		{
+			// If we reach a pipe or the end of the chain, execute the command
+			pipe(fd);
+
+			if (fork() == 0)
+			{
+				dup2(in_fd, 0); // Change the input to the previous output
+				if (current != NULL)
+				{
+					dup2(fd[1], 1); // Set the output to the pipe
+				}
+				close(fd[0]);
+				execute_command4(args, envp);
+			}
+			else
+			{
+				wait(NULL);
+				close(fd[1]);
+				in_fd = fd[0]; // Save the input for the next command
+				if (current != NULL)
+				{
+					current = current->next;
+				}
+			}
+		}
+		else if (current->type == REDIRECT_OUT || current->type == REDIRECT_OUT_APPEND)
+		{
+			int flags = O_WRONLY | O_CREAT;
+			flags |= (current->type == REDIRECT_OUT) ? O_TRUNC : O_APPEND;
+			int out_fd = open(current->next->str, flags, 0644);
+			if (out_fd == -1)
+			{
+				perror("open");
+				exit(EXIT_FAILURE);
+			}
+
+			if (fork() == 0)
+			{
+				dup2(in_fd, 0);
+				dup2(out_fd, 1);
+				close(out_fd);
+				execute_command4(args, envp);
+			}
+			else
+			{
+				wait(NULL);
+				close(out_fd);
+				if (current->next != NULL)
+				{
+					current = current->next->next;
+				}
+			}
+		}
+		else if (current->type == REDIRECT_IN)
+		{
+			int in_fd = open(current->next->str, O_RDONLY);
+			if (in_fd == -1)
+			{
+				perror("open");
+				exit(EXIT_FAILURE);
+			}
+
+			if (fork() == 0)
+			{
+				dup2(in_fd, 0);
+				close(in_fd);
+				execute_command4(args, envp);
+			}
+			else
+			{
+				wait(NULL);
+				close(in_fd);
+				if (current->next != NULL)
+				{
+					current = current->next->next;
+				}
+			}
+		}
+		else
+		{
+			// If we encounter an unsupported token type, just skip it
+			current = current->next;
+		}
+	}
+}
 
 // int	find_executable(char *command, char *path_buffer)
 //{
@@ -54,12 +196,12 @@
 //}
 
 // need rewrite with allowed functions
-int	find_executable2(char *command, char *path_buffer)
+int find_executable2(char *command, char *path_buffer)
 {
-	char		*path_env;
-	char		*path;
-	char		*dir;
-	struct stat	statbuf;
+	char *path_env;
+	char *path;
+	char *dir;
+	struct stat statbuf;
 
 	path_env = getenv("PATH");
 	if (!path_env)
@@ -80,49 +222,49 @@ int	find_executable2(char *command, char *path_buffer)
 	return (0);
 }
 
-int	bjsh_exec(char **args, t_bjsh *bjsh)
-{
-	pid_t	pid;
-	int		status;
-	char	path[1024];
-	char	*cmd;
+// int	bjsh_exec(char **args, t_bjsh *bjsh)
+//{
+//	pid_t	pid;
+//	int		status;
+//	char	path[1024];
+//	char	*cmd;
+//
+//	execve_pipe(bjsh); //!!!test!!!
+//	// set_token_list(bjsh);//!!!test!!!
+//	if (!find_executable(args[0], path))
+//	{
+//		display_error_msg("command not found: ");
+//		ft_putendl_fd(args[0], STDERR_FILENO);
+//		return (127); // Return 127 for command not found
+//	}
+//	// wpid
+//	pid = fork();
+//	if (pid == 0)
+//	{
+//		// handle_redirections(args);
+//		// handle_pipes(args, bjsh);
+//		if (execve(path, args, bjsh->envp) == -1)
+//		{
+//			ft_printf("🍦bjsh👎 command not found: %s\n", args[0]);
+//			exit(126);
+//		}
+//	}
+//	else if (pid > 0)
+//	{
+//		waitpid(pid, &status, 0);
+//		if (WIFEXITED(status))
+//			return (WEXITSTATUS(status));
+//		else if (WIFSIGNALED(status))
+//			return (128 + WTERMSIG(status));
+//	}
+//	else
+//	{
+//		perror("minishell: fork");
+//		return (1); // Return a general error code
+//	}
+// }
 
-	execve_pipe(bjsh); //!!!test!!!
-	// set_token_list(bjsh);//!!!test!!!
-	if (!find_executable(args[0], path))
-	{
-		display_error_msg("command not found: ");
-		ft_putendl_fd(args[0], STDERR_FILENO);
-		return (127); // Return 127 for command not found
-	}
-	// wpid
-	pid = fork();
-	if (pid == 0)
-	{
-		// handle_redirections(args);
-		// handle_pipes(args, bjsh);
-		if (execve(path, args, bjsh->envp) == -1)
-		{
-			ft_printf("🍦bjsh👎 command not found: %s\n", args[0]);
-			exit(126);
-		}
-	}
-	else if (pid > 0)
-	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			return (WEXITSTATUS(status));
-		else if (WIFSIGNALED(status))
-			return (128 + WTERMSIG(status));
-	}
-	else
-	{
-		perror("minishell: fork");
-		return (1); // Return a general error code
-	}
-}
-
-int	exec_cmd(t_bjsh *bjsh, int type)
+int exec_cmd(t_bjsh *bjsh, int type)
 {
 }
 //{
