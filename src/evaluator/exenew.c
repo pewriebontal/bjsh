@@ -7,7 +7,7 @@
 #include <unistd.h>
 
 // Main execution function
-void	execute_tokens(t_token *tokens, char **envp)
+void	execute_tokens1(t_token *tokens, char **envp)
 {
 	t_token	*current;
 	t_token	*command_start;
