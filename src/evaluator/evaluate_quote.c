@@ -6,24 +6,11 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 13:47:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/17 17:32:11 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/17 18:31:43 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-// this function will check if string have quotes
-// if it does, it will check any spaces inside the quotes
-// and replace them with a special character
-// so that we can split the string by spaces later
-// without splitting the words inside the quotes
-// for example, if the string is like this:
-
-// "hello world" "this is a test"
-// then the string will be modified to:
-// "helloЙworld" "thisЙisЙaЙtest"
-
-// this function will return the modified string
 
 void	replace_spaces_in_quotes(char *str)
 {
@@ -46,7 +33,7 @@ void	replace_spaces_in_quotes(char *str)
 		}
 		else if ((inside_single_quotes || inside_double_quotes) && *ptr == ' ')
 		{
-			*ptr = '^'; // Replace space with a special character
+			*ptr = '^';
 		}
 		ptr++;
 	}
@@ -65,41 +52,25 @@ void	replace_spaces_in_quotes1(char *str)
 	single_quote_count = 0;
 	double_quote_count = 0;
 	ptr = str;
-	// First pass to count quotes
 	while (*ptr != '\0')
 	{
 		if (*ptr == '\'')
-		{
 			single_quote_count++;
-		}
 		else if (*ptr == '"')
-		{
 			double_quote_count++;
-		}
 		ptr++;
 	}
-	// Check if quotes are balanced
 	if (single_quote_count % 2 != 0 || double_quote_count % 2 != 0)
-	{
-		// Unbalanced quotes, do not replace spaces
 		return ;
-	}
-	// Reset pointer for second pass
 	ptr = str;
 	while (*ptr != '\0')
 	{
 		if (*ptr == '\'' && !inside_double_quotes)
-		{
 			inside_single_quotes = !inside_single_quotes;
-		}
 		else if (*ptr == '"' && !inside_single_quotes)
-		{
 			inside_double_quotes = !inside_double_quotes;
-		}
 		else if ((inside_single_quotes || inside_double_quotes) && *ptr == ' ')
-		{
 			*ptr = '^';
-		}
 		ptr++;
 	}
 }

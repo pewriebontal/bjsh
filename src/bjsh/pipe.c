@@ -13,7 +13,7 @@
 #include <minishell.h>
 
 //// check -1 and perror
-//void	check_perr(char *a, int p)
+// void	check_perr(char *a, int p)
 //{
 //	if (p < 0)
 //	{
@@ -35,7 +35,7 @@
 //	}
 //}
 //
-//void	execve_pipe(t_bjsh *bjsh)
+// void	execve_pipe(t_bjsh *bjsh)
 //{
 //	//	int	pid_left;
 //	//	int	pid_right;
@@ -76,7 +76,7 @@
 //	//	waitpid(pid_right, NULL, 0);
 //}
 //
-//void	execute_pipe(t_bjsh *bjsh, char *cmd1, char *cmd2)
+// void	execute_pipe(t_bjsh *bjsh, char *cmd1, char *cmd2)
 //{
 //	int pipefd[2];
 //	int pid;

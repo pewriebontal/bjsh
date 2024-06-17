@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/17 17:06:41 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/17 18:41:06 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int	bjsh_exec_builtin(char **args)
 		path = chope(1024);
 		ft_memset(path, 0, 1024);
 		ft_strlcpy(path, args[1], ft_strlen(args[1]) + 1);
-		// null terminate the path
 		path[ft_strlen(path) + 1] = '\0';
 		bjsh_cd(path);
 		free(path);

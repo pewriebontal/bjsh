@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 17:22:49 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/14 02:19:12 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/17 18:32:59 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,7 @@ void	evaluate_token_chain(t_token *token)
 	remove_empty_nodes(token);
 	evaluate_token_type(token);
 	fill_up_token_with_env(token);
-	// evaluate_token_chain(token);
 }
-
-// this function will remove empty nodes from the token chain
-// for example, if the token chain is like this:
-// "ls" -> "" -> "echo"
-// then the chain will be modified to:
-// "ls" -> "echo"
 
 void	remove_empty_nodes(t_token *token)
 {

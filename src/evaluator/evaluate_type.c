@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 17:11:52 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/12 01:54:15 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/17 18:33:06 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	evaluate_token_type(t_token *token)
 
 void	update_token_type(t_token *token)
 {
-	if (!token || !token->str) // Ensure token and token->str are not NULL
+	if (!token || !token->str)
 		return ;
 
 	if (ft_strcmp(token->str, ">") == 0)

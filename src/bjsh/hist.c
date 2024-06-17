@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:53:06 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/17 17:03:46 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/17 18:39:53 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,12 @@ void	bjsh_hist_file_create(void)
 	close(fd_hist);
 	free(path);
 	return ;
+}
+
+int	bjsh_read_history(char *path)
+{
+}
+
+int	bjsh_write_history(char *path)
+{
 }
