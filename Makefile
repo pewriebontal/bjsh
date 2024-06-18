@@ -6,7 +6,7 @@
 #    By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/26 18:18:13 by mkhaing           #+#    #+#              #
-#    Updated: 2024/06/17 16:46:30 by mkhaing          ###   ########.fr        #
+#    Updated: 2024/06/18 15:34:40 by mkhaing          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,6 +80,8 @@ install:
 fclean:         clean
 				${RM} ${BYAMC}
 				${RM} ${NAME}
+
+me:				re
 
 re:             fclean all
 
