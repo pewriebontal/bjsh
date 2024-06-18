@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:16:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/18 15:18:50 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/18 16:09:40 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ void execute_command4(char **args, char **envp)
 	char *path = find_executable(args[0], envp);
 	if (path == NULL)
 	{
-		fprintf(stderr, "Command not found: %s\n", args[0]);
+		display_error_msg("command not found: ");
+		ft_putstr_fd(args[0], STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
 

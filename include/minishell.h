@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/18 15:01:34 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/18 16:01:15 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@
 # define SHELL_SHORT_NAME "bjsh"
 # define SHELL_LONG_NAME "Bon & Jason's shell"
 # define SHELL_VERSION "development build"
-# define SHELL_PROMPT "🍦bjsh👍 "
+//# define SHELL_PROMPT "🍦bjsh👍 "
+# define SHELL_PROMPT "🍒 ❯ "
 
 // token type
 # define REDIRECT_OUT 111         // >
