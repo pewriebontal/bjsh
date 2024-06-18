@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:16:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/18 16:09:40 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/18 18:45:41 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ void execute_command4(char **args, char **envp)
 	char *path = find_executable(args[0], envp);
 	if (path == NULL)
 	{
-		display_error_msg("command not found: ");
+		ft_putstr_fd("command not found: ", STDERR_FILENO);
 		ft_putstr_fd(args[0], STDERR_FILENO);
 		ft_putstr_fd("\n", STDERR_FILENO);
-		exit(EXIT_FAILURE);
+		exit(127); 
 	}
 
 	if (execve(path, args, envp) == -1)
@@ -56,6 +56,7 @@ void execute_tokens(t_token *head, t_bjsh *bjsh)
 	t_token *current = head;
 	int fd[2];
 	int in_fd = 0; // Initially, input comes from standard input
+	int status;
 
 	while (current != NULL)
 	{
@@ -69,9 +70,10 @@ void execute_tokens(t_token *head, t_bjsh *bjsh)
 			current = current->next;
 		}
 		args[argc] = NULL; // Null-terminate the arguments array
+
 		if (check_builtin(args[0]) == BUGGI_BAKA)
 		{
-			bjsh_exec_builtin(args, bjsh);
+			bjsh->last_exit_status = bjsh_exec_builtin(args, bjsh);
 		}
 		else if (current == NULL || current->type == PIPE)
 		{
@@ -88,8 +90,8 @@ void execute_tokens(t_token *head, t_bjsh *bjsh)
 				close(fd[0]);
 				if (check_builtin(args[0]) == SUSSY_BAKA)
 				{
-					bjsh_exec_builtin(args, bjsh);
-					exit(EXIT_SUCCESS);
+					bjsh->last_exit_status = bjsh_exec_builtin(args, bjsh);
+					exit(bjsh->last_exit_status);
 				}
 				else
 				{
@@ -98,7 +100,15 @@ void execute_tokens(t_token *head, t_bjsh *bjsh)
 			}
 			else
 			{
-				wait(NULL);
+				wait(&status);
+				if (WIFEXITED(status))
+				{
+					bjsh->last_exit_status = WEXITSTATUS(status);
+				}
+				else if (WIFSIGNALED(status))
+				{
+					bjsh->last_exit_status = 128 + WTERMSIG(status);
+				}
 				close(fd[1]);
 				in_fd = fd[0]; // Save the input for the next command
 				if (current != NULL)
@@ -125,8 +135,8 @@ void execute_tokens(t_token *head, t_bjsh *bjsh)
 				close(out_fd);
 				if (check_builtin(args[0]) == SUSSY_BAKA)
 				{
-					bjsh_exec_builtin(args, bjsh);
-					exit(EXIT_SUCCESS);
+					bjsh->last_exit_status = bjsh_exec_builtin(args, bjsh);
+					exit(bjsh->last_exit_status);
 				}
 				else
 				{
@@ -135,7 +145,15 @@ void execute_tokens(t_token *head, t_bjsh *bjsh)
 			}
 			else
 			{
-				wait(NULL);
+				wait(&status);
+				if (WIFEXITED(status))
+				{
+					bjsh->last_exit_status = WEXITSTATUS(status);
+				}
+				else if (WIFSIGNALED(status))
+				{
+					bjsh->last_exit_status = 128 + WTERMSIG(status);
+				}
 				close(out_fd);
 				if (current->next != NULL)
 				{
@@ -158,8 +176,8 @@ void execute_tokens(t_token *head, t_bjsh *bjsh)
 				close(in_fd);
 				if (check_builtin(args[0]) == SUSSY_BAKA)
 				{
-					bjsh_exec_builtin(args, bjsh);
-					exit(EXIT_SUCCESS);
+					bjsh->last_exit_status = bjsh_exec_builtin(args, bjsh);
+					exit(bjsh->last_exit_status);
 				}
 				else
 				{
@@ -168,7 +186,15 @@ void execute_tokens(t_token *head, t_bjsh *bjsh)
 			}
 			else
 			{
-				wait(NULL);
+				wait(&status);
+				if (WIFEXITED(status))
+				{
+					bjsh->last_exit_status = WEXITSTATUS(status);
+				}
+				else if (WIFSIGNALED(status))
+				{
+					bjsh->last_exit_status = 128 + WTERMSIG(status);
+				}
 				close(in_fd);
 				if (current->next != NULL)
 				{
@@ -183,7 +209,6 @@ void execute_tokens(t_token *head, t_bjsh *bjsh)
 		}
 	}
 }
-
 // int	find_executable(char *command, char *path_buffer)
 //{
 //	char		*path_env;

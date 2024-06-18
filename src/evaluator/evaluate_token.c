@@ -6,17 +6,17 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 17:22:49 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/18 15:47:26 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/18 17:53:32 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	evaluate_token_chain(t_token *token)
+void	evaluate_token_chain(t_token *token, t_bjsh *bjsh)
 {
 	remove_empty_nodes(token);
 	evaluate_token_type(token);
-	fill_up_token_with_env(token);
+	fill_up_token_with_env(token, bjsh);
 }
 
 void	remove_empty_nodes(t_token *token)

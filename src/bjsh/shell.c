@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/18 16:19:37 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/18 19:04:14 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	bjsh_loop(t_bjsh *bjsh)
 		line[strcspn(line, "\n")] = 0;
 		if (*line)
 			add_history(line);
-		token = bon_and_jason_tokenizer(line);
+		token = bon_and_jason_tokenizer(line, bjsh);
 		//debug_print_list(token);
 		execute_tokens(token, bjsh);
 		clear_list(token);

@@ -6,13 +6,13 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 19:02:10 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/17 22:45:02 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/18 17:53:50 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_token	*bon_and_jason_tokenizer(char *command_input)
+t_token	*bon_and_jason_tokenizer(char *command_input, t_bjsh *bjsh)
 {
 	t_token	*token;
 	char	**args;
@@ -21,7 +21,7 @@ t_token	*bon_and_jason_tokenizer(char *command_input)
 	args = ft_split(command_input, ' ');
 	token = array_to_list(args);
 	token = token_split_redirect(token);
-	evaluate_token_chain(token);
+	evaluate_token_chain(token, bjsh);
 	replace_special_characters_in_node(token);
 	token = remove_quotes_from_token(token);
 	free(command_input);

@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/18 16:01:15 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/18 19:03:36 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@
 # define COMMAND 777              //
 # define FILE 888                 //
 
-# define BUGGI_BAKA 69420         	// cd, exit  (kill the parent)
-# define SUSSY_BAKA 42069  			// the rest of the builtins (kill the child)
+# define BUGGI_BAKA 69420 // cd, exit  (kill the parent)
+# define SUSSY_BAKA 42069 // the rest of the builtins (kill the child)
 
 # ifndef SHELL_HISTORY_FILE
 #  define SHELL_HISTORY_FILE ".bjsh_history"
@@ -77,9 +77,10 @@ typedef struct s_bjsh
 	char				**envp;
 	char				*argv;
 	int					status;
-	int 				state;
+	int					state;
 	int std_in;  // for stdin
 	int std_out; // for stdout
+	int					last_exit_status;
 }						t_bjsh;
 
 typedef struct s_history
