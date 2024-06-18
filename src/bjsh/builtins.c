@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:00:06 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/17 16:39:46 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/18 15:01:50 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,9 @@ int	bjsh_env(t_bjsh *bjsh)
 	return (UNDERSTOOD_THE_ASSIGNMENT);
 }
 
-int	bjsh_exit(void)
+int	bjsh_exit(t_bjsh *bjsh)
 {
+	bjsh->state = NOT_CHILLING;
 	atexit(handle_eof); // handle EOF when the program exits
 	exit(UNDERSTOOD_THE_ASSIGNMENT);
 }

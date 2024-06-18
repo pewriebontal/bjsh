@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:56:04 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/17 18:56:12 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/17 23:11:11 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	replace_env_vars(char **str)
 		{
 			env_start = p + 1;
 			env_end = env_start;
-			while (*env_end && (*env_end == '_' || isalnum(*env_end)))
+			while (*env_end && (*env_end == '_' || ft_isalnum(*env_end)))
 			{
 				env_end++;
 			}

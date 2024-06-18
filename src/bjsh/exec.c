@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:16:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/17 18:40:44 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/18 15:18:50 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char *resolve_path(char *command)
 // Function to execute a single command using execve
 void execute_command4(char **args, char **envp)
 {
-	char *path = resolve_path(args[0]);
+	char *path = find_executable(args[0], envp);
 	if (path == NULL)
 	{
 		fprintf(stderr, "Command not found: %s\n", args[0]);
@@ -49,7 +49,7 @@ void execute_command4(char **args, char **envp)
 }
 
 // Function to handle the execution of the t_token chain
-void execute_tokens(t_token *head, char **envp)
+void execute_tokens(t_token *head, t_bjsh *bjsh)
 {
 	t_token *current = head;
 	int fd[2];
@@ -67,8 +67,11 @@ void execute_tokens(t_token *head, char **envp)
 			current = current->next;
 		}
 		args[argc] = NULL; // Null-terminate the arguments array
-
-		if (current == NULL || current->type == PIPE)
+		if (check_builtin(args[0]) == BUGGI_BAKA)
+		{
+			bjsh_exec_builtin(args, bjsh);
+		}
+		else if (current == NULL || current->type == PIPE)
 		{
 			// If we reach a pipe or the end of the chain, execute the command
 			pipe(fd);
@@ -81,7 +84,15 @@ void execute_tokens(t_token *head, char **envp)
 					dup2(fd[1], 1); // Set the output to the pipe
 				}
 				close(fd[0]);
-				execute_command4(args, envp);
+				if (check_builtin(args[0]) == SUSSY_BAKA)
+				{
+					bjsh_exec_builtin(args, bjsh);
+					exit(EXIT_SUCCESS);
+				}
+				else
+				{
+					execute_command4(args, bjsh->envp);
+				}
 			}
 			else
 			{
@@ -110,7 +121,15 @@ void execute_tokens(t_token *head, char **envp)
 				dup2(in_fd, 0);
 				dup2(out_fd, 1);
 				close(out_fd);
-				execute_command4(args, envp);
+				if (check_builtin(args[0]) == SUSSY_BAKA)
+				{
+					bjsh_exec_builtin(args, bjsh);
+					exit(EXIT_SUCCESS);
+				}
+				else
+				{
+					execute_command4(args, bjsh->envp);
+				}
 			}
 			else
 			{
@@ -135,7 +154,15 @@ void execute_tokens(t_token *head, char **envp)
 			{
 				dup2(in_fd, 0);
 				close(in_fd);
-				execute_command4(args, envp);
+				if (check_builtin(args[0]) == SUSSY_BAKA)
+				{
+					bjsh_exec_builtin(args, bjsh);
+					exit(EXIT_SUCCESS);
+				}
+				else
+				{
+					execute_command4(args, bjsh->envp);
+				}
 			}
 			else
 			{

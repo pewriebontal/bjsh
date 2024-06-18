@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/17 16:57:51 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/18 15:01:34 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,13 @@
 # define COMMAND 777              //
 # define FILE 888                 //
 
+# define BUGGI_BAKA 69420         	// cd, exit  (kill the parent)
+# define SUSSY_BAKA 42069  			// the rest of the builtins (kill the child)
+
+# ifndef SHELL_HISTORY_FILE
+#  define SHELL_HISTORY_FILE ".bjsh_history"
+# endif
+
 # ifndef SHELL_BUILD_DATE
 #  define SHELL_BUILD_DATE "unknown"
 # endif
@@ -58,8 +65,9 @@ typedef struct s_token
 
 typedef struct s_env
 {
-	char				*value;
+	char				*str;
 	struct s_env		*next;
+	struct s_env		*prev;
 }						t_env;
 
 typedef struct s_bjsh
@@ -68,24 +76,26 @@ typedef struct s_bjsh
 	char				**envp;
 	char				*argv;
 	int					status;
-	int st_in;  // for stdin
-	int st_out; // for stdout
+	int 				state;
+	int std_in;  // for stdin
+	int std_out; // for stdout
 }						t_bjsh;
 
-typedef struct s_bjsh_hist
+typedef struct s_history
 {
 	char				*cmd;
-	struct s_bjsh_hist	*next;
-	struct s_bjsh_hist	*prev;
-}						t_bjsh_hist;
+	struct s_history	*next;
+	struct s_history	*prev;
+}						t_history;
 
+// main.c
 void					bjsh_loop(t_bjsh *bjsh);
 
 // builtin cmds
 int						bjsh_pwd(void);
 int						bjsh_cd(char *path);
 int						bjsh_help(char **args);
-int						bjsh_exit(void);
+int						bjsh_exit(t_bjsh *bjsh);
 
 // env.c
 int						init_env(t_bjsh *bjsh, char **env_avg);
@@ -123,7 +133,20 @@ char					*find_executable(const char *command, char **envp);
 int						check_builtin(char *command);
 void					execute_builtin(char **args);
 
-t_token *token_split_redirect(t_token *token);
-t_token *remove_quotes_from_token(t_token *token);
+// tokenizer
+t_token					*token_split_redirect(t_token *token);
+t_token					*remove_quotes_from_token(t_token *token);
+
+// helpers/arr_to_list.c
+t_token					*array_to_list(char **arr);
+void					clear_list(t_token *token);
+void					debug_print_list(t_token *token);
+
+// helpers/ft_rejion_arr.c
+char					*ft_rejoin_arr(char **arr);
+
+// helpers/lst_to_arr.c
+char					**lst_to_arr(t_token *token);
+void					debug_print_arr(char **arr);
 
 #endif // MINISHELL_H

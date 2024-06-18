@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/17 22:03:15 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/18 15:01:25 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	bjsh_loop(t_bjsh *bjsh)
 	signal(SIGINT, handle_signal);
 	signal(SIGTSTP, handle_signal);
 	signal(SIGQUIT, SIG_IGN); // CTRL + \ is ignored
-	while (bjsh->status == CHILLING)
+	while (bjsh->state == CHILLING)
 	{
 		line = readline(SHELL_PROMPT);
 		if (!line) // if ctrl-D is pressed
@@ -34,7 +34,8 @@ void	bjsh_loop(t_bjsh *bjsh)
 			add_history(line);
 		write_history(history_file_path);
 		token = bon_and_jason_tokenizer(line);
-		execute_tokens(token, bjsh->envp);
+		//debug_print_list(token);
+		execute_tokens(token, bjsh);
 		clear_list(token);
 	}
 	write_history(history_file_path);
@@ -42,29 +43,29 @@ void	bjsh_loop(t_bjsh *bjsh)
 
 int	check_builtin(char *cmd)
 {
-	if (ft_strncmp(cmd, "exit", 4) == 0)
-		return (1);
-	else if (ft_strncmp(cmd, "cd", 2) == 0)
-		return (1);
-	else if (ft_strncmp(cmd, "pwd", 3) == 0)
-		return (1);
-	else if (ft_strncmp(cmd, "help", 4) == 0)
-		return (1);
-	else if (ft_strncmp(cmd, "echo", 4) == 0)
-		return (1);
-	return (0);
+	if (ft_strcmp(cmd, "exit") == 0)
+		return (BUGGI_BAKA);
+	else if (ft_strcmp(cmd, "cd") == 0)
+		return (BUGGI_BAKA);
+	else if (ft_strcmp(cmd, "pwd") == 0)
+		return (SUSSY_BAKA);
+	else if (ft_strcmp(cmd, "help") == 0)
+		return (SUSSY_BAKA);
+	else if (ft_strcmp(cmd, "echo") == 0)
+		return (SUSSY_BAKA);
+	return (UNDERSTOOD_THE_ASSIGNMENT);
 }
 
-int	bjsh_exec_builtin(char **args)
+int	bjsh_exec_builtin(char **args, t_bjsh *bjsh)
 {
 	char *path;
 
-	if (ft_strncmp(args[0], "exit", 5) == 0)
+	if (ft_strcmp(args[0], "exit") == 0)
 	{
-		bjsh_exit();
+		bjsh_exit(bjsh);
 		return (1);
 	}
-	else if (ft_strncmp(args[0], "cd", 3) == 0)
+	else if (ft_strcmp(args[0], "cd") == 0)
 	{
 		path = chope(1024);
 		ft_memset(path, 0, 1024);
@@ -74,17 +75,17 @@ int	bjsh_exec_builtin(char **args)
 		free(path);
 		return (1);
 	}
-	else if (ft_strncmp(args[0], "pwd", 4) == 0)
+	else if (ft_strcmp(args[0], "pwd") == 0)
 	{
 		bjsh_pwd();
 		return (1);
 	}
-	else if (ft_strncmp(args[0], "help", 5) == 0)
+	else if (ft_strcmp(args[0], "help") == 0)
 	{
 		bjsh_help(args);
 		return (1);
 	}
-	else if (ft_strncmp(args[0], "echo", 5) == 0)
+	else if (ft_strcmp(args[0], "echo") == 0)
 	{
 		bjsh_echo(args);
 		return (1);

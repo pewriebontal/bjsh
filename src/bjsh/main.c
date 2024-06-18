@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:06:55 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/17 22:20:26 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/18 15:02:13 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	init_bjsh(t_bjsh *bjsh, char *env[])
 {
-	bjsh->status = CHILLING;
+	bjsh->state = CHILLING;
 	bjsh->envp = env;
 	bjsh_hist_file_create();
 	return (UNDERSTOOD_THE_ASSIGNMENT);
