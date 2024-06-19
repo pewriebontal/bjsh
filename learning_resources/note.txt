@@ -1,12 +1,74 @@
-# Things to do
 
-- save a working history
-    - !!
-- handle quotes 
-- redirections
-- pipe
-- handle environment variables
-- handle #? , Ctrl c v z 
-- buildins
+char	*expand_env(char *arr)
+{
+	char	*arr_memo;
+	char	*start;
+	char	*rtn_start;
+	char	*tmp;
+	char	*env_tmp;
+	char	*rtn;
+	int		i;
+	int		j;
+	int		z;
+	int		len;
+	int		env_len;
 
-
+	rtn = (char *)malloc(sizeof(char) * (1024));
+	j = 0;
+	while (*arr)
+	{
+		if (j == 0)//first loop
+		{
+			len = 1;
+			start = arr;
+			env_len = 0;
+		}
+		else// second or later loops
+		{
+			len = z + 1;
+			env_len = 0;
+		}
+		if (*arr != '$')//move the ptr until reaching $
+		{
+			while ((*arr) != '$' && *arr)
+			{
+				len++;
+				*arr++;
+			}
+		}
+		ft_strlcpy(rtn, start, len);//cpy every single char to rtn value
+        *arr++; //$
+		while (*arr && ft_isalpha(*arr) == 1)//move the ptr until the char is not alpha
+		{
+			env_len++;
+			*arr++;
+		}
+		tmp = ft_substr(start, len, env_len);//Copy the value to tmp for checking env value
+		if (env_tmp = getenv(tmp))//if valid env join it to the rtn value
+		{
+			free(tmp);
+			tmp = (char *)malloc(sizeof(char) * 1024);
+			ft_strlcpy(tmp, env_tmp, ft_strlen(env_tmp) + 1);
+			rtn = ft_strjoin(rtn, tmp); // ABCD + env
+			z = ft_strlen(rtn);
+			start = ft_strjoin(rtn, arr); // ABCDenv +$
+			free(tmp);
+		}
+		else// if not then start copying form $ to current ptr
+		{
+			free(tmp);
+			tmp = (char *)malloc(sizeof(char) * 1024);
+			i = 0;
+			arr_memo = arr;
+			while (i++ <= env_len)
+				*arr_memo--; // to move the ptr to $
+			ft_strlcpy(tmp, arr_memo, env_len + 2);
+			rtn = ft_strjoin(rtn, tmp);
+			z = ft_strlen(rtn);
+            free(tmp);
+			// rtn = ft_strjoin(rtn,arr);
+		}
+		j++;//chg second loop
+	}
+	return (rtn);
+}
