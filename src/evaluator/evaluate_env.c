@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:56:04 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/18 18:16:01 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/19 16:40:45 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,22 @@ void fill_up_token_with_env(t_token *token, t_bjsh *bjsh)
 		replace_env_vars(&current->str, bjsh);
 		current = current->next;
 	}
+}
+
+// replace with env variabel
+char	*expand_env(char *arr)
+{
+	int		len;
+	char	*env_arr;
+
+	env_arr = (char *)malloc(sizeof(char *) * 1024);
+	if (*arr == '$')
+	{
+		*arr++;
+		ft_strlcpy(env_arr, arr, sizeof(env_arr));
+		return (getenv(env_arr));
+	}
+	return (arr);
 }
 
 void replace_env_vars(char **str, t_bjsh *bjsh)

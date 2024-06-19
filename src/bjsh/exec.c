@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:16:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/18 18:45:41 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/19 17:15:36 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,357 @@ void execute_command4(char **args, char **envp)
 	}
 }
 
+#include <minishell.h>
+
+#define MAX_ARGS 100
+#define PROMPT "> "
+
 // Function to handle the execution of the t_token chain
 void execute_tokens(t_token *head, t_bjsh *bjsh)
+{
+	t_token *current = head;
+	int fd[2];
+	int in_fd = STDIN_FILENO; // Initially, input comes from standard input
+	int out_fd = STDOUT_FILENO; // Initially, output goes to standard output
+	int status;
+
+	while (current != NULL)
+	{
+		char *args[MAX_ARGS]; // Assuming no command has more than 100 arguments
+		int argc = 0;
+
+		// Collect arguments for the current command
+		while (current != NULL && current->type == -1)
+		{
+			args[argc++] = current->str;
+			current = current->next;
+		}
+		args[argc] = NULL; // Null-terminate the arguments array
+
+		// Handle redirections before executing commands
+		while (current != NULL && (current->type == REDIRECT_OUT || current->type == REDIRECT_OUT_APPEND ||
+								   current->type == REDIRECT_IN || current->type == REDIRECT_IN_HERE))
+		{
+			if (current->type == REDIRECT_OUT || current->type == REDIRECT_OUT_APPEND)
+			{
+				int flags = O_WRONLY | O_CREAT;
+				flags |= (current->type == REDIRECT_OUT) ? O_TRUNC : O_APPEND;
+				out_fd = open(current->next->str, flags, 0644);
+				if (out_fd == -1)
+				{
+					perror("open");
+					exit(EXIT_FAILURE);
+				}
+			}
+			else if (current->type == REDIRECT_IN)
+			{
+				in_fd = open(current->next->str, O_RDONLY);
+				if (in_fd == -1)
+				{
+					perror("open");
+					exit(EXIT_FAILURE);
+				}
+			}
+			else if (current->type == REDIRECT_IN_HERE)
+			{
+				char *heredoc_file = read_here_doc(bjsh, current->next->str);
+				if (heredoc_file == NULL)
+				{
+					fprintf(stderr, "Failed to create heredoc file\n");
+					exit(EXIT_FAILURE);
+				}
+				in_fd = open(heredoc_file, O_RDONLY);
+				if (in_fd == -1)
+				{
+					perror("open");
+					exit(EXIT_FAILURE);
+				}
+				free(heredoc_file);
+			}
+			current = current->next->next; // Move past the redirection token and its target
+		}
+
+		if (check_builtin(args[0]) == BUGGI_BAKA)
+		{
+			bjsh->last_exit_status = bjsh_exec_builtin(args, bjsh);
+		}
+		else if (current == NULL || current->type == PIPE)
+		{
+			// If we reach a pipe or the end of the chain, execute the command
+			if (current != NULL)
+			{
+				pipe(fd);
+			}
+
+			if (fork() == 0)
+			{
+				dup2(in_fd, STDIN_FILENO); // Change the input to the previous output
+				if (out_fd != STDOUT_FILENO)
+				{
+					dup2(out_fd, STDOUT_FILENO); // Set the output if redirected
+				}
+				else if (current != NULL)
+				{
+					dup2(fd[1], STDOUT_FILENO); // Set the output to the pipe
+				}
+				if (in_fd != STDIN_FILENO) close(in_fd);
+				if (out_fd != STDOUT_FILENO) close(out_fd);
+				if (current != NULL) close(fd[0]);
+				
+				if (check_builtin(args[0]) == SUSSY_BAKA)
+				{
+					bjsh->last_exit_status = bjsh_exec_builtin(args, bjsh);
+					exit(bjsh->last_exit_status);
+				}
+				else
+				{
+					execute_command4(args, bjsh->envp);
+				}
+			}
+			else
+			{
+				wait(&status);
+				if (WIFEXITED(status))
+				{
+					bjsh->last_exit_status = WEXITSTATUS(status);
+				}
+				else if (WIFSIGNALED(status))
+				{
+					bjsh->last_exit_status = 128 + WTERMSIG(status);
+				}
+				if (current != NULL) close(fd[1]);
+				in_fd = fd[0]; // Save the input for the next command
+				if (current != NULL)
+				{
+					current = current->next;
+				}
+			}
+		}
+		else
+		{
+			// If we encounter an unsupported token type, just skip it
+			current = current->next;
+		}
+	}
+
+	// Close any remaining open file descriptors
+	if (in_fd != STDIN_FILENO) close(in_fd);
+	if (out_fd != STDOUT_FILENO) close(out_fd);
+}
+
+
+// Function to handle the execution of the t_token chain
+void execute_tokenssecworking(t_token *head, t_bjsh *bjsh)
+{
+	t_token *current = head;
+	int fd[2];
+	int in_fd = STDIN_FILENO; // Initially, input comes from standard input
+	int status;
+
+	while (current != NULL)
+	{
+		char *args[MAX_ARGS]; // Assuming no command has more than 100 arguments
+		int argc = 0;
+
+		// Collect arguments for the current command
+		while (current != NULL && current->type == -1)
+		{
+			args[argc++] = current->str;
+			current = current->next;
+		}
+		args[argc] = NULL; // Null-terminate the arguments array
+
+		if (check_builtin(args[0]) == BUGGI_BAKA)
+		{
+			bjsh->last_exit_status = bjsh_exec_builtin(args, bjsh);
+		}
+		else if (current == NULL || current->type == PIPE)
+		{
+			// If we reach a pipe or the end of the chain, execute the command
+			pipe(fd);
+
+			if (fork() == 0)
+			{
+				dup2(in_fd, STDIN_FILENO); // Change the input to the previous output
+				if (current != NULL)
+				{
+					dup2(fd[1], STDOUT_FILENO); // Set the output to the pipe
+				}
+				close(fd[0]);
+				if (check_builtin(args[0]) == SUSSY_BAKA)
+				{
+					bjsh->last_exit_status = bjsh_exec_builtin(args, bjsh);
+					exit(bjsh->last_exit_status);
+				}
+				else
+				{
+					execute_command4(args, bjsh->envp);
+				}
+			}
+			else
+			{
+				wait(&status);
+				if (WIFEXITED(status))
+				{
+					bjsh->last_exit_status = WEXITSTATUS(status);
+				}
+				else if (WIFSIGNALED(status))
+				{
+					bjsh->last_exit_status = 128 + WTERMSIG(status);
+				}
+				close(fd[1]);
+				in_fd = fd[0]; // Save the input for the next command
+				if (current != NULL)
+				{
+					current = current->next;
+				}
+			}
+		}
+		else if (current->type == REDIRECT_OUT || current->type == REDIRECT_OUT_APPEND)
+		{
+			int flags = O_WRONLY | O_CREAT;
+			flags |= (current->type == REDIRECT_OUT) ? O_TRUNC : O_APPEND;
+			int out_fd = open(current->next->str, flags, 0644);
+			if (out_fd == -1)
+			{
+				perror("open");
+				exit(EXIT_FAILURE);
+			}
+
+			if (fork() == 0)
+			{
+				dup2(in_fd, STDIN_FILENO);
+				dup2(out_fd, STDOUT_FILENO);
+				close(out_fd);
+				if (check_builtin(args[0]) == SUSSY_BAKA)
+				{
+					bjsh->last_exit_status = bjsh_exec_builtin(args, bjsh);
+					exit(bjsh->last_exit_status);
+				}
+				else
+				{
+					execute_command4(args, bjsh->envp);
+				}
+			}
+			else
+			{
+				wait(&status);
+				if (WIFEXITED(status))
+				{
+					bjsh->last_exit_status = WEXITSTATUS(status);
+				}
+				else if (WIFSIGNALED(status))
+				{
+					bjsh->last_exit_status = 128 + WTERMSIG(status);
+				}
+				close(out_fd);
+				if (current->next != NULL)
+				{
+					current = current->next->next;
+				}
+			}
+		}
+		else if (current->type == REDIRECT_IN)
+		{
+			int in_fd = open(current->next->str, O_RDONLY);
+			if (in_fd == -1)
+			{
+				perror("open");
+				exit(EXIT_FAILURE);
+			}
+
+			if (fork() == 0)
+			{
+				dup2(in_fd, STDIN_FILENO);
+				close(in_fd);
+				if (check_builtin(args[0]) == SUSSY_BAKA)
+				{
+					bjsh->last_exit_status = bjsh_exec_builtin(args, bjsh);
+					exit(bjsh->last_exit_status);
+				}
+				else
+				{
+					execute_command4(args, bjsh->envp);
+				}
+			}
+			else
+			{
+				wait(&status);
+				if (WIFEXITED(status))
+				{
+					bjsh->last_exit_status = WEXITSTATUS(status);
+				}
+				else if (WIFSIGNALED(status))
+				{
+					bjsh->last_exit_status = 128 + WTERMSIG(status);
+				}
+				close(in_fd);
+				if (current->next != NULL)
+				{
+					current = current->next->next;
+				}
+			}
+		}
+		else if (current->type == REDIRECT_IN_HERE)
+		{
+			char *heredoc_file = read_here_doc(bjsh,current->next->str);
+			if (heredoc_file == NULL)
+			{
+				fprintf(stderr, "Failed to create heredoc file\n");
+				exit(EXIT_FAILURE);
+			}
+			int in_fd = open(heredoc_file, O_RDONLY);
+			if (in_fd == -1)
+			{
+				perror("open");
+				exit(EXIT_FAILURE);
+			}
+			free(heredoc_file);
+
+			if (fork() == 0)
+			{
+				dup2(in_fd, STDIN_FILENO);
+				close(in_fd);
+				if (check_builtin(args[0]) == SUSSY_BAKA)
+				{
+					bjsh->last_exit_status = bjsh_exec_builtin(args, bjsh);
+					exit(bjsh->last_exit_status);
+				}
+				else
+				{
+					execute_command4(args, bjsh->envp);
+				}
+			}
+			else
+			{
+				wait(&status);
+				if (WIFEXITED(status))
+				{
+					bjsh->last_exit_status = WEXITSTATUS(status);
+				}
+				else if (WIFSIGNALED(status))
+				{
+					bjsh->last_exit_status = 128 + WTERMSIG(status);
+				}
+				close(in_fd);
+				if (current->next != NULL)
+				{
+					current = current->next->next;
+				}
+			}
+		}
+		else
+		{
+			// If we encounter an unsupported token type, just skip it
+			current = current->next;
+		}
+	}
+}
+
+
+// Function to handle the execution of the t_token chain
+//this one comfirm working
+void execute_tokens22(t_token *head, t_bjsh *bjsh)
 {
 	t_token *current = head;
 	int fd[2];
@@ -71,6 +420,10 @@ void execute_tokens(t_token *head, t_bjsh *bjsh)
 		}
 		args[argc] = NULL; // Null-terminate the arguments array
 
+		if(args[0] == NULL)
+		{
+			break;
+		}
 		if (check_builtin(args[0]) == BUGGI_BAKA)
 		{
 			bjsh->last_exit_status = bjsh_exec_builtin(args, bjsh);

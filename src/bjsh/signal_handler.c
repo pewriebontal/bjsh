@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 16:44:15 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/17 18:53:57 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/18 19:16:06 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ void	handle_signal(int sig)
 			rl_redisplay();
 		}
 	}
-	else if (sig == SIGTSTP) // ctrl+z
-	{
-		ft_putstr_fd("\n", 1);
-		ft_putstr_fd("SIGTSTP received. Suspending process.\n", 1);
-	}
+//	else if (sig == SIGTSTP) // ctrl+z
+//	{
+//		ft_putstr_fd("\n", 1);
+//		ft_putstr_fd("SIGTSTP received. Suspending process.\n", 1);
+//	}
 }
 
 void	handle_eof(void)

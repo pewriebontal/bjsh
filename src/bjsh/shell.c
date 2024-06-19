@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/18 19:04:14 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/19 17:30:37 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	bjsh_loop(t_bjsh *bjsh)
 	t_token	*token;
 
 	signal(SIGINT, handle_signal);
-	signal(SIGTSTP, handle_signal);
+//	signal(SIGTSTP, handle_signal);
 	signal(SIGQUIT, SIG_IGN); // CTRL + \ is ignored
 	while (bjsh->state == CHILLING)
 	{
@@ -37,6 +37,8 @@ void	bjsh_loop(t_bjsh *bjsh)
 
 int	check_builtin(char *cmd)
 {
+	if(!cmd)
+		return (-1);
 	if (ft_strcmp(cmd, "exit") == 0)
 		return (BUGGI_BAKA);
 	else if (ft_strcmp(cmd, "cd") == 0)

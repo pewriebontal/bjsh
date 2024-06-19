@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 09:06:21 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/17 18:26:05 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/18 19:10:20 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,8 +152,44 @@ void	handle_pipes(t_token *tokens, char **envp)
 	}
 }
 
-// Function to find the full path of an executable
 char	*find_executable(const char *command, char **envp)
+{
+	char	*path_env;
+	char	*paths;
+	char	*path;
+	char	*executable_path;
+
+	// Check if the command is an absolute or relative path
+	if (command[0] == '/' || (command[0] == '.' && (command[1] == '/' || command[1] == '.')))
+	{
+		if (access(command, X_OK) == 0)
+			return strdup(command);
+		return NULL;
+	}
+
+	path_env = getenv("PATH");
+	if (!path_env)
+		return (NULL);
+	paths = strdup(path_env);
+	path = strtok(paths, ":");
+	executable_path = malloc(256);
+	while (path)
+	{
+		snprintf(executable_path, 256, "%s/%s", path, command);
+		if (access(executable_path, X_OK) == 0)
+		{
+			free(paths);
+			return (executable_path);
+		}
+		path = strtok(NULL, ":");
+	}
+	free(paths);
+	free(executable_path);
+	return (NULL);
+}
+
+// Function to find the full path of an executable
+char	*find_executable44(const char *command, char **envp)
 {
 	char	*path_env;
 	char	*paths;
