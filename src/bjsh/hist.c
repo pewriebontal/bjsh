@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:53:06 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/17 22:20:00 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/20 02:50:36 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	bjsh_read_history(char *path)
 	int		fd;
 	char	*trimmed_line;
 
+	line = "";
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 		return (-1);

@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:16:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/19 17:15:36 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/19 22:52:35 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,6 @@ void execute_command4(char **args, char **envp)
 	}
 }
 
-#include <minishell.h>
-
-#define MAX_ARGS 100
-#define PROMPT "> "
 
 // Function to handle the execution of the t_token chain
 void execute_tokens(t_token *head, t_bjsh *bjsh)

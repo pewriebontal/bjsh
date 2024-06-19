@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 22:45:07 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/17 22:45:56 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/20 01:52:17 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,33 +73,21 @@ t_token	*token_split_redirect(t_token *token)
 	{
 		if ((pos = ft_strstr(tmp->str, "<<<")) != NULL
 			&& !is_within_quotes(tmp->str, pos))
-		{
 			tmp = split_token(tmp, pos, "<<<", REDIRECT_HERE_STRING);
-		}
 		else if ((pos = ft_strstr(tmp->str, "<<")) != NULL
 			&& !is_within_quotes(tmp->str, pos))
-		{
 			tmp = split_token(tmp, pos, "<<", REDIRECT_IN_HERE);
-		}
 		else if ((pos = ft_strstr(tmp->str, ">>")) != NULL
 			&& !is_within_quotes(tmp->str, pos))
-		{
 			tmp = split_token(tmp, pos, ">>", REDIRECT_OUT_APPEND);
-		}
 		else if ((pos = ft_strstr(tmp->str, ">")) != NULL
 			&& !is_within_quotes(tmp->str, pos))
-		{
 			tmp = split_token(tmp, pos, ">", REDIRECT_OUT);
-		}
 		else if ((pos = ft_strstr(tmp->str, "<")) != NULL
 			&& !is_within_quotes(tmp->str, pos))
-		{
 			tmp = split_token(tmp, pos, "<", REDIRECT_IN);
-		}
 		else
-		{
 			tmp = tmp->next;
-		}
 	}
 	return (token);
 }

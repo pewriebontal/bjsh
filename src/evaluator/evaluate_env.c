@@ -6,15 +6,15 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:56:04 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/19 16:40:45 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/20 03:10:29 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void fill_up_token_with_env(t_token *token, t_bjsh *bjsh)
+void	fill_up_token_with_env(t_token *token, t_bjsh *bjsh)
 {
-	t_token *current;
+	t_token	*current;
 
 	current = token;
 	while (current != NULL)
@@ -40,84 +40,89 @@ char	*expand_env(char *arr)
 	return (arr);
 }
 
-void replace_env_vars(char **str, t_bjsh *bjsh)
+void	replace_env_vars(char **str, t_bjsh *bjsh)
 {
-	char *result;
-	int in_single_quote;
-	int in_double_quote;
-	char *p;
-	size_t result_len;
-	size_t before_len;
-	size_t after_len;
+	char	*result;
+	int		in_single_quote;
+	int		in_double_quote;
+	char	*p;
+	size_t	result_len;
+	size_t	before_len;
+	size_t	after_len;
+	char	*env_value;
+	char	*env_start;
+	char	*env_end;
+	char	*env_name;
 
 	result = NULL;
-	char *env_start, *env_end, *env_name, *env_value;
 	in_single_quote = 0;
 	in_double_quote = 0;
 	p = *str;
+	result_len = 0;
 	while (*p)
 	{
 		if (*p == '\'' && !in_double_quote)
 		{
 			in_single_quote = !in_single_quote;
 			p++;
-			continue;
+			continue ;
 		}
 		else if (*p == '\"' && !in_single_quote)
 		{
 			in_double_quote = !in_double_quote;
 			p++;
-			continue;
+			continue ;
 		}
 		else if (*p == '$' && !in_single_quote)
 		{
 			if (*(p + 1) == '?')
 			{
 				env_value = ft_itoa(bjsh->last_exit_status);
-				result_len = result ? ft_strlen(result) : 0;
+				result_len = result ? strlen(result) : 0;
 				before_len = p - *str;
-				after_len = ft_strlen(p + 2); // Skip $? characters
-				result = realloc(result, result_len + before_len + ft_strlen(env_value) + after_len + 1);
+				after_len = strlen(p + 2); // Skip $? characters
+				result = realloc(result, result_len + before_len
+						+ strlen(env_value) + after_len + 1);
 				if (result_len == 0)
 				{
 					strncpy(result, *str, before_len);
 				}
-				ft_strcpy(result + result_len + before_len, env_value);
-				ft_strcpy(result + result_len + before_len + ft_strlen(env_value), p + 2);
-				p = result + result_len + before_len + ft_strlen(env_value);
+				strcpy(result + result_len + before_len, env_value);
+				strcpy(result + result_len + before_len + strlen(env_value), p
+					+ 2);
+				p = result + result_len + before_len + strlen(env_value);
 				free(env_value);
-				continue;
+				continue ;
 			}
 			else
 			{
 				env_start = p + 1;
 				env_end = env_start;
-				while (*env_end && (*env_end == '_' || ft_isalnum(*env_end)))
+				while (*env_end && (*env_end == '_' || isalnum(*env_end)))
 				{
 					env_end++;
 				}
 				env_name = strndup(env_start, env_end - env_start);
 				env_value = getenv(env_name);
 				free(env_name);
-				if (env_value)
+				if (!env_value)
 				{
-					result_len = result ? ft_strlen(result) : 0;
-					before_len = p - *str;
-					after_len = ft_strlen(env_end);
-					result = realloc(result, result_len + before_len + ft_strlen(env_value) + after_len + 1);
-					if (result_len == 0)
-					{
-						strncpy(result, *str, before_len);
-					}
-					ft_strcpy(result + result_len + before_len, env_value);
-					ft_strcpy(result + result_len + before_len + ft_strlen(env_value), env_end);
-					p = result + result_len + before_len + ft_strlen(env_value);
+					env_value = "";
 				}
-				else
+				result_len = result ? strlen(result) : 0;
+				before_len = p - *str;
+				after_len = strlen(env_end);
+				result = realloc(result, result_len + before_len
+						+ strlen(env_value) + after_len + 1);
+				if (result_len == 0)
 				{
-					p = env_end;
+					strncpy(result, *str, before_len);
 				}
-				continue;
+				strcpy(result + result_len + before_len, env_value);
+				strcpy(result + result_len + before_len + strlen(env_value),
+					env_end);
+				p = result + result_len + before_len + strlen(env_value);
+				continue ;
 			}
 		}
 		p++;

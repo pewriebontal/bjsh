@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/18 19:03:36 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/20 02:21:20 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@
 # define BUGGI_BAKA 69420 // cd, exit  (kill the parent)
 # define SUSSY_BAKA 42069 // the rest of the builtins (kill the child)
 
+#define MAX_ARGS 100
+
 # ifndef SHELL_HISTORY_FILE
 #  define SHELL_HISTORY_FILE ".bjsh_history"
 # endif
@@ -66,7 +68,8 @@ typedef struct s_token
 
 typedef struct s_env
 {
-	char				*str;
+	char				*key;
+	char				*value;
 	struct s_env		*next;
 	struct s_env		*prev;
 }						t_env;
@@ -74,6 +77,7 @@ typedef struct s_env
 typedef struct s_bjsh
 {
 	t_token				*token;
+	t_env				*env;
 	char				**envp;
 	char				*argv;
 	int					status;
@@ -97,7 +101,7 @@ void					bjsh_loop(t_bjsh *bjsh);
 int						bjsh_pwd(void);
 int						bjsh_cd(char *path);
 int						bjsh_help(char **args);
-int						bjsh_exit(t_bjsh *bjsh);
+int						bjsh_exit(t_bjsh *bjsh, char *args);
 
 // env.c
 int						init_env(t_bjsh *bjsh, char **env_avg);

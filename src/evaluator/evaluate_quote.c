@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 13:47:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/17 22:34:52 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/19 22:30:29 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	replace_spaces_in_quotes(char *str)
 		}
 		else if ((inside_single_quotes || inside_double_quotes) && *ptr == ' ')
 		{
-			*ptr = '^';
+			*ptr = '`';
 		}
 		ptr++;
 	}
@@ -70,7 +70,7 @@ void	replace_spaces_in_quotes1(char *str)
 		else if (*ptr == '"' && !inside_single_quotes)
 			inside_double_quotes = !inside_double_quotes;
 		else if ((inside_single_quotes || inside_double_quotes) && *ptr == ' ')
-			*ptr = '^';
+			*ptr = '`';
 		ptr++;
 	}
 }
@@ -84,7 +84,7 @@ int	count_weired_character(char *str)
 	ptr = str;
 	while (*ptr != '\0')
 	{
-		if (*ptr == '^')
+		if (*ptr == '`')
 		{
 			count++;
 		}

@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/19 17:30:37 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/20 03:00:31 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	bjsh_loop(t_bjsh *bjsh)
 		token = bon_and_jason_tokenizer(line, bjsh);
 		//debug_print_list(token);
 		execute_tokens(token, bjsh);
-		clear_list(token);
+		if(token)
+			clear_list(token);
 	}
 }
 
@@ -49,6 +50,12 @@ int	check_builtin(char *cmd)
 		return (SUSSY_BAKA);
 	else if (ft_strcmp(cmd, "echo") == 0)
 		return (SUSSY_BAKA);
+	else if (ft_strcmp(cmd, "export") == 0)
+		return (BUGGI_BAKA);
+	else if (ft_strcmp(cmd, "unset") == 0)
+		return (BUGGI_BAKA);
+	else if (ft_strcmp(cmd, "env") == 0)
+		return (SUSSY_BAKA);
 	return (UNDERSTOOD_THE_ASSIGNMENT);
 }
 
@@ -58,7 +65,7 @@ int	bjsh_exec_builtin(char **args, t_bjsh *bjsh)
 
 	if (ft_strcmp(args[0], "exit") == 0)
 	{
-		bjsh_exit(bjsh);
+		bjsh_exit(bjsh, args[1]);
 		return (1);
 	}
 	else if (ft_strcmp(args[0], "cd") == 0)
@@ -84,6 +91,21 @@ int	bjsh_exec_builtin(char **args, t_bjsh *bjsh)
 	else if (ft_strcmp(args[0], "echo") == 0)
 	{
 		bjsh_echo(args);
+		return (1);
+	}
+	else if (ft_strcmp(args[0], "export") == 0)
+	{
+		bjsh_export();
+		return (1);
+	}
+	else if (ft_strcmp(args[0], "unset") == 0)
+	{
+		bjsh_unset();
+		return (1);
+	}
+	else if (ft_strcmp(args[0], "env") == 0)
+	{
+		bjsh_env(bjsh);
 		return (1);
 	}
 	return (0);
