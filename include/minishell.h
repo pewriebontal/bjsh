@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/20 02:21:20 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/20 19:49:57 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,10 @@
 # ifndef SHELL_BUILD_DATE
 #  define SHELL_BUILD_DATE "unknown"
 # endif
+
+#ifndef GIT_COMMIT
+# define GIT_COMMIT "unknown"
+#endif
 
 typedef struct s_token
 {
