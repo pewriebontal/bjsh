@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/20 03:00:31 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/21 00:35:56 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,25 @@ void	bjsh_loop(t_bjsh *bjsh)
 	t_token	*token;
 
 	signal(SIGINT, handle_signal);
-//	signal(SIGTSTP, handle_signal);
-	signal(SIGQUIT, SIG_IGN); // CTRL + \ is ignored
+	signal(SIGQUIT, SIG_IGN);
 	while (bjsh->state == CHILLING)
 	{
 		line = readline(SHELL_PROMPT);
-		if (!line) // if ctrl-D is pressed
+		if (!line)
 			break ;
 		line[strcspn(line, "\n")] = 0;
 		if (*line)
 			add_history(line);
 		token = bon_and_jason_tokenizer(line, bjsh);
-		//debug_print_list(token);
 		execute_tokens(token, bjsh);
-		if(token)
+		if (token)
 			clear_list(token);
 	}
 }
 
 int	check_builtin(char *cmd)
 {
-	if(!cmd)
+	if (!cmd)
 		return (-1);
 	if (ft_strcmp(cmd, "exit") == 0)
 		return (BUGGI_BAKA);
@@ -61,52 +59,23 @@ int	check_builtin(char *cmd)
 
 int	bjsh_exec_builtin(char **args, t_bjsh *bjsh)
 {
-	char *path;
+	char	*path;
 
 	if (ft_strcmp(args[0], "exit") == 0)
-	{
-		bjsh_exit(bjsh, args[1]);
-		return (1);
-	}
+		return (bjsh_exit(bjsh, args[1]));
 	else if (ft_strcmp(args[0], "cd") == 0)
-	{
-		path = chope(1024);
-		ft_memset(path, 0, 1024);
-		ft_strlcpy(path, args[1], ft_strlen(args[1]) + 1);
-		path[ft_strlen(path) + 1] = '\0';
-		bjsh_cd(path);
-		free(path);
-		return (1);
-	}
+		return (bjsh_cd(args));
 	else if (ft_strcmp(args[0], "pwd") == 0)
-	{
-		bjsh_pwd();
-		return (1);
-	}
+		return (bjsh_pwd());
 	else if (ft_strcmp(args[0], "help") == 0)
-	{
-		bjsh_help(args);
-		return (1);
-	}
+		return (bjsh_help(args));
 	else if (ft_strcmp(args[0], "echo") == 0)
-	{
-		bjsh_echo(args);
-		return (1);
-	}
+		return (bjsh_echo(args));
 	else if (ft_strcmp(args[0], "export") == 0)
-	{
-		bjsh_export();
-		return (1);
-	}
+		return (bjsh_export());
 	else if (ft_strcmp(args[0], "unset") == 0)
-	{
-		bjsh_unset();
-		return (1);
-	}
+		return (bjsh_unset());
 	else if (ft_strcmp(args[0], "env") == 0)
-	{
-		bjsh_env(bjsh);
-		return (1);
-	}
+		return (bjsh_env(bjsh));
 	return (0);
 }

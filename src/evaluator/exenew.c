@@ -6,47 +6,11 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 09:06:21 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/18 19:10:20 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/21 00:14:43 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
-#include <minishell.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/wait.h>
-#include <unistd.h>
-
-// Main execution function
-void	execute_tokens1(t_token *tokens, char **envp)
-{
-	t_token	*current;
-	t_token	*command_start;
-
-	current = tokens;
-	command_start = current;
-	while (current)
-	{
-		if (current->type == PIPE)
-		{
-			current->str = NULL;
-			handle_pipes(command_start, envp);
-			command_start = current->next;
-		}
-		else if (current->type == REDIRECT_OUT
-			|| current->type == REDIRECT_OUT_APPEND
-			|| current->type == REDIRECT_IN)
-		{
-			handle_redirection(&current);
-		}
-		current = current->next;
-	}
-	if (command_start)
-	{
-		execute_command(command_start, envp);
-	}
-}
+# include <minishell.h>
 
 // Function to execute a single command
 void	execute_command(t_token *tokens, char **envp)

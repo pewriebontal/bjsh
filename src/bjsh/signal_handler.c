@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 16:44:15 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/18 19:16:06 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/21 00:28:11 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	handle_signal(int sig)
 {
 	if (sig == SIGINT)
 	{
-		if (isatty(STDIN_FILENO)) // Check if in interactive mode
+		if (isatty(STDIN_FILENO))
 		{
 			ft_putstr_fd("\n", 1);
 			rl_on_new_line();
@@ -24,17 +24,12 @@ void	handle_signal(int sig)
 			rl_redisplay();
 		}
 	}
-//	else if (sig == SIGTSTP) // ctrl+z
-//	{
-//		ft_putstr_fd("\n", 1);
-//		ft_putstr_fd("SIGTSTP received. Suspending process.\n", 1);
-//	}
 }
 
 void	handle_eof(void)
 {
-	if (isatty(STDIN_FILENO)) // Check if in interactive mode
+	if (isatty(STDIN_FILENO))
 	{
-		exit(0); // ctrl+D, exit the shell
+		exit(0);
 	}
 }
