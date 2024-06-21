@@ -63,3 +63,58 @@ char *expand_env_for_heredoc(char *arr)
 	}
 	return (rtn);
 }
+
+
+//==== ft_strtok ====
+
+bool is_delimiter(char *chr, const char *delimiters) {
+    while (*delimiters != '\0') {
+        if (chr == *delimiters) {
+            return true;
+        }
+        delimiters++;
+    }
+    return false;
+}
+
+char *ft_strtok(char *str, const char *delimiters) {
+    static char *saved_ptr = NULL; 
+    char *start;
+    
+    if (str != NULL) {
+        saved_ptr = str;
+    }
+    if (saved_ptr == NULL) {
+        return NULL;
+    }
+
+    //check is it deli and move on
+    while (is_delimiter(*saved_ptr, delimiters)) {
+        saved_ptr++;
+    }
+    
+    // If we reach the end of the string, return NULL (no more tokens)
+    if (*saved_ptr == '\0') {
+        saved_ptr = NULL;
+        return NULL;
+    }
+
+    // Start of the next token
+    start = saved_ptr;
+
+    // Find the end of the token
+    while (*saved_ptr != '\0' && !is_delimiter(*saved_ptr, delimiters)) {
+        saved_ptr++;
+    }
+
+    // If we have reached a delimiter, replace it with a null character and move last to the next character
+    if (*saved_ptr != '\0') {
+        *saved_ptr = '\0';
+        saved_ptr++;
+    } else {
+        // If we reached the end of the string, set last to NULL
+        saved_ptr = NULL;
+    }
+
+    return (start);
+}
