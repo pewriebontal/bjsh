@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:16:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/21 03:01:47 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/22 01:37:58 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void execute_command4(char **args, char **envp)
 		ft_putstr_fd("command not found: ", STDERR_FILENO);
 		ft_putstr_fd(args[0], STDERR_FILENO);
 		ft_putstr_fd("\n", STDERR_FILENO);
-		exit(127); 
+		exit(127);
 	}
 
 	if (execve(path, args, envp) == -1)
@@ -37,9 +37,31 @@ void execute_tokens(t_token *head, t_bjsh *bjsh)
 {
 	t_token *current = head;
 	int fd[2];
-	int in_fd = STDIN_FILENO; // Initially, input comes from standard input
+	int in_fd = STDIN_FILENO;	// Initially, input comes from standard input
 	int out_fd = STDOUT_FILENO; // Initially, output goes to standard output
 	int status;
+	int command_found = 0;
+
+	// Check if there are commands to execute
+	while (current != NULL)
+	{
+		if (current->type == -1) // Command or argument
+		{
+			command_found = 1;
+			break;
+		}
+		current = current->next;
+	}
+
+	// If no commands are found, return without executing anything
+	if (!command_found)
+	{
+		fprintf(stderr, "No command found to execute\n");
+		return;
+	}
+
+	// Reset current to head to start execution
+	current = head;
 
 	while (current != NULL)
 	{
@@ -120,10 +142,13 @@ void execute_tokens(t_token *head, t_bjsh *bjsh)
 				{
 					dup2(fd[1], STDOUT_FILENO); // Set the output to the pipe
 				}
-				if (in_fd != STDIN_FILENO) close(in_fd);
-				if (out_fd != STDOUT_FILENO) close(out_fd);
-				if (current != NULL) close(fd[0]);
-				
+				if (in_fd != STDIN_FILENO)
+					close(in_fd);
+				if (out_fd != STDOUT_FILENO)
+					close(out_fd);
+				if (current != NULL)
+					close(fd[0]);
+
 				if (check_builtin(args[0]) == SUSSY_BAKA)
 				{
 					bjsh->last_exit_status = bjsh_exec_builtin(args, bjsh);
@@ -145,7 +170,8 @@ void execute_tokens(t_token *head, t_bjsh *bjsh)
 				{
 					bjsh->last_exit_status = 128 + WTERMSIG(status);
 				}
-				if (current != NULL) close(fd[1]);
+				if (current != NULL)
+					close(fd[1]);
 				in_fd = fd[0]; // Save the input for the next command
 				if (current != NULL)
 				{
@@ -161,8 +187,10 @@ void execute_tokens(t_token *head, t_bjsh *bjsh)
 	}
 
 	// Close any remaining open file descriptors
-	if (in_fd != STDIN_FILENO) close(in_fd);
-	if (out_fd != STDOUT_FILENO) close(out_fd);
+	if (in_fd != STDIN_FILENO)
+		close(in_fd);
+	if (out_fd != STDOUT_FILENO)
+		close(out_fd);
 }
 
 // int	find_executable(char *command, char *path_buffer)
