@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:06:55 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/20 19:54:27 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/22 05:09:27 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	init_bjsh(t_bjsh *bjsh, char *env[])
 	bjsh_hist_file_create();
 	bjsh_read_history(history_file_path);
 	bjsh->state = CHILLING;
+	bjsh->last_exit_status = 0;
 	bjsh->envp = env;
 	return (UNDERSTOOD_THE_ASSIGNMENT);
 }

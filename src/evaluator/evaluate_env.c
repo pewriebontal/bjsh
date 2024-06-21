@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:56:04 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/22 02:53:52 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/22 03:21:03 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,82 @@ char	*expand_env(char *arr)
 	return (arr);
 }
 
+char	*handle_quotes(char *p, int *in_single_quote, int *in_double_quote,
+		char **result, size_t *result_len)
+{
+	if (*p == '\'' && !*in_double_quote)
+	{
+		*in_single_quote = !*in_single_quote;
+		append_char_to_result(*p, result, result_len);
+		p++;
+	}
+	else if (*p == '\"' && !*in_single_quote)
+	{
+		*in_double_quote = !*in_double_quote;
+		append_char_to_result(*p, result, result_len);
+		p++;
+	}
+	return (p);
+}
+
+char	*handle_dollar_sign(char *p, int in_single_quote, t_bjsh *bjsh,
+		char **result, size_t *result_len)
+{
+	char	*env_start;
+	char	*env_end;
+	char	*env_value;
+	char	*env_name;
+
+	if (in_single_quote)
+		return (p);
+	env_start = p + 1;
+	env_end = env_start;
+	if (*env_start == '?')
+	{
+		env_value = ft_itoa(bjsh->last_exit_status);
+		env_end++;
+	}
+	else
+	{
+		while (*env_end && (*env_end == '_' || isalnum(*env_end)))
+		{
+			env_end++;
+		}
+		env_name = ft_strndup(env_start, env_end - env_start);
+		env_value = getenv(env_name);
+		free(env_name);
+		if (!env_value)
+		{
+			env_value = "";
+		}
+	}
+	append_string_to_result(env_value, result, result_len);
+	p = env_end;
+	if (*env_start == '?')
+	{
+		free(env_value);
+	}
+	return (p);
+}
+
+void	append_char_to_result(char c, char **result, size_t *result_len)
+{
+	*result = realloc(*result, *result_len + 2);
+	(*result)[(*result_len)++] = c;
+	(*result)[*result_len] = '\0';
+}
+
+void	append_string_to_result(char *str, char **result, size_t *result_len)
+{
+	size_t	len;
+
+	len = ft_strlen(str);
+	*result = realloc(*result, *result_len + len + 1);
+	ft_strcpy(*result + *result_len, str);
+	*result_len += len;
+	(*result)[*result_len] = '\0';
+}
+
 void	replace_env_vars(char **str, t_bjsh *bjsh)
 {
 	char	*result;
@@ -47,11 +123,6 @@ void	replace_env_vars(char **str, t_bjsh *bjsh)
 	int		in_double_quote;
 	char	*p;
 	size_t	result_len;
-	char	*env_value;
-	char	*env_start;
-	char	*env_end;
-	char	*env_name;
-	size_t	env_value_len;
 
 	result = NULL;
 	in_single_quote = 0;
@@ -60,62 +131,17 @@ void	replace_env_vars(char **str, t_bjsh *bjsh)
 	result_len = 0;
 	while (*p)
 	{
-		if (*p == '\'' && !in_double_quote)
+		p = handle_quotes(p, &in_single_quote, &in_double_quote, &result,
+				&result_len);
+		if (*p == '$' && !in_single_quote)
 		{
-			in_single_quote = !in_single_quote;
-			result = realloc(result, result_len + 2);
-			result[result_len++] = *p++;
-			result[result_len] = '\0';
-			continue ;
-		}
-		else if (*p == '\"' && !in_single_quote)
-		{
-			in_double_quote = !in_double_quote;
-			result = realloc(result, result_len + 2);
-			result[result_len++] = *p++;
-			result[result_len] = '\0';
-			continue ;
-		}
-		else if (*p == '$' && !in_single_quote)
-		{
-			env_start = p + 1;
-			env_end = env_start;
-			if (*env_start == '?')
-			{
-				env_value = ft_itoa(bjsh->last_exit_status);
-				env_end++;
-			}
-			else
-			{
-				while (*env_end && (*env_end == '_' || isalnum(*env_end)))
-				{
-					env_end++;
-				}
-				env_name = ft_strndup(env_start, env_end - env_start);
-				env_value = getenv(env_name);
-				free(env_name);
-				if (!env_value)
-				{
-					env_value = "";
-				}
-			}
-			env_value_len = ft_strlen(env_value);
-			result = realloc(result, result_len + env_value_len + 1);
-			ft_strcpy(result + result_len, env_value);
-			result_len += env_value_len;
-			result[result_len] = '\0';
-			p = env_end;
-			if (*env_start == '?')
-			{
-				free(env_value);
-			}
-			continue ;
+			p = handle_dollar_sign(p, in_single_quote, bjsh, &result,
+					&result_len);
 		}
 		else
 		{
-			result = realloc(result, result_len + 2);
-			result[result_len++] = *p++;
-			result[result_len] = '\0';
+			append_char_to_result(*p, &result, &result_len);
+			p++;
 		}
 	}
 	if (result)
