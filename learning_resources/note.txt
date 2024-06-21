@@ -1,74 +1,64 @@
 
-char	*expand_env(char *arr)
+char *reset_ptr(char *current_ptr)
 {
-	char	*arr_memo;
-	char	*start;
-	char	*rtn_start;
-	char	*tmp;
-	char	*env_tmp;
-	char	*rtn;
-	int		i;
-	int		j;
-	int		z;
-	int		len;
-	int		env_len;
+	char *new_ptr;
+	new_ptr = current_ptr;
+	
+	while(*new_ptr && ft_isalpha(*new_ptr) == 1)
+		new_ptr++;
+	return (new_ptr);
+}
 
-	rtn = (char *)malloc(sizeof(char) * (1024));
-	j = 0;
+// this function gives env_value and also change the ptr of the arr
+char *get_env_value(char *current_ptr)
+{
+	char *save_ptr;
+	char *env_value;
+	int len;
+
+	len = 0;
+	save_ptr = current_ptr;
+	while(*current_ptr && ft_isalpha(*current_ptr) == 1)
+	{
+		len++;
+		current_ptr++;
+	}
+	env_value = (char *)malloc(sizeof(char) * len);
+	ft_strlcpy(env_value,save_ptr,len+1);
+	return (env_value);
+}
+
+char *expand_env_for_heredoc(char *arr)
+{
+	int len;
+	char *tmp;// tmp arr to strlcpy
+	char *save_ptr;//to memorise the ptr of arr to strlcpy
+	char *rtn;//return arr
+	char *env_value;
+
+	rtn = (char *)malloc(sizeof(char) * 1024);
 	while (*arr)
 	{
-		if (j == 0)//first loop
+		if (*arr == '$')
 		{
-			len = 1;
-			start = arr;
-			env_len = 0;
+			arr++;
+			rtn = ft_strjoin(rtn,getenv(get_env_value(arr)));
+			arr = reset_ptr(arr);
 		}
-		else// second or later loops
+		else
 		{
-			len = z + 1;
-			env_len = 0;
-		}
-		if (*arr != '$')//move the ptr until reaching $
-		{
-			while ((*arr) != '$' && *arr)
+			len  = 0;
+			save_ptr = arr;//save the current ptr
+			while(*arr != '$')
 			{
 				len++;
-				*arr++;
+				arr++;
 			}
+			tmp = (char *)malloc(sizeof(char) * len);
+			ft_strlcpy(tmp,save_ptr,len + 1);
+			rtn = ft_strjoin(rtn,tmp);
+			free(tmp);//prepare for upcoming arr;
 		}
-		ft_strlcpy(rtn, start, len);//cpy every single char to rtn value
-        *arr++; //$
-		while (*arr && ft_isalpha(*arr) == 1)//move the ptr until the char is not alpha
-		{
-			env_len++;
-			*arr++;
-		}
-		tmp = ft_substr(start, len, env_len);//Copy the value to tmp for checking env value
-		if (env_tmp = getenv(tmp))//if valid env join it to the rtn value
-		{
-			free(tmp);
-			tmp = (char *)malloc(sizeof(char) * 1024);
-			ft_strlcpy(tmp, env_tmp, ft_strlen(env_tmp) + 1);
-			rtn = ft_strjoin(rtn, tmp); // ABCD + env
-			z = ft_strlen(rtn);
-			start = ft_strjoin(rtn, arr); // ABCDenv +$
-			free(tmp);
-		}
-		else// if not then start copying form $ to current ptr
-		{
-			free(tmp);
-			tmp = (char *)malloc(sizeof(char) * 1024);
-			i = 0;
-			arr_memo = arr;
-			while (i++ <= env_len)
-				*arr_memo--; // to move the ptr to $
-			ft_strlcpy(tmp, arr_memo, env_len + 2);
-			rtn = ft_strjoin(rtn, tmp);
-			z = ft_strlen(rtn);
-            free(tmp);
-			// rtn = ft_strjoin(rtn,arr);
-		}
-		j++;//chg second loop
 	}
 	return (rtn);
 }
