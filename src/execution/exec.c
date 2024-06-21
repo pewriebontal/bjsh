@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:16:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/22 01:37:58 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/22 01:50:47 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void execute_tokens(t_token *head, t_bjsh *bjsh)
 	// If no commands are found, return without executing anything
 	if (!command_found)
 	{
-		fprintf(stderr, "No command found to execute\n");
+		//fprintf(stderr, "No command found to execute\n");
 		return;
 	}
 
