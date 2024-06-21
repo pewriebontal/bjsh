@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:56:04 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/20 03:10:29 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/21 20:07:55 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,19 +78,19 @@ void	replace_env_vars(char **str, t_bjsh *bjsh)
 			if (*(p + 1) == '?')
 			{
 				env_value = ft_itoa(bjsh->last_exit_status);
-				result_len = result ? strlen(result) : 0;
+				result_len = result ? ft_strlen(result) : 0;
 				before_len = p - *str;
-				after_len = strlen(p + 2); // Skip $? characters
+				after_len = ft_strlen(p + 2); // Skip $? characters
 				result = realloc(result, result_len + before_len
-						+ strlen(env_value) + after_len + 1);
+						+ ft_strlen(env_value) + after_len + 1);
 				if (result_len == 0)
 				{
-					strncpy(result, *str, before_len);
+					ft_strncpy(result, *str, before_len);
 				}
-				strcpy(result + result_len + before_len, env_value);
-				strcpy(result + result_len + before_len + strlen(env_value), p
+				ft_strcpy(result + result_len + before_len, env_value);
+				ft_strcpy(result + result_len + before_len + ft_strlen(env_value), p
 					+ 2);
-				p = result + result_len + before_len + strlen(env_value);
+				p = result + result_len + before_len + ft_strlen(env_value);
 				free(env_value);
 				continue ;
 			}
@@ -102,26 +102,26 @@ void	replace_env_vars(char **str, t_bjsh *bjsh)
 				{
 					env_end++;
 				}
-				env_name = strndup(env_start, env_end - env_start);
+				env_name = ft_strndup(env_start, env_end - env_start);
 				env_value = getenv(env_name);
 				free(env_name);
 				if (!env_value)
 				{
 					env_value = "";
 				}
-				result_len = result ? strlen(result) : 0;
+				result_len = result ? ft_strlen(result) : 0;
 				before_len = p - *str;
-				after_len = strlen(env_end);
+				after_len = ft_strlen(env_end);
 				result = realloc(result, result_len + before_len
-						+ strlen(env_value) + after_len + 1);
+						+ ft_strlen(env_value) + after_len + 1);
 				if (result_len == 0)
 				{
-					strncpy(result, *str, before_len);
+					ft_strncpy(result, *str, before_len);
 				}
-				strcpy(result + result_len + before_len, env_value);
-				strcpy(result + result_len + before_len + strlen(env_value),
+				ft_strcpy(result + result_len + before_len, env_value);
+				ft_strcpy(result + result_len + before_len + ft_strlen(env_value),
 					env_end);
-				p = result + result_len + before_len + strlen(env_value);
+				p = result + result_len + before_len + ft_strlen(env_value);
 				continue ;
 			}
 		}

@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:16:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/21 00:07:20 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/21 03:01:47 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,7 @@ int find_executable2(char *command, char *path_buffer)
 	if (!path_env)
 		return (0);
 	path = ft_strdup(path_env);
-	dir = strtok(path, ":");
+	dir = ft_strtok(path, ":");
 	while (dir != NULL)
 	{
 		sprintf(path_buffer, "%s/%s", dir, command);
@@ -226,7 +226,7 @@ int find_executable2(char *command, char *path_buffer)
 			free(path);
 			return (1);
 		}
-		dir = strtok(NULL, ":");
+		dir = ft_strtok(NULL, ":");
 	}
 	free(path);
 	return (0);

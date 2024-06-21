@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 13:54:19 by klinn             #+#    #+#             */
-/*   Updated: 2024/06/19 17:28:16 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/21 20:07:55 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@
 //		if (arr[i] == ' ' || arr[i] == '|' || i == arr_len)
 //		{
 //			tmp_arr = (char *)malloc(sizeof(char) * i + 1);
-//			tmp_arr = strndup(arr, i);
+//			tmp_arr = ft_strndup(arr, i);
 //			if (!token)
 //				token = new_token(expand_env(tmp_arr));
 //			else

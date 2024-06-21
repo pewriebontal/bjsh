@@ -9,7 +9,8 @@
         "cerrno": "c",
         "readline.h": "c",
         "gnl.h": "c",
-        "fcntl.h": "c"
+        "fcntl.h": "c",
+        "byamc.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

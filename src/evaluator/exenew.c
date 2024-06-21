@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 09:06:21 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/21 00:14:43 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/21 20:03:57 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,15 +127,15 @@ char	*find_executable(const char *command, char **envp)
 	if (command[0] == '/' || (command[0] == '.' && (command[1] == '/' || command[1] == '.')))
 	{
 		if (access(command, X_OK) == 0)
-			return strdup(command);
+			return ft_strdup(command);
 		return NULL;
 	}
 
 	path_env = getenv("PATH");
 	if (!path_env)
 		return (NULL);
-	paths = strdup(path_env);
-	path = strtok(paths, ":");
+	paths = ft_strdup(path_env);
+	path = ft_strtok(paths, ":");
 	executable_path = malloc(256);
 	while (path)
 	{
@@ -145,7 +145,7 @@ char	*find_executable(const char *command, char **envp)
 			free(paths);
 			return (executable_path);
 		}
-		path = strtok(NULL, ":");
+		path = ft_strtok(NULL, ":");
 	}
 	free(paths);
 	free(executable_path);
@@ -163,8 +163,8 @@ char	*find_executable44(const char *command, char **envp)
 	path_env = getenv("PATH");
 	if (!path_env)
 		return (NULL);
-	paths = strdup(path_env);
-	path = strtok(paths, ":");
+	paths = ft_strdup(path_env);
+	path = ft_strtok(paths, ":");
 	executable_path = malloc(256);
 	while (path)
 	{
@@ -174,7 +174,7 @@ char	*find_executable44(const char *command, char **envp)
 			free(paths);
 			return (executable_path);
 		}
-		path = strtok(NULL, ":");
+		path = ft_strtok(NULL, ":");
 	}
 	free(paths);
 	free(executable_path);

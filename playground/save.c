@@ -122,7 +122,7 @@ t_token	*split_token(t_token *token, char *pos, const char *redir,
 
 	if (pos != token->str) // Redirection is not at the beginning
 	{
-		before = strndup(token->str, pos - token->str);
+		before = ft_strndup(token->str, pos - token->str);
 		after = ft_strdup(pos + ft_strlen(redir));
 		before_token = create_token_node(before, 0);
 		redirect_token = create_token_node(redir, redir_type);

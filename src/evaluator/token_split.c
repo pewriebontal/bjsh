@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 22:45:07 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/20 19:37:35 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/21 20:07:55 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_token *create_token(char *str, int type)
     t_token *new_token = (t_token *)malloc(sizeof(t_token));
     if (!new_token)
         return NULL;
-    new_token->str = strdup(str);
+    new_token->str = ft_strdup(str);
     new_token->type = type;
     new_token->executed = 0;
     new_token->prev = NULL;
@@ -41,11 +41,11 @@ void split_token(t_token *token)
         return;
 
     char *str = token->str;
-    size_t len = strlen(str);
+    size_t len = ft_strlen(str);
 
     // Check for different redirection patterns
     char *pos = NULL;
-    if ((pos = strstr(str, ">>")) || (pos = strstr(str, "<<")) || (pos = strchr(str, '>')) || (pos = strchr(str, '<')))
+    if ((pos = ft_strstr(str, ">>")) || (pos = ft_strstr(str, "<<")) || (pos = ft_strchr(str, '>')) || (pos = ft_strchr(str, '<')))
     {
         // Calculate the lengths of the two parts
         size_t prefix_len = pos - str;
@@ -71,14 +71,14 @@ void split_token(t_token *token)
         // Update the current token to the prefix
         if (prefix_len > 0)
         {
-            char *prefix = strndup(str, prefix_len);
+            char *prefix = ft_strndup(str, prefix_len);
             free(token->str);
             token->str = prefix;
         }
         else
         {
             // If there's no prefix, move redirection token to the current position
-            token->str = strdup(redirection);
+            token->str = ft_strdup(redirection);
             free(redirection_token->str);
             redirection_token = token;
         }
