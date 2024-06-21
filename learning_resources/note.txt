@@ -1,5 +1,5 @@
 
-char *reset_ptr(char *current_ptr)
+char *update_ptr(char *current_ptr)
 {
 	char *new_ptr;
 	new_ptr = current_ptr;
@@ -42,8 +42,9 @@ char *expand_env_for_heredoc(char *arr)
 		if (*arr == '$')
 		{
 			arr++;
-			rtn = ft_strjoin(rtn,getenv(get_env_value(arr)));
-			arr = reset_ptr(arr);
+			if (getenv(get_env_value(arr)) != NULL)
+				rtn = ft_strjoin(rtn,getenv(get_env_value(arr)));
+			arr = update_ptr(arr);
 		}
 		else
 		{
