@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:56:04 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/22 03:21:03 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/22 05:19:48 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ char	*handle_dollar_sign(char *p, int in_single_quote, t_bjsh *bjsh,
 	char	*env_name;
 
 	if (in_single_quote)
-		return (p);
+	{
+		append_char_to_result(*p, result, result_len);
+		return (p + 1);
+	}
 	env_start = p + 1;
 	env_end = env_start;
 	if (*env_start == '?')
@@ -80,6 +83,11 @@ char	*handle_dollar_sign(char *p, int in_single_quote, t_bjsh *bjsh,
 		while (*env_end && (*env_end == '_' || isalnum(*env_end)))
 		{
 			env_end++;
+		}
+		if (env_start == env_end)
+		{
+			append_char_to_result(*p, result, result_len);
+			return (p + 1);
 		}
 		env_name = ft_strndup(env_start, env_end - env_start);
 		env_value = getenv(env_name);
