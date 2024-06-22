@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/21 00:35:56 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/22 14:21:44 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ int	bjsh_exec_builtin(char **args, t_bjsh *bjsh)
 	else if (ft_strcmp(args[0], "echo") == 0)
 		return (bjsh_echo(args));
 	else if (ft_strcmp(args[0], "export") == 0)
-		return (bjsh_export());
+		return (bjsh_export(bjsh, args[1], args[2]));
 	else if (ft_strcmp(args[0], "unset") == 0)
-		return (bjsh_unset());
+		return (bjsh_unset(bjsh, args[1]));
 	else if (ft_strcmp(args[0], "env") == 0)
 		return (bjsh_env(bjsh));
 	return (0);
