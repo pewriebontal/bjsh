@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:00:06 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/21 00:33:11 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/22 21:41:30 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ char	*get_path(char **args)
 	return (path);
 }
 
-int	bjsh_cd(char **args)
+int	bjsh_cd(char **args, t_bjsh *bjsh)
 {
 	char	*path;
 
 	path = get_path(args);
 	if (path == NULL || *path == '\0')
-		path = getenv("HOME");
+		path = get_env_local(bjsh->envp, "HOME");
 	if (chdir(path) == -1)
 	{
 		display_error_msg("cd: no such file or directory: ");

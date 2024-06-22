@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/22 20:55:12 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/22 21:40:43 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ void	bjsh_loop(t_bjsh *bjsh)
 			add_history(line);
 		token = bon_and_jason_tokenizer(line, bjsh);
 		execute_tokens(token, bjsh);
+		bjsh->envp = NULL;
+		bjsh->envp = convert_env_to_envp(bjsh->env);	
+		//debug_env(bjsh->envp);
 		if (token)
 			clear_list(token);
 	}
@@ -64,7 +67,7 @@ int	bjsh_exec_builtin(char **args, t_bjsh *bjsh)
 	if (ft_strcmp(args[0], "exit") == 0)
 		return (bjsh_exit(bjsh, args[1]));
 	else if (ft_strcmp(args[0], "cd") == 0)
-		return (bjsh_cd(args));
+		return (bjsh_cd(args, bjsh));
 	else if (ft_strcmp(args[0], "pwd") == 0)
 		return (bjsh_pwd());
 	else if (ft_strcmp(args[0], "help") == 0)

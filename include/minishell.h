@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/21 00:36:36 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/22 21:41:12 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # include <stdlib.h>
 # include <string.h>
 # include <sys/types.h>
-# include <sys/wait.h>
 # include <sys/wait.h>
 # include <unistd.h>
 
@@ -108,7 +107,7 @@ void					bjsh_loop(t_bjsh *bjsh);
 
 // builtin cmds
 int						bjsh_pwd(void);
-int						bjsh_cd(char **args);
+int						bjsh_cd(char **args, t_bjsh *bjsh);
 int						bjsh_help(char **args);
 int						bjsh_exit(t_bjsh *bjsh, char *args);
 

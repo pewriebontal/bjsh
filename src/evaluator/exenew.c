@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 09:06:21 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/22 03:37:47 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/22 21:30:58 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,29 @@ char	*search_in_paths(const char *command, char *path_env)
 	return (NULL);
 }
 
+
+char *get_env_local(char **envp, const char *key)
+{
+	int i;
+	char *equal_sign;
+	char *value;
+
+	i = 0;
+	while (envp[i])
+	{
+		equal_sign = ft_strchr(envp[i], '=');
+		if (!equal_sign)
+			return (NULL);
+		if (ft_strncmp(envp[i], key, equal_sign - envp[i]) == 0)
+		{
+			value = ft_strdup(equal_sign + 1);
+			return (value);
+		}
+		i++;
+	}
+	return (NULL);
+}
+
 char	*find_executable(const char *command, char **envp)
 {
 	char	*executable_path;
@@ -76,7 +99,7 @@ char	*find_executable(const char *command, char **envp)
 	executable_path = check_absolute_or_relative_path(command);
 	if (executable_path)
 		return (executable_path);
-	path_env = get_path_env();
+	path_env = get_env_local(envp, "PATH");
 	if (!path_env)
 		return (NULL);
 	executable_path = search_in_paths(command, path_env);
