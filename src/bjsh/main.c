@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:06:55 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/22 19:04:45 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/22 21:02:13 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	main(int argc, char *argv[], char *env[])
 {
 	t_bjsh	bjsh;
 
+	bjsh = (t_bjsh){0};
 	if (argc == 2)
 	{
 		if (ft_strncmp(argv[1], "--version", 10) == 0)
