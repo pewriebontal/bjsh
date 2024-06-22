@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/22 14:21:44 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/22 20:55:12 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,41 @@ int	bjsh_exec_builtin(char **args, t_bjsh *bjsh)
 		return (bjsh_help(args));
 	else if (ft_strcmp(args[0], "echo") == 0)
 		return (bjsh_echo(args));
-	else if (ft_strcmp(args[0], "export") == 0)
-		return (bjsh_export(bjsh, args[1], args[2]));
-	else if (ft_strcmp(args[0], "unset") == 0)
-		return (bjsh_unset(bjsh, args[1]));
 	else if (ft_strcmp(args[0], "env") == 0)
 		return (bjsh_env(bjsh));
+	else if (ft_strcmp(args[0], "export") == 0)
+		return (handle_export_command(bjsh, args));
+	else if (ft_strcmp(args[0], "unset") == 0)
+		return (handle_unset_command(bjsh, args));
 	return (0);
+}
+
+int	handle_export_command(t_bjsh *bjsh, char **args)
+{
+	char	*equal_sign;
+	int		result;
+
+	if (args[1])
+	{
+		equal_sign = ft_strchr(args[1], '=');
+		if (equal_sign)
+		{
+			*equal_sign = '\0';
+			result = bjsh_export(bjsh, args[1], equal_sign + 1);
+			*equal_sign = '=';
+			return (result);
+		}
+		else
+			return (bjsh_export(bjsh, args[1], ""));
+	}
+	else
+		return (bjsh_env(bjsh));
+}
+
+int	handle_unset_command(t_bjsh *bjsh, char **args)
+{
+	if (args[1])
+		return (bjsh_unset(bjsh, args[1]));
+	else
+		return (0);
 }

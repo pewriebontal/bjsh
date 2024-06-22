@@ -6,25 +6,29 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 17:04:35 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/22 19:15:57 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/22 19:48:25 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
 // Function to append a new node to the end of the environment list
-void	append_env_node(t_env **tail, t_env *new_node)
+void	append_env_node(t_env **head, t_env *new_node)
 {
-	if (!*tail)
+	t_env	*tail;
+
+	if (!head || !new_node)
+		return ;
+	if (!*head)
 	{
-		*tail = new_node;
+		*head = new_node;
+		return ;
 	}
-	else
-	{
-		(*tail)->next = new_node;
-		new_node->prev = *tail;
-		*tail = new_node;
-	}
+	tail = *head;
+	while (tail->next)
+		tail = tail->next;
+	tail->next = new_node;
+	new_node->prev = tail;
 }
 
 // Function to create the environment list from envp
