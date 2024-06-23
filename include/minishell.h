@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/22 21:41:12 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/23 18:25:11 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@
 # ifndef SHELL_HISTORY_FILE
 #  define SHELL_HISTORY_FILE ".bjsh_history"
 # endif
+
+# define BJSH_TEMP_FILE "/tmp/bjsh_temp"
 
 # ifndef SHELL_BUILD_DATE
 #  define SHELL_BUILD_DATE "unknown"

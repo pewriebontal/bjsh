@@ -91,7 +91,7 @@ char	*handle_dollar_sign(char *p, int in_single_quote, t_bjsh *bjsh,
 		}
 		env_name = ft_strndup(env_start, env_end - env_start);
 		env_value = get_env_local(bjsh->envp, env_name);
-	//	env_value = getenv(env_name);
+		//	env_value = getenv(env_name);
 		free(env_name);
 		if (!env_value)
 		{

@@ -74,7 +74,7 @@ void	add_or_update_env(t_env **env, const char *key, const char *value)
 	}
 }
 
-void debug_env(char **envp)
+void	debug_env(char **envp)
 {
 	int i = 0;
 	ft_printf("Debugging envp\n");

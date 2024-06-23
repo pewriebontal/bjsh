@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 02:33:57 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/20 02:36:49 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/23 18:46:55 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ char	*read_here_doc(t_bjsh *bjsh, char *limiter)
 	int		i;
 
 	i = 1;
-	while (i < 1000)
+	while (i < 10000)
 	{
 		number = ft_itoa(i);
-		ft_strlcpy(pathname, "/tmp/heredoc", 20);
-		ft_strlcat(pathname, number, 20);
+		ft_strlcpy(pathname, "/tmp/heredoc", 21);
+		ft_strlcat(pathname, number, 21);
 		free(number);
 		if (access(pathname, F_OK) == -1)
 		{

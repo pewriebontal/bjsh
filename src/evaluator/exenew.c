@@ -68,12 +68,11 @@ char	*search_in_paths(const char *command, char *path_env)
 	return (NULL);
 }
 
-
-char *get_env_local(char **envp, const char *key)
+char	*get_env_local(char **envp, const char *key)
 {
-	int i;
-	char *equal_sign;
-	char *value;
+	int		i;
+	char	*equal_sign;
+	char	*value;
 
 	i = 0;
 	while (envp[i])
