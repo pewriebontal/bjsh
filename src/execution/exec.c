@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:16:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/23 17:06:50 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/23 22:47:34 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #include <sys/types.h>
 
 // Function to execute a single command using execve
-void	execute_command4(char **args, char **envp)
+void execute_command4(char **args, char **envp)
 {
-	char	*path;
+	char *path;
 
 	path = find_executable(args[0], envp);
 	if (path == NULL)
@@ -33,68 +33,72 @@ void	execute_command4(char **args, char **envp)
 	}
 }
 
-// Function to handle the execution of the t_token chain
-void	execute_tokens(t_token *head, t_bjsh *bjsh)
+void execute_tokens(t_token *head, t_bjsh *bjsh)
 {
-	t_token	*current;
-	int		fd[2];
-	int		status;
-	int		command_found;
-	int		argc;
+	if (head == NULL)
+        return;
+	t_execution_context context;
+	context.current = head;
+	context.in_fd = STDIN_FILENO;	// Initially, input comes from standard input
+	context.out_fd = STDOUT_FILENO; // Initially, output goes to standard output
+	context.command_found = find_command(context.current);
 
-	current = head;
-	int in_fd = STDIN_FILENO;   // Initially, input comes from standard input
-	int out_fd = STDOUT_FILENO; // Initially, output goes to standard output
-	command_found = find_command(current);
-	// If no commands are found, return without executing anything
-	if (!command_found)
+ 	// If no commands are found, return without executing anything
+	if (!context.command_found)
 	{
 		ft_dprintf(2, "🤌 ❯ syntax error near unexpected token `newline'\n");
-		return ;
+		return;
 	}
+
 	// Reset current to head to start execution
-	current = head;
-	while (current != NULL)
+	context.current = head;
+	while (context.current != NULL)
 	{
 		char *args[MAX_ARGS]; // Assuming no command has more than 100 arguments
-		argc = 0;
+		context.argc = 0;
 		// Collect arguments for the current command
-		collect_arguments(&current, args, &argc);
+		collect_arguments(&context.current, args, &context.argc);
+
 		// Handle redirections before executing commands
-		if (handle_redirections(&current, &in_fd, &out_fd, bjsh) == -1)
+		if (handle_redirections(&context, bjsh) == -1)
 		{
-			// If there's a redirection error,
-			//	return immediately without executing
-			return ;
+			// If there's a redirection error, return immediately without executing
+			return;
 		}
+
 		if (check_builtin(args[0]) == BUGGI_BAKA)
+		{
 			bjsh->last_exit_status = bjsh_exec_builtin(args, bjsh);
-		else if (current == NULL || current->type == PIPE)
+		}
+		else if (context.current == NULL || context.current->type == PIPE)
 		{
 			// If we reach a pipe or the end of the chain, execute the command
-			if (current != NULL)
-				pipe(fd);
-			execute_command_or_builtin(args, current, in_fd, out_fd, fd, bjsh);
-			if (current != NULL)
+			if (context.current != NULL)
+				pipe(context.fd);
+			execute_command_or_builtin(args, &context, bjsh);
+			if (context.current != NULL)
 			{
-				close(fd[1]);
-				in_fd = fd[0]; // Save the input for the next command
-				current = current->next;
+				close(context.fd[1]);
+				context.in_fd = context.fd[0]; // Save the input for the next command
+				context.current = context.current->next;
 			}
 		}
 		else
+		{
 			// If we encounter an unsupported token type, just skip it
-			current = current->next;
+			context.current = context.current->next;
+		}
 	}
+
 	// Close any remaining open file descriptors
-	if (in_fd != STDIN_FILENO)
-		close(in_fd);
-	if (out_fd != STDOUT_FILENO)
-		close(out_fd);
+	if (context.in_fd != STDIN_FILENO)
+		close(context.in_fd);
+	if (context.out_fd != STDOUT_FILENO)
+		close(context.out_fd);
 }
 
 // Function to find if there's any command to execute
-int	find_command(t_token *current)
+int find_command(t_token *current)
 {
 	while (current != NULL)
 	{
@@ -116,26 +120,22 @@ void collect_arguments(t_token **current, char *args[], int *argc)
 	args[*argc] = NULL; // Null-terminate the arguments array
 }
 
-
 // Function to execute a command or builtin
-void	execute_command_or_builtin(char *args[], t_token *current, int in_fd,
-		int out_fd, int *fd, t_bjsh *bjsh)
+void execute_command_or_builtin(char *args[], t_execution_context *context, t_bjsh *bjsh)
 {
-	int	status;
-
 	if (fork() == 0)
 	{
-		dup2(in_fd, STDIN_FILENO); // Change the input to the previous output
-		if (out_fd != STDOUT_FILENO)
-			dup2(out_fd, STDOUT_FILENO); // Set the output if redirected
-		else if (current != NULL)
-			dup2(fd[1], STDOUT_FILENO); // Set the output to the pipe
-		if (in_fd != STDIN_FILENO)
-			close(in_fd);
-		if (out_fd != STDOUT_FILENO)
-			close(out_fd);
-		if (current != NULL)
-			close(fd[0]);
+		dup2(context->in_fd, STDIN_FILENO); // Change the input to the previous output
+		if (context->out_fd != STDOUT_FILENO)
+			dup2(context->out_fd, STDOUT_FILENO); // Set the output if redirected
+		else if (context->current != NULL)
+			dup2(context->fd[1], STDOUT_FILENO); // Set the output to the pipe
+		if (context->in_fd != STDIN_FILENO)
+			close(context->in_fd);
+		if (context->out_fd != STDOUT_FILENO)
+			close(context->out_fd);
+		if (context->current != NULL)
+			close(context->fd[0]);
 		if (check_builtin(args[0]) == SUSSY_BAKA)
 		{
 			bjsh->last_exit_status = bjsh_exec_builtin(args, bjsh);
@@ -146,10 +146,10 @@ void	execute_command_or_builtin(char *args[], t_token *current, int in_fd,
 	}
 	else
 	{
-		wait(&status);
-		if (WIFEXITED(status))
-			bjsh->last_exit_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			bjsh->last_exit_status = 128 + WTERMSIG(status);
+		wait(&context->status);
+		if (WIFEXITED(context->status))
+			bjsh->last_exit_status = WEXITSTATUS(context->status);
+		else if (WIFSIGNALED(context->status))
+			bjsh->last_exit_status = 128 + WTERMSIG(context->status);
 	}
 }

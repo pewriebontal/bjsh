@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/23 18:25:11 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/23 22:47:39 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define SHELL_SHORT_NAME "bjsh"
 # define SHELL_LONG_NAME "Bon & Jason's shell"
 # define SHELL_VERSION "development build"
-//# define SHELL_PROMPT "🍦bjsh👍 "
+// # define SHELL_PROMPT "🍦bjsh👍 "
 # define SHELL_PROMPT "🍒 ❯ "
 
 // token type
@@ -75,6 +75,28 @@ typedef struct s_token
 	struct s_token		*prev;
 	struct s_token		*next;
 }						t_token;
+
+// Structure to hold the execution context
+typedef struct s_execution_context
+{
+	t_token				*current;
+	int					in_fd;
+	int					out_fd;
+	int					fd[2];
+	int					status;
+	int					command_found;
+	int					argc;
+}						t_execution_context;
+
+typedef struct
+{
+	int					flags;
+	char				*heredoc_file;
+	int					temp_fd;
+	char				buffer[1024];
+	ssize_t				bytes_read;
+	ssize_t				bytes_written;
+}						t_redirection_data;
 
 typedef struct s_env
 {
