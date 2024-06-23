@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exenew.c                                           :+:      :+:    :+:   */
+/*   pathfinding.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/12 09:06:21 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/22 21:30:58 by mkhaing          ###   ########.fr       */
+/*   Created: 2024/06/24 00:34:58 by mkhaing           #+#    #+#             */
+/*   Updated: 2024/06/24 00:37:16 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,6 @@ char	*check_absolute_or_relative_path(const char *command)
 		return (NULL);
 	}
 	return (NULL);
-}
-
-char	*get_path_env(void)
-{
-	char	*path_env;
-
-	path_env = getenv("PATH");
-	if (!path_env)
-		return (NULL);
-	return (ft_strdup(path_env));
 }
 
 char	*construct_executable_path(const char *path, const char *command)
@@ -65,28 +55,6 @@ char	*search_in_paths(const char *command, char *path_env)
 		path = ft_strtok(NULL, ":");
 	}
 	free(executable_path);
-	return (NULL);
-}
-
-char	*get_env_local(char **envp, const char *key)
-{
-	int		i;
-	char	*equal_sign;
-	char	*value;
-
-	i = 0;
-	while (envp[i])
-	{
-		equal_sign = ft_strchr(envp[i], '=');
-		if (!equal_sign)
-			return (NULL);
-		if (ft_strncmp(envp[i], key, equal_sign - envp[i]) == 0)
-		{
-			value = ft_strdup(equal_sign + 1);
-			return (value);
-		}
-		i++;
-	}
 	return (NULL);
 }
 

@@ -1,4 +1,68 @@
+// FINAL WORKING
 
+void execute_tokens(t_token *head, t_bjsh *bjsh)
+{
+	if (head == NULL)
+        return;
+	t_execution_context context;
+	context.current = head;
+	context.in_fd = STDIN_FILENO;	// Initially, input comes from standard input
+	context.out_fd = STDOUT_FILENO; // Initially, output goes to standard output
+	context.command_found = find_command(context.current);
+
+ 	// If no commands are found, return without executing anything
+	if (!context.command_found)
+	{
+		ft_dprintf(2, "🤌 ❯ syntax error near unexpected token `newline'\n");
+		return;
+	}
+
+	// Reset current to head to start execution
+	context.current = head;
+	while (context.current != NULL)
+	{
+		char *args[MAX_ARGS]; // Assuming no command has more than 100 arguments
+		context.argc = 0;
+		// Collect arguments for the current command
+		collect_arguments(&context.current, args, &context.argc);
+
+		// Handle redirections before executing commands
+		if (handle_redirections(&context, bjsh) == -1)
+		{
+			// If there's a redirection error, return immediately without executing
+			return;
+		}
+
+		if (check_builtin(args[0]) == BUGGI_BAKA)
+		{
+			bjsh->last_exit_status = bjsh_exec_builtin(args, bjsh);
+		}
+		else if (context.current == NULL || context.current->type == PIPE)
+		{
+			// If we reach a pipe or the end of the chain, execute the command
+			if (context.current != NULL)
+				pipe(context.fd);
+			execute_command_or_builtin(args, &context, bjsh);
+			if (context.current != NULL)
+			{
+				close(context.fd[1]);
+				context.in_fd = context.fd[0]; // Save the input for the next command
+				context.current = context.current->next;
+			}
+		}
+		else
+		{
+			// If we encounter an unsupported token type, just skip it
+			context.current = context.current->next;
+		}
+	}
+
+	// Close any remaining open file descriptors
+	if (context.in_fd != STDIN_FILENO)
+		close(context.in_fd);
+	if (context.out_fd != STDOUT_FILENO)
+		close(context.out_fd);
+}
 // this function will check if string have quotes
 // if it does, it will check any spaces inside the quotes
 // and replace them with a special character

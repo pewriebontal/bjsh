@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 02:06:36 by klinn             #+#    #+#             */
-/*   Updated: 2024/06/23 16:39:11 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/24 00:10:12 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,9 @@ void	add_or_update_env(t_env **env, const char *key, const char *value)
 
 void	debug_env(char **envp)
 {
-	int i = 0;
-	ft_printf("Debugging envp\n");
+	int	i;
+
+	i = 0;
 	while (envp[i])
 	{
 		ft_printf("envp[%d]: %s\n", i, envp[i]);
