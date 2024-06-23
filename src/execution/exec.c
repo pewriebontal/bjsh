@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:16:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/22 21:16:32 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/23 16:43:19 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,26 +40,14 @@ void execute_tokens(t_token *head, t_bjsh *bjsh)
 	int in_fd = STDIN_FILENO;	// Initially, input comes from standard input
 	int out_fd = STDOUT_FILENO; // Initially, output goes to standard output
 	int status;
-	int command_found = 0;
-
-	// Check if there are commands to execute
-	while (current != NULL)
-	{
-		if (current->type == -1) // Command or argument
-		{
-			command_found = 1;
-			break;
-		}
-		current = current->next;
-	}
+	int command_found = find_command(current);
 
 	// If no commands are found, return without executing anything
 	if (!command_found)
 	{
-		//fprintf(stderr, "No command found to execute\n");
+		ft_dprintf(2, "🤌 ❯ syntax error near unexpected token `newline'\n");
 		return;
 	}
-
 	// Reset current to head to start execution
 	current = head;
 
@@ -69,121 +57,33 @@ void execute_tokens(t_token *head, t_bjsh *bjsh)
 		int argc = 0;
 
 		// Collect arguments for the current command
-		while (current != NULL && current->type == -1)
-		{
-			args[argc++] = current->str;
-			current = current->next;
-		}
-		args[argc] = NULL; // Null-terminate the arguments array
-
+		collect_arguments(&current, args, &argc);
 		// Handle redirections before executing commands
-		while (current != NULL && (current->type == REDIRECT_OUT || current->type == REDIRECT_OUT_APPEND ||
-								   current->type == REDIRECT_IN || current->type == REDIRECT_IN_HERE))
+		if (handle_redirections(&current, &in_fd, &out_fd, bjsh) == -1)
 		{
-			if (current->type == REDIRECT_OUT || current->type == REDIRECT_OUT_APPEND)
-			{
-				int flags = O_WRONLY | O_CREAT;
-				flags |= (current->type == REDIRECT_OUT) ? O_TRUNC : O_APPEND;
-				out_fd = open(current->next->str, flags, 0644);
-				if (out_fd == -1)
-				{
-					perror("open");
-					exit(EXIT_FAILURE);
-				}
-			}
-			else if (current->type == REDIRECT_IN)
-			{
-				in_fd = open(current->next->str, O_RDONLY);
-				if (in_fd == -1)
-				{
-					perror("open");
-					exit(EXIT_FAILURE);
-				}
-			}
-			else if (current->type == REDIRECT_IN_HERE)
-			{
-				char *heredoc_file = read_here_doc(bjsh, current->next->str);
-				if (heredoc_file == NULL)
-				{
-					fprintf(stderr, "Failed to create heredoc file\n");
-					exit(EXIT_FAILURE);
-				}
-				in_fd = open(heredoc_file, O_RDONLY);
-				if (in_fd == -1)
-				{
-					perror("open");
-					exit(EXIT_FAILURE);
-				}
-				free(heredoc_file);
-			}
-			current = current->next->next; // Move past the redirection token and its target
+			// If there's a redirection error, return immediately without executing
+			return;
 		}
 
 		if (check_builtin(args[0]) == BUGGI_BAKA)
-		{
 			bjsh->last_exit_status = bjsh_exec_builtin(args, bjsh);
-		}
 		else if (current == NULL || current->type == PIPE)
 		{
 			// If we reach a pipe or the end of the chain, execute the command
 			if (current != NULL)
-			{
 				pipe(fd);
-			}
+			execute_command_or_builtin(args, current, in_fd, out_fd, fd, bjsh);
 
-			if (fork() == 0)
+			if (current != NULL)
 			{
-				dup2(in_fd, STDIN_FILENO); // Change the input to the previous output
-				if (out_fd != STDOUT_FILENO)
-				{
-					dup2(out_fd, STDOUT_FILENO); // Set the output if redirected
-				}
-				else if (current != NULL)
-				{
-					dup2(fd[1], STDOUT_FILENO); // Set the output to the pipe
-				}
-				if (in_fd != STDIN_FILENO)
-					close(in_fd);
-				if (out_fd != STDOUT_FILENO)
-					close(out_fd);
-				if (current != NULL)
-					close(fd[0]);
-
-				if (check_builtin(args[0]) == SUSSY_BAKA)
-				{
-					bjsh->last_exit_status = bjsh_exec_builtin(args, bjsh);
-					exit(bjsh->last_exit_status);
-				}
-				else
-				{
-					execute_command4(args, bjsh->envp);
-				}
-			}
-			else
-			{
-				wait(&status);
-				if (WIFEXITED(status))
-				{
-					bjsh->last_exit_status = WEXITSTATUS(status);
-				}
-				else if (WIFSIGNALED(status))
-				{
-					bjsh->last_exit_status = 128 + WTERMSIG(status);
-				}
-				if (current != NULL)
-					close(fd[1]);
+				close(fd[1]);
 				in_fd = fd[0]; // Save the input for the next command
-				if (current != NULL)
-				{
-					current = current->next;
-				}
+				current = current->next;
 			}
 		}
 		else
-		{
 			// If we encounter an unsupported token type, just skip it
 			current = current->next;
-		}
 	}
 
 	// Close any remaining open file descriptors
@@ -193,69 +93,61 @@ void execute_tokens(t_token *head, t_bjsh *bjsh)
 		close(out_fd);
 }
 
-// int	find_executable(char *command, char *path_buffer)
-//{
-//	char		*path_env;
-//	char		*start;
-//	size_t		remaining_size;
-//	char		*end;
-//	struct stat	statbuf;
-//	size_t		path_buffer_size;
-//
-//	path_buffer_size = 1024;
-//	path_env = getenv("PATH");
-//	start = path_env;
-//	remaining_size = path_buffer_size;
-//	if (!path_env)
-//		return (0);
-//	while (start)
-//	{
-//		end = ft_strchr(start, ':');
-//		if (!end)
-//			end = start + ft_strlen(start); //??
-//		// Check if there's enough space in the buffer
-//		if (end - start + 1 + ft_strlen(command) + 1 > remaining_size)
-//		{
-//			// Handle buffer overflow (e.g., return an error code)
-//			return (-1);
-//		}
-//		// Copy directory path
-//		ft_strncpy(path_buffer, start, end - start);
-//		path_buffer[end - start] = '\0';
-//		// Construct full path
-//		ft_strlcat(path_buffer, "/", remaining_size);
-//		ft_strlcat(path_buffer, command, remaining_size);
-//		if (stat(path_buffer, &statbuf) == 0 && (statbuf.st_mode & S_IXUSR))
-//			return (1);
-//		start = (*end) ? end + 1 : NULL;
-//		remaining_size -= end - start + 1; // Update remaining buffer size
-//	}
-//	return (0);
-//}
-
-// need rewrite with allowed functions
-int find_executable2(char *command, char *path_buffer)
+// Function to find if there's any command to execute
+int find_command(t_token *current)
 {
-	char *path_env;
-	char *path;
-	char *dir;
-	struct stat statbuf;
-
-	path_env = getenv("PATH");
-	if (!path_env)
-		return (0);
-	path = ft_strdup(path_env);
-	dir = ft_strtok(path, ":");
-	while (dir != NULL)
+	while (current != NULL)
 	{
-		sprintf(path_buffer, "%s/%s", dir, command);
-		if (stat(path_buffer, &statbuf) == 0 && (statbuf.st_mode & S_IXUSR))
-		{
-			free(path);
-			return (1);
-		}
-		dir = ft_strtok(NULL, ":");
+		if (current->type == -1)
+			return 1;
+		current = current->next;
 	}
-	free(path);
-	return (0);
+	return 0;
+}
+
+// Function to collect arguments for the current command
+void collect_arguments(t_token **current, char *args[], int *argc)
+{
+	while (*current != NULL && (*current)->type == -1)
+	{
+		args[(*argc)++] = (*current)->str;
+		*current = (*current)->next;
+	}
+	args[*argc] = NULL; // Null-terminate the arguments array
+}
+
+// Function to execute a command or builtin
+void execute_command_or_builtin(char *args[], t_token *current, int in_fd, int out_fd, int *fd, t_bjsh *bjsh)
+{
+	int status;
+	if (fork() == 0)
+	{
+		dup2(in_fd, STDIN_FILENO); // Change the input to the previous output
+		if (out_fd != STDOUT_FILENO)
+			dup2(out_fd, STDOUT_FILENO); // Set the output if redirected
+		else if (current != NULL)
+			dup2(fd[1], STDOUT_FILENO); // Set the output to the pipe
+		if (in_fd != STDIN_FILENO)
+			close(in_fd);
+		if (out_fd != STDOUT_FILENO)
+			close(out_fd);
+		if (current != NULL)
+			close(fd[0]);
+
+		if (check_builtin(args[0]) == SUSSY_BAKA)
+		{
+			bjsh->last_exit_status = bjsh_exec_builtin(args, bjsh);
+			exit(bjsh->last_exit_status);
+		}
+		else
+			execute_command4(args, bjsh->envp);
+	}
+	else
+	{
+		wait(&status);
+		if (WIFEXITED(status))
+			bjsh->last_exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			bjsh->last_exit_status = 128 + WTERMSIG(status);
+	}
 }

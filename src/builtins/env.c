@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 02:06:36 by klinn             #+#    #+#             */
-/*   Updated: 2024/06/22 21:22:04 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/23 16:39:11 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void debug_env(char **envp)
 	ft_printf("Debugging envp\n");
 	while (envp[i])
 	{
-		printf("envp[%d]: %s\n", i, envp[i]);
+		ft_printf("envp[%d]: %s\n", i, envp[i]);
 		i++;
 	}
 }

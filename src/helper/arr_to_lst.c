@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:44:22 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/17 22:27:05 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/23 16:39:19 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	debug_print_list(t_token *token)
 {
 	while (token)
 	{
-		printf("token: %s\t\t", token->str);
-		printf("type: %d\n", token->type);
+		ft_printf("token: %s\t\t", token->str);
+		ft_printf("type: %d\n", token->type);
 		token = token->next;
 	}
 }

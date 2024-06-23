@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 16:43:56 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/22 19:21:19 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/23 16:13:32 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ const char	*get_shell_prompt(t_bjsh *bjsh)
 
 void	display_error_msg(char *msg)
 {
-	ft_putstr_fd("🤌 ❯ ", 1);
-	ft_putstr_fd(msg, 1);
+	ft_putstr_fd("🤌 ❯ ", 2);
+	ft_putstr_fd(msg, 2);
 }
 
 void	display_info_msg(char *msg)
