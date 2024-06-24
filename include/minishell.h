@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
+/*   By: klinn <klinn@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/24 18:13:36 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/24 19:56:37 by klinn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,8 +136,9 @@ void					bjsh_loop(t_bjsh *bjsh);
 
 // bjsh/env.c
 void					append_env_node(t_env **head, t_env *new_node);
-void					create_env_list(t_bjsh *bjsh, t_env **head,
-							t_env **tail);
+//void					create_env_list(t_bjsh *bjsh, t_env **head,
+//							t_env **tail);
+t_env					*create_env_list(t_bjsh *bjsh);
 void					bjsh_env_init(t_bjsh *bjsh);
 
 // bjsh/env2.c
