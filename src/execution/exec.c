@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:16:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/24 17:59:23 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/25 02:34:09 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ void	execute_command4(char **args, char **envp)
 	path = find_executable(args[0], envp);
 	if (path == NULL)
 	{
-		ft_putstr_fd("command not found: ", STDERR_FILENO);
-		ft_putstr_fd(args[0], STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
+		ft_dprintf(STDERR_FILENO, "🤌 ❯ command not found: %s\n", args[0]);
 		exit(127);
 	}
 	if (execve(path, args, envp) == -1)
@@ -94,7 +92,9 @@ void	execute_tokens(t_token *head, t_bjsh *bjsh)
 	initialize_execution_context(&context, head);
 	if (!context.command_found)
 	{
-		ft_dprintf(2, "🤌 ❯ syntax error near unexpected token `newline'\n");
+		ft_dprintf(STDERR_FILENO,
+			"🤌 ❯ syntax error near unexpected token `newline'\n");
+		bjsh->last_exit_status = 2;
 		return ;
 	}
 	execute_loop(&context, bjsh);

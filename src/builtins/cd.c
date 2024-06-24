@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:00:06 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/22 21:41:30 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/25 02:28:05 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,17 @@ int	bjsh_cd(char **args, t_bjsh *bjsh)
 {
 	char	*path;
 
+	if (args[1] && args[2])
+	{
+		ft_dprintf(STDERR_FILENO, "🤌 ❯ cd: too many arguments\n");
+		return (1);
+	}
 	path = get_path(args);
 	if (path == NULL || *path == '\0')
 		path = get_env_local(bjsh->envp, "HOME");
 	if (chdir(path) == -1)
 	{
-		display_error_msg("cd: no such file or directory: ");
-		ft_printf("%s\n", path);
+		ft_dprintf(STDERR_FILENO, "🤌 ❯ cd: %s: %s\n", path, strerror(errno));
 		return (1);
 	}
 	return (0);

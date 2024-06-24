@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/25 01:28:19 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/25 02:47:16 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@ void	bjsh_loop(t_bjsh *bjsh)
 {
 	char	*line;
 	t_token	*token;
-	int		first_run;
 
-	first_run = 1;
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, SIG_IGN);
 	while (bjsh->state == CHILLING)
@@ -30,12 +28,12 @@ void	bjsh_loop(t_bjsh *bjsh)
 			add_history(line);
 		token = bon_and_jason_tokenizer(line, bjsh);
 		execute_tokens(token, bjsh);
-		if (!first_run)
+		if (!bjsh->first_run)
 			ft_free_multidi((void **)bjsh->envp, 2);
 		bjsh->envp = convert_env_to_envp(bjsh->env);
 		if (token)
 			clear_list(token);
-		first_run = 0;
+		bjsh->first_run = 0;
 	}
 	blyat_(bjsh);
 }

@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 16:43:56 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/23 16:13:32 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/25 01:52:59 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ const char	*get_shell_prompt(t_bjsh *bjsh)
 {
 	if (bjsh->last_exit_status == 0)
 		return ("👌 ❯ ");
-	else if (bjsh->last_exit_status == 1)
-		return ("👎 ❯ ");
+	else if (bjsh->last_exit_status != 0)
+		return ("🤌 ❯ ");
 	else
-		return ("👍 ❯ ");
+		return ("🍒 ❯ ");
 }
 
 void	display_error_msg(char *msg)

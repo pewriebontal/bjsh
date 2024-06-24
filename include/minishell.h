@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/25 01:29:33 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/25 02:46:31 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <errno.h>
 # include <string.h>
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -122,6 +123,7 @@ typedef struct s_bjsh
 	int					status;
 	int					state;
 	int					last_exit_status;
+	int					first_run;
 }						t_bjsh;
 
 typedef struct s_history

@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 00:11:41 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/24 00:33:23 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/25 01:58:41 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,20 @@ void	execute_builtin_g(char *args[], t_bjsh *bjsh)
 void	execute_command_or_builtin(char *args[], t_execution_context *context,
 		t_bjsh *bjsh)
 {
-	if (fork() == 0)
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == 0)
 		handle_child_process(args, context, bjsh);
 	else
-		handle_parent_process(context, bjsh);
+	{
+		if (context->current != NULL && context->current->type == PIPE)
+		{
+			waitpid(pid, &context->status, 0);
+		}
+		else
+		{
+			handle_parent_process(context, bjsh);
+		}
+	}
 }
