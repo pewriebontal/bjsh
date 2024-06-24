@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:14:48 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/17 22:26:18 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/24 18:09:45 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_rejoin_arr(char **arr)
 		total_length += ft_strlen(arr[i]);
 		i++;
 	}
-	*result = (char *)malloc(total_length + 1);
+	result = (char *)malloc(sizeof(char) * (total_length + 1));
 	if (result == NULL)
 		return (NULL);
 	result[0] = '\0';

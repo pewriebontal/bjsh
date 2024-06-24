@@ -6,7 +6,7 @@
 #    By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/26 18:18:13 by mkhaing           #+#    #+#              #
-#    Updated: 2024/06/24 04:02:15 by mkhaing          ###   ########.fr        #
+#    Updated: 2024/06/24 17:44:03 by mkhaing          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ BYAMC_D =./byamc
 
 BYAMC   = $(BYAMC_D)/byamc.a
 
-CC      = gcc #clang
+CC      = clang #gcc
 
 # Get the Git commit hash using the $(shell) function
 GIT_COMMIT := $(shell git describe --always --dirty --match 'NOT A TAG')

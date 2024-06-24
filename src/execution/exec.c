@@ -6,12 +6,11 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:16:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/24 00:11:57 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/24 17:59:23 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-#include <sys/types.h>
 
 // Function to execute a single command using execve
 void	execute_command4(char **args, char **envp)
