@@ -73,7 +73,7 @@ void	split_token(t_token *token)
 		handle_quotes_split_internal(str[i], &in_single_quote,
 			&in_double_quote);
 		if (!in_single_quote && !in_double_quote && is_redirection(str[i], str[i
-					+ 1]))
+				+ 1]))
 		{
 			process_redirection(token, str, i);
 			return ;

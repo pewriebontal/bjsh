@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
+/*   By: klinn <klinn@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 17:04:35 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/22 19:48:25 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/24 18:16:40 by klinn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,14 @@ void	append_env_node(t_env **head, t_env *new_node)
 		return ;
 	}
 	tail = *head;
-	while (tail->next)
-		tail = tail->next;
+	while (tail->next != NULL)
+	{
+			tail = tail->next;
+	}
+		//tail =tail->next;
 	tail->next = new_node;
 	new_node->prev = tail;
+	new_node->next = NULL;
 }
 
 // Function to create the environment list from envp
@@ -56,7 +60,10 @@ void	create_env_list(t_bjsh *bjsh, t_env **head, t_env **tail)
 			*tail = new_node;
 		}
 		else
-			append_env_node(tail, new_node);
+		{
+			append_env_node(&tail, new_node);
+			*tail = new_node;
+		}
 		i++;
 	}
 }
@@ -67,6 +74,8 @@ void	bjsh_env_init(t_bjsh *bjsh)
 	t_env	*head;
 	t_env	*tail;
 
+	head = NULL;
+	tail = NULL;
 	if (!bjsh || !bjsh->envp)
 		return ;
 	initialize_env_list(&head, &tail);
