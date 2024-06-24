@@ -6,7 +6,7 @@
 #    By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/26 18:18:13 by mkhaing           #+#    #+#              #
-#    Updated: 2024/06/20 19:49:47 by mkhaing          ###   ########.fr        #
+#    Updated: 2024/06/24 04:02:15 by mkhaing          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ CC      = gcc #clang
 GIT_COMMIT := $(shell git describe --always --dirty --match 'NOT A TAG')
 
 #CFLAGS  = -Wall -Wextra -Werror -D LINUX #-fsanitize=leak -g
-CFLAGS	= -g -DGIT_COMMIT=\"$(GIT_COMMIT)\" -DSHELL_BUILD_DATE="\"`date`\"" -Ibyamc/include -Iinclude
+CFLAGS	= -fPIE -fstack-protector-strong -DGIT_COMMIT=\"$(GIT_COMMIT)\" -DSHELL_BUILD_DATE="\"`date`\"" -Ibyamc/include -Iinclude
 LDFLAGS = -L/lib/x86_64-linux-gnu -lreadline -lhistory     # Ubuntu is so dumb need -L flag to find readline
 RM      = rm -f
 

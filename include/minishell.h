@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/23 22:47:39 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/24 03:12:39 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,14 @@
 #  define GIT_COMMIT "unknown"
 # endif
 
+typedef struct s_env_replacer
+{
+	int					in_single_quote;
+	int					in_double_quote;
+	char				*result;
+	size_t				result_len;
+} t_env_replacer; // fuck norminette
+
 typedef struct s_token
 {
 	char				*str;
@@ -76,7 +84,6 @@ typedef struct s_token
 	struct s_token		*next;
 }						t_token;
 
-// Structure to hold the execution context
 typedef struct s_execution_context
 {
 	t_token				*current;
@@ -86,7 +93,7 @@ typedef struct s_execution_context
 	int					status;
 	int					command_found;
 	int					argc;
-}						t_execution_context;
+} t_execution_context; // fuck norminette
 
 typedef struct
 {
@@ -96,7 +103,7 @@ typedef struct
 	char				buffer[1024];
 	ssize_t				bytes_read;
 	ssize_t				bytes_written;
-}						t_redirection_data;
+} t_redirection_data; // fuck norminette
 
 typedef struct s_env
 {
@@ -114,8 +121,6 @@ typedef struct s_bjsh
 	char				*argv;
 	int					status;
 	int					state;
-	int std_in;  // for stdin
-	int std_out; // for stdout
 	int					last_exit_status;
 }						t_bjsh;
 
