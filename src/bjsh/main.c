@@ -3,22 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: klinn <klinn@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:06:55 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/24 18:23:11 by klinn            ###   ########.fr       */
+/*   Updated: 2024/06/25 01:45:41 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+void	blyat_(t_bjsh *bjsh)
+{
+	rl_clear_history();
+	if (bjsh->history_path)
+		free(bjsh->history_path);
+	if (bjsh->envp)
+		ft_free_multidi((void **)bjsh->envp, 2);
+	if (bjsh->env)
+		clear_list(bjsh->env);
+	atexit(handle_eof);
+	exit(bjsh->last_exit_status);
+}
+
 int	init_bjsh(t_bjsh *bjsh, char *env[])
 {
-	char	*history_file_path;
-
-	history_file_path = bjsh_get_history_path();
+	bjsh->history_path = bjsh_get_history_path();
 	bjsh_hist_file_create();
-	bjsh_read_history(history_file_path);
+	bjsh_read_history(bjsh->history_path);
 	bjsh->state = CHILLING;
 	bjsh->last_exit_status = 0;
 	bjsh->envp = env;

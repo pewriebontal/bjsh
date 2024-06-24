@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 19:02:10 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/20 19:36:36 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/25 01:03:09 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_token	*bon_and_jason_tokenizer(char *command_input, t_bjsh *bjsh)
 	replace_special_characters_in_node(token, '`');
 	token = remove_quotes_from_token(token);
 	free(command_input);
+	ft_free_multidi((void **)args, 1);
 	return (token);
 }
 

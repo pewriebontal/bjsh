@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/24 21:17:16 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/25 01:29:33 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ typedef struct s_bjsh
 	t_token				*token;
 	t_env				*env;
 	char				**envp;
-	char				*argv;
+	char				*history_path;
 	int					status;
 	int					state;
 	int					last_exit_status;
@@ -132,6 +132,7 @@ typedef struct s_history
 }						t_history;
 
 // main.c
+void					blyat_(t_bjsh *bjsh);
 void					bjsh_loop(t_bjsh *bjsh);
 
 // bjsh/env.c
