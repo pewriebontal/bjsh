@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/25 02:46:31 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/25 07:17:22 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,7 @@ char					*bjsh_get_history_path(void);
 void					bjsh_hist_file_create(void);
 int						bjsh_read_history(char *path);
 int						bjsh_write_history(char *path);
+int 					bjsh_hist_add_entry(char *entry, t_bjsh *bjsh);
 
 // bjsh/main.c
 int						init_bjsh(t_bjsh *bjsh, char *env[]);
