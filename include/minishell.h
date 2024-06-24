@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: klinn <klinn@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/24 19:56:37 by klinn            ###   ########.fr       */
+/*   Updated: 2024/06/24 21:17:16 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,10 +136,10 @@ void					bjsh_loop(t_bjsh *bjsh);
 
 // bjsh/env.c
 void					append_env_node(t_env **head, t_env *new_node);
-//void					create_env_list(t_bjsh *bjsh, t_env **head,
-//							t_env **tail);
 t_env					*create_env_list(t_bjsh *bjsh);
 void					bjsh_env_init(t_bjsh *bjsh);
+void					add_back(t_env **lst, t_env *new);
+t_env					*ft_envlast(t_env *lst);
 
 // bjsh/env2.c
 t_env					*create_env_node(const char *key, const char *value);
@@ -153,6 +153,7 @@ int						count_env_vars(t_env *env);
 char					**allocate_envp(int count);
 char					*create_env_string(const char *key, const char *value);
 char					**convert_env_to_envp(t_env *env);
+void					process_env_variable(char *env_var, t_env **head);
 
 // bjsh/hist.c
 char					*bjsh_get_history_path(void);

@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:54:31 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/22 21:11:30 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/24 21:14:15 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,26 @@ char	**convert_env_to_envp(t_env *env)
 	}
 	envp[count] = NULL;
 	return (envp);
+}
+
+void	process_env_variable(char *env_var, t_env **head)
+{
+	char	*key;
+	char	*value;
+	t_env	*tmp;
+
+	key = NULL;
+	value = NULL;
+	split_env(env_var, &key, &value);
+	if (!*head)
+	{
+		*head = create_env_node(key, value);
+	}
+	else
+	{
+		tmp = create_env_node(key, value);
+		add_back(head, tmp);
+	}
+	free(key);
+	free(value);
 }
