@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:38:36 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/17 22:26:48 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/24 18:17:38 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	**lst_to_arr(t_token *token)
 	int		i;
 
 	i = 0;
-	arr = (char *)malloc(sizeof(char *) * (420) * 69);
+	arr = (char **)malloc(sizeof(char *) * 420);
 	while (token)
 	{
 		arr[i] = ft_strdup(token->str);
@@ -34,7 +34,7 @@ void	debug_print_arr(char **arr)
 	int	i;
 
 	i = 0;
-	while (arr[i] != '\0')
+	while (arr[i] != NULL)
 	{
 		ft_printf("arr[%d]: %s\n", i, arr[i]);
 		i++;
