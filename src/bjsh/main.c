@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:06:55 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/25 02:49:20 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/25 07:51:41 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	blyat_(t_bjsh *bjsh)
 {
 	rl_clear_history();
+	ft_dprintf(STDOUT_FILENO, "blyat\n");
 	if (bjsh->history_path)
 		free(bjsh->history_path);
 	if (!bjsh->first_run)
@@ -23,7 +24,7 @@ void	blyat_(t_bjsh *bjsh)
 			ft_free_multidi((void **)bjsh->envp, 2);
 	}
 	if (bjsh->env)
-		clear_list(bjsh->env);
+		clear_env(bjsh->env);
 	atexit(handle_eof);
 	exit(bjsh->last_exit_status);
 }

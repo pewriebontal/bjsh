@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/25 07:22:14 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/25 07:45:14 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ void	bjsh_loop(t_bjsh *bjsh)
 	{
 		line = readline(SHELL_PROMPT);
 		if (!line)
-			break ;
-		if (*line){
+			blyat_(bjsh);
+		if (*line)
+		{
 			add_history(line);
 			bjsh_hist_add_entry(line, bjsh);
 		}

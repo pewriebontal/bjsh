@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/25 07:17:22 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/25 07:48:24 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -336,6 +336,7 @@ int						check_invalid_redirection_sequence(t_execution_context *context);
 t_token					*array_to_list(char **arr);
 void					debug_print_list(t_token *token);
 void					clear_list(t_token *token);
+void 					clear_env(t_env *env);	
 
 // helpers/ft_rejoin_arr.c
 char					*ft_rejoin_arr(char **arr);

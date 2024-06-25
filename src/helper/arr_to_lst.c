@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:44:22 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/23 16:39:19 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/25 07:48:42 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,19 @@ void	clear_list(t_token *token)
 		free(token->str);
 		free(token);
 		token = next;
+	}
+}
+
+void 	clear_env(t_env  *env)
+{
+	t_env	*next;
+
+	while (env)
+	{
+		next = env->next;
+		free(env->key);
+		free(env->value);
+		free(env);
+		env = next;
 	}
 }
