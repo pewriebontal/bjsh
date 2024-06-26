@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:06:55 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/25 07:51:41 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/26 16:27:01 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,22 @@
 
 void	blyat_(t_bjsh *bjsh)
 {
-	rl_clear_history();
-	ft_dprintf(STDOUT_FILENO, "blyat\n");
-	if (bjsh->history_path)
-		free(bjsh->history_path);
-	if (!bjsh->first_run)
+	if (isatty(STDIN_FILENO))
 	{
-		if (bjsh->envp)
-			ft_free_multidi((void **)bjsh->envp, 2);
+		rl_clear_history();
+		ft_dprintf(STDOUT_FILENO, "blyat\n");
+		if (bjsh->history_path)
+			free(bjsh->history_path);
+		if (!bjsh->first_run)
+		{
+			if (bjsh->envp)
+				ft_free_multidi((void **)bjsh->envp, 2);
+		}
+		if (bjsh->env)
+			clear_env(bjsh->env);
+		// atexit(handle_eof);
+		exit(bjsh->last_exit_status);
 	}
-	if (bjsh->env)
-		clear_env(bjsh->env);
-	atexit(handle_eof);
-	exit(bjsh->last_exit_status);
 }
 
 int	init_bjsh(t_bjsh *bjsh, char *env[])

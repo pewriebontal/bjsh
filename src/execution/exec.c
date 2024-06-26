@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:16:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/25 02:34:09 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/25 22:11:41 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,11 @@ void	execute_tokens(t_token *head, t_bjsh *bjsh)
 
 	if (head == NULL)
 		return ;
+	if (check_invalid_pipe_sequence(head))
+	{
+		bjsh->last_exit_status = 2;
+		return ;
+	}
 	initialize_execution_context(&context, head);
 	if (!context.command_found)
 	{

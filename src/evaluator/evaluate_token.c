@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 17:22:49 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/18 17:53:32 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/26 16:54:44 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,33 @@ void	remove_empty_nodes(t_token *token)
 		else
 			tmp = tmp->next;
 	}
+}
+
+int	check_invalid_pipe_sequence(t_token *head)
+{
+	t_token	*current;
+
+	if (head == NULL)
+		return (0);
+	current = head;
+	if (current->type == PIPE)
+	{
+		ft_dprintf(STDERR_FILENO,
+			"🤌 ❯ syntax error near unexpected token `|'\n");
+		return (1);
+	}
+	while (current != NULL)
+	{
+		if (current->type == PIPE)
+		{
+			if (current->next == NULL || current->next->type == PIPE)
+			{
+				ft_dprintf(STDERR_FILENO,
+					"🤌 ❯ syntax error near unexpected token `|'\n");
+				return (1);
+			}
+		}
+		current = current->next;
+	}
+	return (0);
 }

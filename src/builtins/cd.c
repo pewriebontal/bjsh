@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:00:06 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/25 02:28:05 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/25 08:15:23 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ int	bjsh_cd(char **args, t_bjsh *bjsh)
 	if (chdir(path) == -1)
 	{
 		ft_dprintf(STDERR_FILENO, "🤌 ❯ cd: %s: %s\n", path, strerror(errno));
+		yeet(path);
 		return (1);
 	}
+	yeet(path);
 	return (0);
 }

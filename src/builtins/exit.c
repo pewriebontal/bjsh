@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 02:05:00 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/25 01:45:54 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/26 16:53:59 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int	bjsh_exit(t_bjsh *bjsh, char *args)
 	{
 		custom_exit_status = ft_atoi(args);
 		bjsh->state = NOT_CHILLING;
-		exit(custom_exit_status);
+		bjsh->last_exit_status = custom_exit_status;
+		blyat_(bjsh);
 	}
 	bjsh->state = NOT_CHILLING;
-	atexit(handle_eof);
-	exit(bjsh->last_exit_status);
+	blyat_(bjsh);
 }

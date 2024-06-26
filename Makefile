@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: klinn <klinn@student.42.fr>                +#+  +:+       +#+         #
+#    By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/26 18:18:13 by mkhaing           #+#    #+#              #
-#    Updated: 2024/06/24 18:25:33 by klinn            ###   ########.fr        #
+#    Updated: 2024/06/26 16:28:04 by mkhaing          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ BYAMC_D =./byamc
 
 BYAMC   = $(BYAMC_D)/byamc.a
 
-CC      = clang #gcc
+CC      = gcc #gcc
 
 # Get the Git commit hash using the $(shell) function
 GIT_COMMIT := $(shell git describe --always --dirty --match 'NOT A TAG')

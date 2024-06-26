@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/25 07:45:14 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/26 16:52:47 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	bjsh_loop(t_bjsh *bjsh)
 		if (!bjsh->first_run)
 			ft_free_multidi((void **)bjsh->envp, 2);
 		bjsh->envp = convert_env_to_envp(bjsh->env);
-		if (token)
+		if(token)
 			clear_list(token);
 		bjsh->first_run = 0;
 	}
@@ -66,8 +66,6 @@ int	check_builtin(char *cmd)
 
 int	bjsh_exec_builtin(char **args, t_bjsh *bjsh)
 {
-	char	*path;
-
 	if (ft_strcmp(args[0], "exit") == 0)
 		return (bjsh_exit(bjsh, args[1]));
 	else if (ft_strcmp(args[0], "cd") == 0)
