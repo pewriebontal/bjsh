@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/26 17:38:23 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/26 20:17:00 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	check_builtin(char *cmd)
 int	bjsh_exec_builtin(char **args, t_bjsh *bjsh)
 {
 	if (ft_strcmp(args[0], "exit") == 0)
-		bjsh_exit(bjsh, args[1]);
+		bjsh_exit(bjsh, args);
 	else if (ft_strcmp(args[0], "cd") == 0)
 		return (bjsh_cd(args, bjsh));
 	else if (ft_strcmp(args[0], "pwd") == 0)

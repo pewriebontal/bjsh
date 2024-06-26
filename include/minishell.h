@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/26 17:34:06 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/26 20:17:15 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ void					add_or_update_env(t_env **env, const char *key,
 							const char *value);
 
 // builtins exit.c
-void					bjsh_exit(t_bjsh *bjsh, char *args);
+void					bjsh_exit(t_bjsh *bjsh, char **args);
 
 // builtins export.c
 t_env					*find_env_node(t_env *head, const char *key);

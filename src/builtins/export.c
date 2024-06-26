@@ -6,11 +6,27 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 02:25:29 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/22 21:23:28 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/26 19:46:35 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+int	is_valid_identifier(const char *key)
+{
+	int	i;
+
+	if (!key || !(ft_isalpha(key[0]) && key[0] != '_'))
+		return (CAP);
+	i = 1;
+	while (key[i])
+	{
+		if (!ft_isalnum(key[i]) && key[i] != '_')
+			return (CAP);
+		++i;
+	}
+	return (NOCAP);
+}
 
 // Function to find an environment node by key
 t_env	*find_env_node(t_env *head, const char *key)
@@ -30,8 +46,12 @@ int	bjsh_export(t_bjsh *bjsh, const char *key, const char *value)
 	t_env	*node;
 	t_env	*new_node;
 
-	if (!bjsh || !key)
-		return (-1);
+	if (!is_valid_identifier(key) || !key || !bjsh)
+	{
+		ft_dprintf(STDERR_FILENO, "🤌 ❯ export: '%s': not a valid identifier\n",
+			key);
+		return (1);
+	}
 	node = find_env_node(bjsh->env, key);
 	if (node)
 	{
