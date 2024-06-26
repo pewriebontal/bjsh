@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:06:55 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/26 16:27:01 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/26 17:36:40 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	blyat_(t_bjsh *bjsh)
 		}
 		if (bjsh->env)
 			clear_env(bjsh->env);
-		// atexit(handle_eof);
 		exit(bjsh->last_exit_status);
 	}
 }

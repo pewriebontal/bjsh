@@ -6,117 +6,78 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:02:19 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/26 16:58:33 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/26 17:24:45 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	token_add_back(t_token **new_token, t_token *new_node)
+int	find_special_char_type(char *str, char **special_chars, int *special_types)
 {
-	t_token	*temp;
+	int	j;
+	int	special_len;
 
-	if (*new_token == NULL)
+	j = 0;
+	while (special_chars[j])
 	{
-		*new_token = new_node;
+		special_len = ft_strlen(special_chars[j]);
+		if (ft_strncmp(str, special_chars[j], special_len) == 0)
+		{
+			return (special_types[j]);
+		}
+		j++;
 	}
-	else
-	{
-		temp = *new_token;
-		while (temp->next != NULL)
-			temp = temp->next;
-		temp->next = new_node;
-		new_node->prev = temp;
-	}
+	return (-1);
 }
 
-// Helper function to create a new token
-t_token	*create_new_token(char *str, int type)
+int	check_special_chars(char *str, t_token **new_token, int i)
 {
-	t_token	*new_node;
+	char	*special_chars[6];
+	int		special_types[5];
+	int		special_len;
+	int		type;
 
-	new_node = (t_token *)malloc(sizeof(t_token));
-	if (!new_node)
-		return (NULL);
-	new_node->str = ft_strdup(str);
-	new_node->type = type;
-	new_node->executed = 0;
-	new_node->prev = NULL;
-	new_node->next = NULL;
-	return (new_node);
+	init_special_chars(special_chars, special_types);
+	special_len = get_special_char_length(&str[i], special_chars);
+	if (special_len > 0)
+	{
+		if (i > 0)
+		{
+			add_token(str, i, new_token, -1);
+		}
+		type = find_special_char_type(&str[i], special_chars, special_types);
+		add_token(&str[i], special_len, new_token, type);
+		return (special_len);
+	}
+	return (0);
 }
 
-// Function to split the token string by special characters
 void	split_by_special_chars(char *str, t_token **new_token)
 {
-	char	*special_chars[] = {">>", ">", "<<", "<", "|", NULL};
-	int		special_types[] = {REDIRECT_OUT_APPEND, REDIRECT_OUT,
-				REDIRECT_IN_HERE, REDIRECT_IN, PIPE};
-	char	*substr;
-	int		special_len;
+	int	in_single_quote;
+	int	in_double_quote;
+	int	i;
+	int	len;
 
-	int i, j, type, in_single_quote, in_double_quote, len;
-	len = ft_strlen(str);
 	in_single_quote = 0;
 	in_double_quote = 0;
 	i = 0;
+	len = ft_strlen(str);
 	while (i < len)
 	{
-		if (str[i] == '\'' && !in_double_quote)
-			in_single_quote = !in_single_quote;
-		else if (str[i] == '\"' && !in_single_quote)
-			in_double_quote = !in_double_quote;
+		handle_quotes2(str[i], &in_single_quote, &in_double_quote);
 		if (!in_single_quote && !in_double_quote)
 		{
-			j = 0;
-			while (special_chars[j])
-			{
-				special_len = ft_strlen(special_chars[j]);
-				if (ft_strncmp(&str[i], special_chars[j], special_len) == 0)
-				{
-					if (i > 0)
-					{
-						substr = ft_strndup(str, i);
-						token_add_back(new_token, create_new_token(substr, -1));
-						free(substr);
-					}
-					type = special_types[j];
-					substr = ft_strndup(&str[i], special_len);
-					token_add_back(new_token, create_new_token(substr, type));
-					free(substr);
-					str += i + special_len;
-					len -= i + special_len;
-					i = -1;
-					break ;
-				}
-				j++;
-			}
+			i = process_special_chars(&str, &len, i, new_token);
 		}
 		i++;
 	}
 	if (*str)
-		token_add_back(new_token, create_new_token(str, -1));
+	{
+		add_substring_token(str, ft_strlen(str), new_token, -1);
+	}
 }
 
-// this function walk through the token chain
-// and split by special characters and add back
-// to the new token chain
-// for example: ls -la|wc -> would be come ls -la | wc
-// and return the new token chain
-// another example: ls -la >> >file -> would be come ls -la >> > file
-// another example: ls -la >> >>file|wc -> would be come ls -la >> >> file | wc
-
-// so it need to check current node's string and scan from the beginning
-// to end of the string and check if there is any special characters
-// if there is any special characters,
-//	it will split the first part of the string
-// and create a new token and add back to the new token chain and it's type
-
-// rules:
-// >> comes first than >
-// dont split if string is in single quote or double quote
-
-// Main function to walk through the token chain and split by special characters
 t_token	*final_stage(t_token *token)
 {
 	t_token	*new_token;

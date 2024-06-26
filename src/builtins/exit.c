@@ -6,13 +6,13 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 02:05:00 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/26 16:53:59 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/26 17:33:54 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	bjsh_exit(t_bjsh *bjsh, char *args)
+void	bjsh_exit(t_bjsh *bjsh, char *args)
 {
 	int	custom_exit_status;
 

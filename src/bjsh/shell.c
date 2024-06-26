@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/26 16:52:47 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/26 17:38:23 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ void	bjsh_loop(t_bjsh *bjsh)
 		if (*line)
 		{
 			add_history(line);
-			bjsh_hist_add_entry(line, bjsh);
+			bjsh_hist_add_entry(line);
 		}
 		token = bon_and_jason_tokenizer(line, bjsh);
 		execute_tokens(token, bjsh);
 		if (!bjsh->first_run)
 			ft_free_multidi((void **)bjsh->envp, 2);
 		bjsh->envp = convert_env_to_envp(bjsh->env);
-		if(token)
+		if (token)
 			clear_list(token);
 		bjsh->first_run = 0;
 	}
@@ -67,13 +67,13 @@ int	check_builtin(char *cmd)
 int	bjsh_exec_builtin(char **args, t_bjsh *bjsh)
 {
 	if (ft_strcmp(args[0], "exit") == 0)
-		return (bjsh_exit(bjsh, args[1]));
+		bjsh_exit(bjsh, args[1]);
 	else if (ft_strcmp(args[0], "cd") == 0)
 		return (bjsh_cd(args, bjsh));
 	else if (ft_strcmp(args[0], "pwd") == 0)
 		return (bjsh_pwd());
 	else if (ft_strcmp(args[0], "help") == 0)
-		return (bjsh_help(args));
+		return (bjsh_help());
 	else if (ft_strcmp(args[0], "echo") == 0)
 		return (bjsh_echo(args));
 	else if (ft_strcmp(args[0], "env") == 0)

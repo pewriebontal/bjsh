@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/26 00:46:20 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/26 17:34:06 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@
 # include <byamc/ft_printf.h>
 # include <byamc/gnl.h>
 # include <byamc/gzdef.h>
+# include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <errno.h>
 # include <string.h>
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -162,8 +162,7 @@ void					process_env_variable(char *env_var, t_env **head);
 char					*bjsh_get_history_path(void);
 void					bjsh_hist_file_create(void);
 int						bjsh_read_history(char *path);
-int						bjsh_write_history(char *path);
-int 					bjsh_hist_add_entry(char *entry, t_bjsh *bjsh);
+int						bjsh_hist_add_entry(char *entry);
 
 // bjsh/main.c
 int						init_bjsh(t_bjsh *bjsh, char *env[]);
@@ -196,7 +195,7 @@ void					add_or_update_env(t_env **env, const char *key,
 							const char *value);
 
 // builtins exit.c
-int						bjsh_exit(t_bjsh *bjsh, char *args);
+void					bjsh_exit(t_bjsh *bjsh, char *args);
 
 // builtins export.c
 t_env					*find_env_node(t_env *head, const char *key);
@@ -204,7 +203,7 @@ int						bjsh_export(t_bjsh *bjsh, const char *key,
 							const char *value);
 
 // builtins help.c
-int						bjsh_help(char **args);
+int						bjsh_help(void);
 
 // builtins pwd.c
 int						bjsh_pwd(void);
@@ -234,28 +233,37 @@ int						count_weired_character(char *str);
 // evalautor/evaluate_token.c
 void					evaluate_token_chain(t_token *token, t_bjsh *bjsh);
 void					remove_empty_nodes(t_token *token);
+int						check_invalid_pipe_sequence(t_token *head);
 
 // evaluator/evaluate_type.c
 void					evaluate_token_type(t_token *token);
 void					update_token_type(t_token *token);
 
-// evaluator/token_split.c
-void					create_and_insert_tokens(t_token *token, char *str,
-							size_t prefix_len, char *redirection);
-void					process_redirection(t_token *token, char *str,
-							size_t i);
-void					split_token(t_token *token);
-void					split_token_chain_redirect(t_token *token);
-void					insert_after(t_token *current, t_token *new_token);
+// evaluator/final_stage.c
+int						find_special_char_type(char *str, char **special_chars,
+							int *special_types);
+int						check_special_chars(char *str, t_token **new_token,
+							int i);
+void					split_by_special_chars(char *str, t_token **new_token);
+t_token					*final_stage(t_token *token);
 
-// evaluator/token_split2.c
-t_token					*create_token(const char *str, int type);
-void					handle_quotes_split_internal(char c,
-							int *in_single_quote, int *in_double_quote);
-int						is_redirection(char c, char next);
-void					set_redirection(char *str, size_t i, char *redirection);
-void					create_suffix_token(char *str, size_t prefix_len,
-							char *redirection, t_token **suffix_token);
+// evaluator/final_stage2.c
+void					token_add_back(t_token **new_token, t_token *new_node);
+t_token					*create_new_token(char *str, int type);
+void					handle_quotes2(char c, int *in_single_quote,
+							int *in_double_quote);
+void					add_token(char *str, int length, t_token **new_token,
+							int type);
+int						get_special_char_length(char *str,
+							char **special_chars);
+
+// evaluator/final_stage3.c
+void					init_special_chars(char *special_chars[],
+							int special_types[]);
+int						process_special_chars(char **str, int *len, int i,
+							t_token **new_token);
+void					add_substring_token(char *str, int length,
+							t_token **new_token, int type);
 
 // evaluator/tokenizer.c
 t_token					*bon_and_jason_tokenizer(char *command_input,
@@ -336,7 +344,7 @@ int						check_invalid_redirection_sequence(t_execution_context *context);
 t_token					*array_to_list(char **arr);
 void					debug_print_list(t_token *token);
 void					clear_list(t_token *token);
-void 					clear_env(t_env *env);	
+void					clear_env(t_env *env);
 
 // helpers/ft_rejoin_arr.c
 char					*ft_rejoin_arr(char **arr);

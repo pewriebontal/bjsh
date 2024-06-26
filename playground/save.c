@@ -1,3 +1,39 @@
+
+// this function walk through the token chain
+// and split by special characters and add back
+// to the new token chain
+// for example: ls -la|wc -> would be come ls -la | wc
+// and return the new token chain
+// another example: ls -la >> >file -> would be come ls -la >> > file
+// another example: ls -la >> >>file|wc -> would be come ls -la >> >> file | wc
+
+// so it need to check current node's string and scan from the beginning
+// to end of the string and check if there is any special characters
+// if there is any special characters,
+//	it will split the first part of the string
+// and create a new token and add back to the new token chain and it's type
+
+// rules:
+// >> comes first than >
+// dont split if string is in single quote or double quote
+
+// Main function to walk through the token chain and split by special characters
+t_token	*final_stage(t_token *token)
+{
+	t_token	*new_token;
+	t_token	*current;
+
+	new_token = NULL;
+	current = token;
+	while (current)
+	{
+		split_by_special_chars(current->str, &new_token);
+		current = current->next;
+	}
+	clear_list(token);
+	return (new_token);
+}
+
 // FINAL WORKING
 
 void execute_tokens(t_token *head, t_bjsh *bjsh)

@@ -6,7 +6,7 @@
 #    By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/26 18:18:13 by mkhaing           #+#    #+#              #
-#    Updated: 2024/06/26 16:28:04 by mkhaing          ###   ########.fr        #
+#    Updated: 2024/06/26 17:37:09 by mkhaing          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,13 +42,13 @@ BYAMC_D =./byamc
 
 BYAMC   = $(BYAMC_D)/byamc.a
 
-CC      = gcc #gcc
+CC      = cc #gcc
 
 # Get the Git commit hash using the $(shell) function
 GIT_COMMIT := $(shell git describe --always --dirty --match 'NOT A TAG')
 
-#CFLAGS  = -Wall -Wextra -Werror -D LINUX #-fsanitize=leak -g
-CFLAGS	= -g -fPIE -fstack-protector-strong -DGIT_COMMIT=\"$(GIT_COMMIT)\" -DSHELL_BUILD_DATE="\"`date`\"" -Ibyamc/include -Iinclude
+#CFLAGS  =  #-fsanitize=leak -g
+CFLAGS	= -g -Wall -Wextra -Werror -D LINUX -fPIE -fstack-protector-strong -DGIT_COMMIT=\"$(GIT_COMMIT)\" -DSHELL_BUILD_DATE="\"`date`\"" -Ibyamc/include -Iinclude
 LDFLAGS = -L/lib/x86_64-linux-gnu -lreadline -lhistory     # Ubuntu is so dumb need -L flag to find readline
 RM      = rm -f
 

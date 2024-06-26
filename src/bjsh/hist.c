@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:53:06 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/25 07:23:31 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/26 17:26:48 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	bjsh_read_history(char *path)
 	return (0);
 }
 
-int	bjsh_hist_add_entry(char *entry, t_bjsh *bjsh)
+int	bjsh_hist_add_entry(char *entry)
 {
 	char	*path;
 	int		fd_hist;
