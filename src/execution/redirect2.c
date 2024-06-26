@@ -6,13 +6,13 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 22:28:54 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/23 22:47:30 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 02:09:31 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	check_invalid_redirection_sequence(t_execution_context *context)
+int	check_invalid_redirect_sequence(t_exe_context *context)
 {
 	if (context->current->next == NULL)
 	{

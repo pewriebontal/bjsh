@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:16:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/25 22:11:41 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 02:08:44 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	execute_command4(char **args, char **envp)
 }
 
 // Function to initialize the execution context
-void	initialize_execution_context(t_execution_context *context,
+void	initialize_execution_context(t_exe_context *context,
 		t_token *head)
 {
 	context->current = head;
@@ -41,7 +41,7 @@ void	initialize_execution_context(t_execution_context *context,
 }
 
 // Function to handle the execution of a single command
-int	execute_single_command(char *args[], t_execution_context *context,
+int	execute_single_command(char *args[], t_exe_context *context,
 		t_bjsh *bjsh)
 {
 	if (check_builtin(args[0]) == BUGGI_BAKA)
@@ -66,7 +66,7 @@ int	execute_single_command(char *args[], t_execution_context *context,
 }
 
 // Function to handle the execution loop
-void	execute_loop(t_execution_context *context, t_bjsh *bjsh)
+void	execute_loop(t_exe_context *context, t_bjsh *bjsh)
 {
 	char	*args[MAX_ARGS];
 
@@ -85,7 +85,7 @@ void	execute_loop(t_execution_context *context, t_bjsh *bjsh)
 // Main function to handle command execution
 void	execute_tokens(t_token *head, t_bjsh *bjsh)
 {
-	t_execution_context	context;
+	t_exe_context	context;
 
 	if (head == NULL)
 		return ;

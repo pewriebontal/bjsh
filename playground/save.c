@@ -40,7 +40,7 @@ void execute_tokens(t_token *head, t_bjsh *bjsh)
 {
 	if (head == NULL)
         return;
-	t_execution_context context;
+	t_exe_context context;
 	context.current = head;
 	context.in_fd = STDIN_FILENO;	// Initially, input comes from standard input
 	context.out_fd = STDOUT_FILENO; // Initially, output goes to standard output

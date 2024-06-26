@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 00:11:41 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/25 01:58:41 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 02:08:44 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	execute_builtin_g(char *args[], t_bjsh *bjsh)
 }
 
 // Function to execute a command or builtin
-void	execute_command_or_builtin(char *args[], t_execution_context *context,
+void	execute_command_or_builtin(char *args[], t_exe_context *context,
 		t_bjsh *bjsh)
 {
 	pid_t	pid;

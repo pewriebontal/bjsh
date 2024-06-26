@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/27 01:25:31 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 02:09:31 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ typedef struct s_token
 	struct s_token		*next;
 }						t_token;
 
-typedef struct s_execution_context
+typedef struct s_exe_context
 {
 	t_token				*current;
 	int					in_fd;
@@ -94,7 +94,7 @@ typedef struct s_execution_context
 	int					status;
 	int					command_found;
 	int					argc;
-}						t_execution_context;
+}						t_exe_context;
 
 typedef struct s_redirction_data
 {
@@ -267,12 +267,11 @@ void					replace_special_characters_in_node(t_token *token,
 
 // executation/exec.c
 void					execute_command4(char **args, char **envp);
-void					initialize_execution_context(t_execution_context *context,
+void					initialize_execution_context(t_exe_context *context,
 							t_token *head);
 int						execute_single_command(char *args[],
-							t_execution_context *context, t_bjsh *bjsh);
-void					execute_loop(t_execution_context *context,
-							t_bjsh *bjsh);
+							t_exe_context *context, t_bjsh *bjsh);
+void					execute_loop(t_exe_context *context, t_bjsh *bjsh);
 void					execute_tokens(t_token *head, t_bjsh *bjsh);
 
 // execution/exec2.c
@@ -281,13 +280,13 @@ void					collect_arguments(t_token **current, char *args[],
 							int *argc);
 void					execute_builtin_g(char *args[], t_bjsh *bjsh);
 void					execute_command_or_builtin(char *args[],
-							t_execution_context *context, t_bjsh *bjsh);
+							t_exe_context *context, t_bjsh *bjsh);
 
 // execution/exehandle.c
-void					handle_io_redirection(t_execution_context *context);
+void					handle_io_redirection(t_exe_context *context);
 void					handle_child_process(char *args[],
-							t_execution_context *context, t_bjsh *bjsh);
-void					handle_parent_process(t_execution_context *context,
+							t_exe_context *context, t_bjsh *bjsh);
+void					handle_parent_process(t_exe_context *context,
 							t_bjsh *bjsh);
 
 // execution/heredoc.c
@@ -306,25 +305,25 @@ char					*find_executable(const char *command, char **envp);
 int						open_input_file(const char *filename);
 int						read_and_write_file(int file_fd,
 							t_redirection_data *rd);
-int						process_current_input_file(const t_execution_context *context,
+int						process_current_input_file(const t_exe_context *context,
 							t_redirection_data *rd);
-int						process_input_files(t_execution_context *context,
+int						process_input_files(t_exe_context *context,
 							t_redirection_data *rd);
-int						reopen_temp_file_for_reading(t_execution_context *context);
+int						reopen_temp_file_for_reading(t_exe_context *context);
 
 // execution/redirect.c
-int						handle_redirect_out(t_execution_context *context,
+int						handle_redirect_out(t_exe_context *context,
 							t_redirection_data *rd);
 int						open_temp_file(t_redirection_data *rd);
-int						handle_redirect_in(t_execution_context *context,
+int						handle_redirect_in(t_exe_context *context,
 							t_redirection_data *rd);
-int						handle_redirect_in_here(t_execution_context *context,
+int						handle_redirect_in_here(t_exe_context *context,
 							t_redirection_data *rd, t_bjsh *bjsh);
-int						handle_redirections(t_execution_context *context,
+int						handle_redirections(t_exe_context *context,
 							t_bjsh *bjsh);
 
 // execution/redirect2.c
-int						check_invalid_redirection_sequence(t_execution_context *context);
+int						check_invalid_redirect_sequence(t_exe_context *context);
 
 // helpers/arr_to_list.c
 t_token					*array_to_list(char **arr);

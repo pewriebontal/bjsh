@@ -6,13 +6,13 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 02:46:54 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/23 22:47:27 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 02:09:31 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	handle_redirect_out(t_execution_context *context, t_redirection_data *rd)
+int	handle_redirect_out(t_exe_context *context, t_redirection_data *rd)
 {
 	rd->flags = O_WRONLY | O_CREAT;
 	if (context->current->type == REDIRECT_OUT)
@@ -40,7 +40,7 @@ int	open_temp_file(t_redirection_data *rd)
 	return (0);
 }
 
-int	handle_redirect_in(t_execution_context *context, t_redirection_data *rd)
+int	handle_redirect_in(t_exe_context *context, t_redirection_data *rd)
 {
 	if (open_temp_file(rd) == -1)
 		return (-1);
@@ -52,7 +52,7 @@ int	handle_redirect_in(t_execution_context *context, t_redirection_data *rd)
 	return (0);
 }
 
-int	handle_redirect_in_here(t_execution_context *context,
+int	handle_redirect_in_here(t_exe_context *context,
 		t_redirection_data *rd, t_bjsh *bjsh)
 {
 	context->current = context->current->next;
@@ -74,7 +74,7 @@ int	handle_redirect_in_here(t_execution_context *context,
 }
 
 // Function to handle redirections before executing commands
-int	handle_redirections(t_execution_context *context, t_bjsh *bjsh)
+int	handle_redirections(t_exe_context *context, t_bjsh *bjsh)
 {
 	t_redirection_data	rd;
 
@@ -83,7 +83,7 @@ int	handle_redirections(t_execution_context *context, t_bjsh *bjsh)
 			|| context->current->type == REDIRECT_IN
 			|| context->current->type == REDIRECT_IN_HERE))
 	{
-		if (check_invalid_redirection_sequence(context) == -1)
+		if (check_invalid_redirect_sequence(context) == -1)
 			return (-1);
 		if (context->current->type == REDIRECT_OUT
 			|| context->current->type == REDIRECT_OUT_APPEND)

@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 02:05:00 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/26 20:54:44 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 02:15:27 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	bjsh_exit(t_bjsh *bjsh, char **args)
 		}
 		else
 		{
-			ft_dprintf(STDERR_FILENO, "🤌 ❯ exit: %s: numeric argument required\n",
-				args[1]);
+			ft_dprintf(STDERR_FILENO, "🤌 ❯ exit:"
+				"%s: numeric argument required\n", args[1]);
 			bjsh->last_exit_status = 2;
 		}
 	}

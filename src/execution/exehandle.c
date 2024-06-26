@@ -6,14 +6,14 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 00:32:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/24 00:33:00 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 02:08:44 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
 // Function to handle input/output redirection
-void	handle_io_redirection(t_execution_context *context)
+void	handle_io_redirection(t_exe_context *context)
 {
 	dup2(context->in_fd, STDIN_FILENO);
 	if (context->out_fd != STDOUT_FILENO)
@@ -29,7 +29,7 @@ void	handle_io_redirection(t_execution_context *context)
 }
 
 // Function to handle child process execution
-void	handle_child_process(char *args[], t_execution_context *context,
+void	handle_child_process(char *args[], t_exe_context *context,
 		t_bjsh *bjsh)
 {
 	handle_io_redirection(context);
@@ -38,7 +38,7 @@ void	handle_child_process(char *args[], t_execution_context *context,
 }
 
 // Function to handle parent process execution
-void	handle_parent_process(t_execution_context *context, t_bjsh *bjsh)
+void	handle_parent_process(t_exe_context *context, t_bjsh *bjsh)
 {
 	wait(&context->status);
 	if (WIFEXITED(context->status))

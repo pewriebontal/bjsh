@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 22:25:41 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/27 01:09:46 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 02:08:44 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	read_and_write_file(int file_fd, t_redirection_data *rd)
 	return (result);
 }
 
-int	process_current_input_file(const t_execution_context *context,
+int	process_current_input_file(const t_exe_context *context,
 		t_redirection_data *rd)
 {
 	int	file_fd;
@@ -65,7 +65,7 @@ int	process_current_input_file(const t_execution_context *context,
 	return (result);
 }
 
-int	process_input_files(t_execution_context *context, t_redirection_data *rd)
+int	process_input_files(t_exe_context *context, t_redirection_data *rd)
 {
 	context->current = context->current->next;
 	while (context->current != NULL && context->current->type == -1)
@@ -79,7 +79,7 @@ int	process_input_files(t_execution_context *context, t_redirection_data *rd)
 	return (0);
 }
 
-int	reopen_temp_file_for_reading(t_execution_context *context)
+int	reopen_temp_file_for_reading(t_exe_context *context)
 {
 	context->in_fd = open(BJSH_TEMP_FILE, O_RDONLY);
 	if (context->in_fd == -1)
