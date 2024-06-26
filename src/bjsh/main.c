@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:06:55 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/26 19:37:11 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/26 22:54:48 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	blyat_(t_bjsh *bjsh)
 {
 	if (isatty(STDIN_FILENO))
 	{
+		free_history_path(bjsh);
 		rl_clear_history();
 		ft_dprintf(STDOUT_FILENO, "blyat\n");
 		if (bjsh->history_path)

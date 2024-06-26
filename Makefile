@@ -80,7 +80,7 @@ format:
 				c_formatter_42 ./src/evaluator/*.c
 
 leaks-check:
-				valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=.readline.supp $(NAME)
+				valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=.readline.supp ./$(NAME)
 
 install:
 				sudo cp ./bjsh /bin/bjsh --force
