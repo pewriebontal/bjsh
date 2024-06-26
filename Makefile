@@ -6,7 +6,7 @@
 #    By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/26 18:18:13 by mkhaing           #+#    #+#              #
-#    Updated: 2024/06/26 19:30:53 by mkhaing          ###   ########.fr        #
+#    Updated: 2024/06/27 00:43:12 by mkhaing          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,13 +42,13 @@ BYAMC_D =./byamc
 
 BYAMC   = $(BYAMC_D)/byamc.a
 
-CC      = cc #gcc
+CC      = gcc #gcc
 
 # Get the Git commit hash using the $(shell) function
 GIT_COMMIT := $(shell git describe --always --dirty --match 'NOT A TAG')
 
 #CFLAGS  =  #-fsanitize=leak -g
-CFLAGS	= -g -Wall -Wextra -Werror -D LINUX -fPIE -fstack-protector-strong -DGIT_COMMIT=\"$(GIT_COMMIT)\" -DSHELL_BUILD_DATE="\"`date`\"" -Ibyamc/include -Iinclude
+CFLAGS	= -g -Wall -Wunused-function -Wextra -Werror -D LINUX -fPIE -fstack-protector-strong -DGIT_COMMIT=\"$(GIT_COMMIT)\" -DSHELL_BUILD_DATE="\"`date`\"" -Ibyamc/include -Iinclude
 LDFLAGS = -L/lib/x86_64-linux-gnu -lreadline -lhistory     # Ubuntu is so dumb need -L flag to find readline
 RM      = rm -f
 
@@ -79,7 +79,10 @@ format:
 				c_formatter_42 ./src/bjsh/*.c
 				c_formatter_42 ./src/evaluator/*.c
 
-leaks-check:
+check-unused:
+				cppcheck  --enable=unusedFunction --check-level=exhaustive --enable=all --std=c99 -Iinclude src	
+
+check-leaks:
 				valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=.readline.supp ./$(NAME)
 
 install:

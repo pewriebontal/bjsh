@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 22:25:41 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/23 22:47:22 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 01:09:46 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	read_and_write_file(int file_fd, t_redirection_data *rd)
 	return (result);
 }
 
-int	process_current_input_file(t_execution_context *context,
+int	process_current_input_file(const t_execution_context *context,
 		t_redirection_data *rd)
 {
 	int	file_fd;

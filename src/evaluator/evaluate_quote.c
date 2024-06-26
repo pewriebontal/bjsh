@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 13:47:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/22 03:33:28 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 01:00:16 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,4 @@ void	replace_spaces_in_quotes(char *str)
 		}
 		ptr++;
 	}
-}
-
-int	count_weired_character(char *str)
-{
-	int		count;
-	char	*ptr;
-
-	count = 0;
-	ptr = str;
-	while (*ptr != '\0')
-	{
-		if (*ptr == '`')
-		{
-			count++;
-		}
-		ptr++;
-	}
-	return (count);
 }

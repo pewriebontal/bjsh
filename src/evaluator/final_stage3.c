@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 17:24:11 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/26 17:33:20 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 01:16:49 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	process_special_chars(char **str, int *len, int i, t_token **new_token)
 	return (i);
 }
 
-void	add_substring_token(char *str, int length, t_token **new_token,
+void	add_substring_token(const char *str, int length, t_token **new_token,
 		int type)
 {
 	char	*substr;

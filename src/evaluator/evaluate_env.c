@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 02:29:26 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/26 23:00:13 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 01:22:35 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ void	append_char_to_result(char c, char **result, size_t *result_len)
 	(*result)[*result_len] = '\0';
 }
 
-void	append_string_to_result(char *str, char **result, size_t *result_len)
+void	append_string_to_result(const char *str, char **result,
+		size_t *result_len)
 {
 	size_t	len;
 

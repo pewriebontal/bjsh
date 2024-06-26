@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:54:31 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/27 00:27:07 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 01:19:27 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	**convert_env_to_envp(t_env *env)
 	return (envp);
 }
 
-void	process_env_variable(char *env_var, t_env **head)
+void	process_env_variable(const char *env_var, t_env **head)
 {
 	char	*key;
 	char	*value;

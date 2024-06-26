@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/26 20:17:00 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 01:21:02 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	bjsh_loop(t_bjsh *bjsh)
 	blyat_(bjsh);
 }
 
-int	check_builtin(char *cmd)
+int	check_builtin(const char *cmd)
 {
 	if (!cmd)
 		return (-1);

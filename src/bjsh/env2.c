@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 19:15:45 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/22 20:55:34 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 01:03:02 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,35 +41,6 @@ void	split_env(const char *env_str, char **key, char **value)
 	{
 		*key = ft_strndup(env_str, equal_sign - env_str);
 		*value = ft_strdup(equal_sign + 1);
-	}
-}
-
-// Function to initialize the head and tail of the environment list
-void	initialize_env_list(t_env **head, t_env **tail)
-{
-	*head = NULL;
-	*tail = NULL;
-}
-
-// Helper function to remove an environment variable
-void	remove_env(t_env **env, const char *key)
-{
-	t_env	*current;
-
-	if (!key)
-		return ;
-	current = find_env(*env, key);
-	if (current)
-	{
-		if (current->prev)
-			current->prev->next = current->next;
-		else
-			*env = current->next;
-		if (current->next)
-			current->next->prev = current->prev;
-		free(current->key);
-		free(current->value);
-		free(current);
 	}
 }
 

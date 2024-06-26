@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 17:23:32 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/26 17:23:32 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 01:23:50 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	token_add_back(t_token **new_token, t_token *new_node)
 }
 
 // Helper function to create a new token
-t_token	*create_new_token(char *str, int type)
+t_token	*create_new_token(const char *str, int type)
 {
 	t_token	*new_node;
 
@@ -54,7 +54,7 @@ void	handle_quotes2(char c, int *in_single_quote, int *in_double_quote)
 		*in_double_quote = !(*in_double_quote);
 }
 
-void	add_token(char *str, int length, t_token **new_token, int type)
+void	add_token(const char *str, int length, t_token **new_token, int type)
 {
 	char	*substr;
 
@@ -63,7 +63,7 @@ void	add_token(char *str, int length, t_token **new_token, int type)
 	free(substr);
 }
 
-int	get_special_char_length(char *str, char **special_chars)
+int	get_special_char_length(const char *str, char **special_chars)
 {
 	int	j;
 	int	special_len;

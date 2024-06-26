@@ -6,14 +6,14 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 02:33:57 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/24 00:13:09 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 01:15:55 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
 void	read_until_limiter(t_bjsh *bjsh, int fd_input, int fd_output,
-		char *limiter)
+		const char *limiter)
 {
 	char	*line;
 	int		size;
@@ -43,7 +43,7 @@ void	read_until_limiter(t_bjsh *bjsh, int fd_input, int fd_output,
 	free(limiter2);
 }
 
-char	*read_here_doc(t_bjsh *bjsh, char *limiter)
+char	*read_here_doc(t_bjsh *bjsh, const char *limiter)
 {
 	char	pathname[20];
 	char	*number;

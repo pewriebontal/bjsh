@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:53:06 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/26 22:54:33 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 01:20:13 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*bjsh_get_history_path(void)
 {
-	char	*home;
-	char	*path;
+	const char	*home;
+	char		*path;
 
 	home = getenv("HOME");
 	if (!home)
@@ -33,7 +33,7 @@ void	bjsh_hist_file_create(void)
 
 	path = bjsh_get_history_path();
 	fd_hist = open(path, O_WRONLY | O_APPEND | O_CREAT, 0644);
-	if(fd_hist == -1)
+	if (fd_hist == -1)
 	{
 		free(path);
 		return ;
@@ -86,11 +86,11 @@ int	bjsh_hist_add_entry(char *entry)
 	return (0);
 }
 
-void free_history_path(t_bjsh *bjsh)
+void	free_history_path(t_bjsh *bjsh)
 {
-    if (bjsh->history_path)
-    {
-        free(bjsh->history_path);
-        bjsh->history_path = NULL;
-    }
+	if (bjsh->history_path)
+	{
+		free(bjsh->history_path);
+		bjsh->history_path = NULL;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 00:34:58 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/24 00:37:16 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 01:14:15 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,24 +37,20 @@ char	*construct_executable_path(const char *path, const char *command)
 
 char	*search_in_paths(const char *command, char *path_env)
 {
-	char	*path;
-	char	*executable_path;
-	char	*constructed_path;
+	const char	*path;
+	char		*constructed_path;
 
 	path = ft_strtok(path_env, ":");
-	executable_path = malloc(256);
 	while (path)
 	{
 		constructed_path = construct_executable_path(path, command);
 		if (access(constructed_path, X_OK) == 0)
 		{
-			free(executable_path);
 			return (constructed_path);
 		}
 		free(constructed_path);
 		path = ft_strtok(NULL, ":");
 	}
-	free(executable_path);
 	return (NULL);
 }
 

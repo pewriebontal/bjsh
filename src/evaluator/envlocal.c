@@ -6,27 +6,17 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 09:06:21 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/24 00:36:30 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 01:21:51 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-char	*get_path_env(void)
-{
-	char	*path_env;
-
-	path_env = getenv("PATH");
-	if (!path_env)
-		return (NULL);
-	return (ft_strdup(path_env));
-}
-
 char	*get_env_local(char **envp, const char *key)
 {
-	int		i;
-	char	*equal_sign;
-	char	*value;
+	int			i;
+	const char	*equal_sign;
+	char		*value;
 
 	i = 0;
 	while (envp[i])

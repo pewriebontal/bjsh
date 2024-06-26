@@ -6,13 +6,14 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:02:19 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/26 17:24:45 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 01:23:23 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	find_special_char_type(char *str, char **special_chars, int *special_types)
+int	find_special_char_type(const char *str, char **special_chars,
+		int *special_types)
 {
 	int	j;
 	int	special_len;

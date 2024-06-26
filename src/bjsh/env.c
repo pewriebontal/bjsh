@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 17:04:35 by klinn             #+#    #+#             */
-/*   Updated: 2024/06/27 00:26:50 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 01:25:23 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,33 +32,7 @@ void	append_env_node(t_env **head, t_env *new_node)
 	new_node->next = NULL;
 }
 
-t_env	*ft_envlast(t_env *lst)
-{
-	if (lst == NULL)
-		return (0);
-	while (lst)
-	{
-		if (lst->next == NULL)
-			return (lst);
-		lst = lst->next;
-	}
-	return (lst);
-}
-
-void	add_back(t_env **lst, t_env *new)
-{
-	t_env	*temp;
-
-	if (*lst)
-	{
-		temp = ft_envlast(*lst);
-		temp->next = new;
-	}
-	else
-		*lst = new;
-}
-
-t_env	*create_env_list(t_bjsh *bjsh)
+t_env	*create_env_list(const t_bjsh *bjsh)
 {
 	t_env	*head;
 	int		i;
