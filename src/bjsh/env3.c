@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:54:31 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/24 21:14:15 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 00:27:07 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,14 @@ void	process_env_variable(char *env_var, t_env **head)
 	key = NULL;
 	value = NULL;
 	split_env(env_var, &key, &value);
-	if (!*head)
+	tmp = create_env_node(key, value);
+	if (!tmp)
 	{
-		*head = create_env_node(key, value);
+		free(key);
+		free(value);
+		return ;
 	}
-	else
-	{
-		tmp = create_env_node(key, value);
-		add_back(head, tmp);
-	}
+	append_env_node(head, tmp);
 	free(key);
 	free(value);
 }

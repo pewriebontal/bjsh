@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 17:04:35 by klinn             #+#    #+#             */
-/*   Updated: 2024/06/24 21:14:03 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 00:26:50 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,9 @@ t_env	*create_env_list(t_bjsh *bjsh)
 void	bjsh_env_init(t_bjsh *bjsh)
 {
 	t_env	*head;
-	t_env	*tail;
 
-	head = NULL;
-	tail = NULL;
 	if (!bjsh || !bjsh->envp)
 		return ;
-	initialize_env_list(&head, &tail);
 	head = create_env_list(bjsh);
 	bjsh->env = head;
 }
