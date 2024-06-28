@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/27 21:02:42 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 01:19:57 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,8 +294,8 @@ void					handle_parent_process(t_exe_context *context,
 // execution/heredoc.c
 void					init_here_doc_fuck_norm(int *size, char **limiter2,
 							const char *limiter);
-void					read_until_limiter(t_bjsh *bjsh, int fd_input,
-							int fd_output, const char *limiter);
+void					read_until_limiter(t_bjsh *bjsh, int fd_output,
+							const char *limiter);
 char					*read_here_doc(t_bjsh *bjsh, const char *limiter);
 
 // execution/pathfinding.c

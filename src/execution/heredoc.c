@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 02:33:57 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/28 18:54:12 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 01:30:02 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	init_here_doc_fuck_norm(int *size, char **limiter2, const char *limiter)
 {
 	*size = ft_strlen(limiter);
 	*limiter2 = ft_strjoin(limiter, "\n");
-	write(1, "👉 ", sizeof("👉"));
 }
 
 void	free_line_fuck_norm(char **line)
@@ -25,30 +24,28 @@ void	free_line_fuck_norm(char **line)
 	*line = NULL;
 }
 
-void	read_until_limiter(t_bjsh *bjsh, int fd_input, int fd_output,
-		const char *limiter)
+void	read_until_limiter(t_bjsh *bjsh, int fd_output, const char *limiter)
 {
 	char	*line;
 	int		size;
 	char	*limiter2;
 
 	init_here_doc_fuck_norm(&size, &limiter2, limiter);
-	line = get_next_line(fd_input);
-	if (line)
-		replace_env_vars(&line, bjsh);
-	while (line != NULL)
+	while (1)
 	{
-		if (ft_strncmp(limiter2, line, size + 2) == 0)
-			free_line_fuck_norm(&line);
-		else
+		line = readline("👉 ");
+		if (!line)
+			ft_dprintf(fd_output, "\n");
+		if (line)
+			replace_env_vars(&line, bjsh);
+		if (line == NULL || ft_strncmp(limiter2, line, size) == 0)
 		{
-			ft_putstr_fd(line, fd_output);
-			free(line);
-			write(1, "👉 ", sizeof("👉"));
-			line = get_next_line(fd_input);
-			if (line)
-				replace_env_vars(&line, bjsh);
+			free_line_fuck_norm(&line);
+			break ;
 		}
+		ft_putstr_fd(line, fd_output);
+		ft_putstr_fd("\n", fd_output);
+		free(line);
 	}
 	free(limiter2);
 }
@@ -72,7 +69,7 @@ char	*read_here_doc(t_bjsh *bjsh, const char *limiter)
 			fd = open(pathname, O_CREAT | O_WRONLY | O_TRUNC, 0600);
 			if (fd != -1)
 			{
-				read_until_limiter(bjsh, STDIN_FILENO, fd, limiter);
+				read_until_limiter(bjsh, fd, limiter);
 				close(fd);
 				return (ft_strdup(pathname));
 			}
