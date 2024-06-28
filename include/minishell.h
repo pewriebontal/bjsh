@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/27 02:09:31 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/27 21:02:42 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,8 @@ void					fill_up_token_with_env(t_token *token, t_bjsh *bjsh);
 char					*handle_quotes(char *p, t_env_replacer *replacer);
 char					*handle_dollar_sign(char *p, t_env_replacer *replacer,
 							t_bjsh *bjsh);
+
+// evaluator/evaluate_env2.c
 void					append_char_to_result(char c, char **result,
 							size_t *result_len);
 void					append_string_to_result(const char *str, char **result,
@@ -290,6 +292,8 @@ void					handle_parent_process(t_exe_context *context,
 							t_bjsh *bjsh);
 
 // execution/heredoc.c
+void					init_here_doc_fuck_norm(int *size, char **limiter2,
+							const char *limiter);
 void					read_until_limiter(t_bjsh *bjsh, int fd_input,
 							int fd_output, const char *limiter);
 char					*read_here_doc(t_bjsh *bjsh, const char *limiter);

@@ -6,11 +6,24 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 02:33:57 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/27 01:15:55 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/28 18:54:12 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+void	init_here_doc_fuck_norm(int *size, char **limiter2, const char *limiter)
+{
+	*size = ft_strlen(limiter);
+	*limiter2 = ft_strjoin(limiter, "\n");
+	write(1, "👉 ", sizeof("👉"));
+}
+
+void	free_line_fuck_norm(char **line)
+{
+	free(*line);
+	*line = NULL;
+}
 
 void	read_until_limiter(t_bjsh *bjsh, int fd_input, int fd_output,
 		const char *limiter)
@@ -19,25 +32,22 @@ void	read_until_limiter(t_bjsh *bjsh, int fd_input, int fd_output,
 	int		size;
 	char	*limiter2;
 
-	size = ft_strlen(limiter);
-	limiter2 = ft_strjoin(limiter, "\n");
-	write(1, "👉 ", sizeof("👉"));
+	init_here_doc_fuck_norm(&size, &limiter2, limiter);
 	line = get_next_line(fd_input);
-	replace_env_vars(&line, bjsh);
+	if (line)
+		replace_env_vars(&line, bjsh);
 	while (line != NULL)
 	{
 		if (ft_strncmp(limiter2, line, size + 2) == 0)
-		{
-			free(line);
-			line = NULL;
-		}
+			free_line_fuck_norm(&line);
 		else
 		{
 			ft_putstr_fd(line, fd_output);
 			free(line);
 			write(1, "👉 ", sizeof("👉"));
 			line = get_next_line(fd_input);
-			replace_env_vars(&line, bjsh);
+			if (line)
+				replace_env_vars(&line, bjsh);
 		}
 	}
 	free(limiter2);
