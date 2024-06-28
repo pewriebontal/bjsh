@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/29 01:19:57 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 05:19:55 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,11 @@ void					append_char_to_result(char c, char **result,
 void					append_string_to_result(const char *str, char **result,
 							size_t *result_len);
 void					replace_env_vars(char **str, t_bjsh *bjsh);
+
+// evaluator/evaluate_env3.c
+char					*handle_env_var_a(char *env_start, char **env_end,
+							t_bjsh *bjsh);
+char					*suka(char *p, t_env_replacer *replacer);
 
 // evaluator/evaluate_quotes.c
 void					replace_spaces_in_quotes(char *str);

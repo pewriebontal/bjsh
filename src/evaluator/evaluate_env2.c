@@ -6,13 +6,11 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 20:23:49 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/29 02:01:47 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 03:23:04 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-void	*ft_realloc(void *ptr, size_t size);
 
 void	append_char_to_result(char c, char **result, size_t *result_len)
 {
