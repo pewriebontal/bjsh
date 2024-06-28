@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 00:34:58 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/27 01:14:15 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 02:15:47 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,15 @@ char	*construct_executable_path(const char *path, const char *command)
 {
 	char	*executable_path;
 
-	executable_path = malloc(256);
-	snprintf(executable_path, 256, "%s/%s", path, command);
+	executable_path = malloc(420);
+	if (!executable_path)
+	{
+		perror("malloc");
+		exit(EXIT_FAILURE);
+	}
+	ft_strcpy(executable_path, path);
+	ft_strcat(executable_path, "/");
+	ft_strcat(executable_path, command);
 	return (executable_path);
 }
 

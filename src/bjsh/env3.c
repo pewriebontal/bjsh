@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:54:31 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/27 01:19:27 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 02:12:27 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ char	*create_env_string(const char *key, const char *value)
 		perror("malloc");
 		exit(EXIT_FAILURE);
 	}
-	snprintf(env_string, length, "%s=%s", key, value);
+	ft_strcpy(env_string, key);
+	ft_strcat(env_string, "=");
+	ft_strcat(env_string, value);
 	return (env_string);
 }
 
