@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:44:22 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/29 16:44:14 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 17:51:21 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,13 @@ void	yeet_token(t_token *token)
 	while (token)
 	{
 		next = token->next;
-		yeet(token->str);
+		if (token->str)
+		{
+			yeet(token->str);
+			token->str = NULL;
+		}
 		yeet(token);
+		token = NULL;
 		token = next;
 	}
 }
