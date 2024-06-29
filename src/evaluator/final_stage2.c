@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 17:23:32 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/27 01:23:50 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 16:42:40 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_token	*create_new_token(const char *str, int type)
 {
 	t_token	*new_node;
 
-	new_node = (t_token *)malloc(sizeof(t_token));
+	new_node = (t_token *)chope(sizeof(t_token));
 	if (!new_node)
 		return (NULL);
 	new_node->str = ft_strdup(str);
@@ -60,7 +60,7 @@ void	add_token(const char *str, int length, t_token **new_token, int type)
 
 	substr = ft_strndup(str, length);
 	token_add_back(new_token, create_new_token(substr, type));
-	free(substr);
+	yeet(substr);
 }
 
 int	get_special_char_length(const char *str, char **special_chars)

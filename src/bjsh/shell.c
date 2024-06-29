@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/27 21:01:27 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 16:38:54 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,9 @@ void	bjsh_loop(t_bjsh *bjsh)
 			bjsh_hist_add_entry(line);
 		}
 		token = bon_and_jason_tokenizer(line, bjsh);
+		bjsh->token = token;
 		execute_tokens(token, bjsh);
-		if (token)
-			clear_list(token);
-		if (!bjsh->first_run)
-			ft_free_multidi((void **)bjsh->envp, 2);
+		looper_yeet(bjsh, token);
 		bjsh->envp = convert_env_to_envp(bjsh->env);
 		bjsh->first_run = 0;
 	}

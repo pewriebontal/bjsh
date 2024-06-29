@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 02:33:57 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/29 01:30:02 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 16:41:53 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	init_here_doc_fuck_norm(int *size, char **limiter2, const char *limiter)
 
 void	free_line_fuck_norm(char **line)
 {
-	free(*line);
+	yeet(*line);
 	*line = NULL;
 }
 
@@ -45,9 +45,9 @@ void	read_until_limiter(t_bjsh *bjsh, int fd_output, const char *limiter)
 		}
 		ft_putstr_fd(line, fd_output);
 		ft_putstr_fd("\n", fd_output);
-		free(line);
+		yeet(line);
 	}
-	free(limiter2);
+	yeet(limiter2);
 }
 
 char	*read_here_doc(t_bjsh *bjsh, const char *limiter)
@@ -63,7 +63,7 @@ char	*read_here_doc(t_bjsh *bjsh, const char *limiter)
 		number = ft_itoa(i);
 		ft_strlcpy(pathname, "/tmp/heredoc", 21);
 		ft_strlcat(pathname, number, 21);
-		free(number);
+		yeet(number);
 		if (access(pathname, F_OK) == -1)
 		{
 			fd = open(pathname, O_CREAT | O_WRONLY | O_TRUNC, 0600);

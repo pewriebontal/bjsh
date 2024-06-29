@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 17:22:49 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/26 16:54:44 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 16:41:53 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	remove_empty_nodes(t_token *token)
 				tmp->prev->next = next;
 			if (next)
 				next->prev = tmp->prev;
-			free(tmp->str);
-			free(tmp);
+			yeet(tmp->str);
+			yeet(tmp);
 			tmp = next;
 		}
 		else

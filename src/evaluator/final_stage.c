@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:02:19 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/27 01:23:23 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 16:44:05 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,6 @@ t_token	*final_stage(t_token *token)
 		split_by_special_chars(current->str, &new_token);
 		current = current->next;
 	}
-	clear_list(token);
+	yeet_token(token);
 	return (new_token);
 }

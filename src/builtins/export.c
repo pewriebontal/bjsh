@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 02:25:29 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/26 19:46:35 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 16:41:53 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	bjsh_export(t_bjsh *bjsh, const char *key, const char *value)
 	node = find_env_node(bjsh->env, key);
 	if (node)
 	{
-		free(node->value);
+		yeet(node->value);
 		node->value = ft_strdup(value);
 		if (!node->value)
 			return (-1);

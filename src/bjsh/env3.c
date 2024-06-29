@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:54:31 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/29 02:12:27 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 16:42:40 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	**allocate_envp(int count)
 {
 	char	**envp;
 
-	envp = (char **)malloc(sizeof(char *) * (count + 1));
+	envp = (char **)chope(sizeof(char *) * (count + 1));
 	if (!envp)
 	{
 		perror("malloc");
@@ -31,7 +31,7 @@ char	*create_env_string(const char *key, const char *value)
 	char	*env_string;
 
 	length = ft_strlen(key) + ft_strlen(value) + 2;
-	env_string = (char *)malloc(length);
+	env_string = (char *)chope(length);
 	if (!env_string)
 	{
 		perror("malloc");
@@ -76,11 +76,11 @@ void	process_env_variable(const char *env_var, t_env **head)
 	tmp = create_env_node(key, value);
 	if (!tmp)
 	{
-		free(key);
-		free(value);
+		yeet(key);
+		yeet(value);
 		return ;
 	}
 	append_env_node(head, tmp);
-	free(key);
-	free(value);
+	yeet(key);
+	yeet(value);
 }

@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 17:24:11 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/27 01:16:49 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 16:41:53 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,5 @@ void	add_substring_token(const char *str, int length, t_token **new_token,
 
 	substr = ft_strndup(str, length);
 	token_add_back(new_token, create_new_token(substr, type));
-	free(substr);
+	yeet(substr);
 }

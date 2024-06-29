@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 02:46:54 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/27 02:09:31 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 16:41:53 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	handle_redirect_in_here(t_exe_context *context,
 		perror("open");
 		return (-1);
 	}
-	free(rd->heredoc_file);
+	yeet(rd->heredoc_file);
 	context->current = context->current->next;
 	return (0);
 }

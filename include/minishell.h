@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/29 05:19:55 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 16:46:28 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,12 +154,15 @@ char					*create_env_string(const char *key, const char *value);
 char					**convert_env_to_envp(t_env *env);
 void					process_env_variable(const char *env_var, t_env **head);
 
+// bjsh/free.c
+void					looper_yeet(t_bjsh *bjsh, t_token *token);
+
 // bjsh/hist.c
 char					*bjsh_get_history_path(void);
 void					bjsh_hist_file_create(void);
 int						bjsh_read_history(char *path);
 int						bjsh_hist_add_entry(char *entry);
-void					free_history_path(t_bjsh *bjsh);
+void					yeet_history_path(t_bjsh *bjsh);
 
 // bjsh/main.c
 int						init_bjsh(t_bjsh *bjsh, char *env[]);
@@ -337,11 +340,8 @@ int						check_invalid_redirect_sequence(t_exe_context *context);
 // helpers/arr_to_list.c
 t_token					*array_to_list(char **arr);
 void					debug_print_list(t_token *token);
-void					clear_list(t_token *token);
-void					clear_env(t_env *env);
-
-// helpers/ft_rejoin_arr.c
-char					*ft_rejoin_arr(char **arr);
+void					yeet_token(t_token *token);
+void					yeet_env(t_env *env);
 
 // helpers/lst_to_arr.c
 char					**lst_to_arr(t_token *token);

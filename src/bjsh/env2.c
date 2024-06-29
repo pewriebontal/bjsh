@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 19:15:45 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/27 01:03:02 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 16:42:40 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_env	*create_env_node(const char *key, const char *value)
 {
 	t_env	*new_node;
 
-	new_node = (t_env *)malloc(sizeof(t_env));
+	new_node = (t_env *)chope(sizeof(t_env));
 	if (!new_node)
 		return (NULL);
 	new_node->key = ft_strdup(key);

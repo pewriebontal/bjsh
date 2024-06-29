@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 02:29:26 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/29 05:20:15 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 16:41:53 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,6 @@ char	*handle_dollar_sign(char *p, t_env_replacer *replacer, t_bjsh *bjsh)
 		&replacer->result_len);
 	p = env_end;
 	if ((*env_start == '?') || (env_value != NULL && env_value[0] != '\0'))
-		free(env_value);
+		yeet(env_value);
 	return (p);
 }

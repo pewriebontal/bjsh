@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 20:23:49 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/29 03:23:04 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 16:41:53 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	replace_env_vars(char **str, t_bjsh *bjsh)
 	}
 	if (replacer.result)
 	{
-		free(*str);
+		yeet(*str);
 		*str = replacer.result;
 	}
 }

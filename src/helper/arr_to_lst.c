@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:44:22 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/26 22:57:29 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 16:44:14 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_token	*array_to_list(char **arr)
 	prev = NULL;
 	while (arr[i])
 	{
-		token = (t_token *)malloc(sizeof(t_token));
+		token = (t_token *)chope(sizeof(t_token));
 		token->str = arr[i];
 		token->type = 0;
 		token->executed = 0;
@@ -51,29 +51,29 @@ void	debug_print_list(t_token *token)
 	}
 }
 
-void	clear_list(t_token *token)
+void	yeet_token(t_token *token)
 {
 	t_token	*next;
 
 	while (token)
 	{
 		next = token->next;
-		free(token->str);
-		free(token);
+		yeet(token->str);
+		yeet(token);
 		token = next;
 	}
 }
 
-void	clear_env(t_env *env)
+void	yeet_env(t_env *env)
 {
 	t_env	*next;
 
 	while (env)
 	{
 		next = env->next;
-		free(env->key);
-		free(env->value);
-		free(env);
+		yeet(env->key);
+		yeet(env->value);
+		yeet(env);
 		env = next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 03:23:27 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/29 05:18:49 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 16:41:53 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*handle_env_var_a(char *env_start, char **env_end, t_bjsh *bjsh)
 		(*env_end)++;
 	env_name = ft_strndup(env_start, *env_end - env_start);
 	env_value = get_env_local(bjsh->envp, env_name);
-	free(env_name);
+	yeet(env_name);
 	if (!env_value)
 		env_value = "";
 	return (env_value);

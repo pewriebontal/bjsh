@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:06:55 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/26 22:54:48 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 16:44:14 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,20 @@ void	blyat_(t_bjsh *bjsh)
 {
 	if (isatty(STDIN_FILENO))
 	{
-		free_history_path(bjsh);
+		yeet_history_path(bjsh);
 		rl_clear_history();
 		ft_dprintf(STDOUT_FILENO, "blyat\n");
+		if (bjsh->token)
+			yeet_token(bjsh->token);
 		if (bjsh->history_path)
-			free(bjsh->history_path);
+			yeet(bjsh->history_path);
 		if (!bjsh->first_run)
 		{
 			if (bjsh->envp)
 				ft_free_multidi((void **)bjsh->envp, 2);
 		}
 		if (bjsh->env)
-			clear_env(bjsh->env);
+			yeet_env(bjsh->env);
 		exit(bjsh->last_exit_status);
 	}
 }
