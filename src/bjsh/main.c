@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:06:55 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/29 17:53:03 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 18:38:11 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@ void	blyat_(t_bjsh *bjsh)
 		yeet_history_path(bjsh);
 		rl_clear_history();
 		ft_dprintf(STDOUT_FILENO, "blyat\n");
-		if (bjsh->token)
+		if (bjsh->token != NULL)
+		{
 			yeet_token(bjsh->token);
-		if (bjsh->history_path)
-			yeet(bjsh->history_path);
+			bjsh->token = NULL;
+		}
 		if (!bjsh->first_run)
 		{
 			if (bjsh->envp)
