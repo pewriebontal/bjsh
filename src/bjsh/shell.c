@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/29 18:35:07 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/06/29 19:47:07 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	bjsh_loop(t_bjsh *bjsh)
 		looper_yeet(bjsh, token);
 		bjsh->envp = convert_env_to_envp(bjsh->env);
 		bjsh->first_run = 0;
-		free(line);
 	}
 	blyat_(bjsh);
 }
