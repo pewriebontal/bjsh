@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 02:46:54 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/29 16:41:53 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/07/03 01:12:33 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int	handle_redirect_in(t_exe_context *context, t_redirection_data *rd)
 	return (0);
 }
 
-int	handle_redirect_in_here(t_exe_context *context,
-		t_redirection_data *rd, t_bjsh *bjsh)
+int	handle_redirect_in_here(t_exe_context *context, t_redirection_data *rd,
+		t_bjsh *bjsh)
 {
 	context->current = context->current->next;
 	rd->heredoc_file = read_here_doc(bjsh, context->current->str);
@@ -88,12 +88,19 @@ int	handle_redirections(t_exe_context *context, t_bjsh *bjsh)
 		if (context->current->type == REDIRECT_OUT
 			|| context->current->type == REDIRECT_OUT_APPEND)
 		{
-			return (handle_redirect_out(context, &rd));
+			if (handle_redirect_out(context, &rd) == -1)
+				return (-1);
 		}
 		else if (context->current->type == REDIRECT_IN)
-			return (handle_redirect_in(context, &rd));
+		{
+			if (handle_redirect_in(context, &rd) == -1)
+				return (-1);
+		}
 		else if (context->current->type == REDIRECT_IN_HERE)
-			return (handle_redirect_in_here(context, &rd, bjsh));
+		{
+			if (handle_redirect_in_here(context, &rd, bjsh) == -1)
+				return (-1);
+		}
 	}
 	return (0);
 }
