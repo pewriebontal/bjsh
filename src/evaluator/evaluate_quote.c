@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 13:47:43 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/27 01:00:16 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/07/03 14:53:16 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	replace_spaces_in_quotes(char *str)
 		}
 		else if ((inside_single_quotes || inside_double_quotes) && *ptr == ' ')
 		{
-			*ptr = '`';
+			*ptr = (char)SAUCE;
 		}
 		ptr++;
 	}

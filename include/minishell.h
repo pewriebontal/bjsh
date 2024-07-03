@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/29 16:46:28 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/07/03 14:53:07 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@
 # define PIPE 666                 // |
 # define COMMAND 777              //
 # define FILE 888                 //
+
+# define SAUCE 7
 
 # define BUGGI_BAKA 69420 // cd, exit  (kill the parent)
 # define SUSSY_BAKA 42069 // the rest of the builtins (kill the child)
