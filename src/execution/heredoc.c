@@ -38,7 +38,7 @@ void	read_until_limiter(t_bjsh *bjsh, int fd_output, const char *limiter)
 			ft_dprintf(fd_output, "\n");
 		if (line)
 			replace_env_vars(&line, bjsh);
-		if (line == NULL || ft_strncmp(limiter2, line, size) == 0)
+		if (line == NULL || ft_strcmp(line,limiter2) == -10)
 		{
 			free_line_fuck_norm(&line);
 			break ;
