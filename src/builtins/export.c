@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 02:25:29 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/29 16:41:53 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/07/04 11:28:12 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@ int	is_valid_identifier(const char *key)
 {
 	int	i;
 
-	if (!key || !(ft_isalpha(key[0]) && key[0] != '_'))
-		return (CAP);
+	if (!key || !(ft_isalpha(key[0]) || key[0] == '_'))
+		return (0);
 	i = 1;
 	while (key[i])
 	{
 		if (!ft_isalnum(key[i]) && key[i] != '_')
-			return (CAP);
+			return (0);
 		++i;
 	}
-	return (NOCAP);
+	return (1);
 }
 
 // Function to find an environment node by key
