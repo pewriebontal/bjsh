@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/29 19:47:07 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/07/06 23:46:15 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int	check_builtin(const char *cmd)
 		return (BUGGI_BAKA);
 	else if (ft_strcmp(cmd, "env") == 0)
 		return (SUSSY_BAKA);
+	else if (ft_strcmp(cmd, "env2") == 0)
+		return (SUSSY_BAKA);
 	return (UNDERSTOOD_THE_ASSIGNMENT);
 }
 
@@ -77,6 +79,8 @@ int	bjsh_exec_builtin(char **args, t_bjsh *bjsh)
 		return (bjsh_echo(args));
 	else if (ft_strcmp(args[0], "env") == 0)
 		return (bjsh_env(bjsh));
+	else if (ft_strcmp(args[0], "env2") == 0)
+		return (bjsh_env2(bjsh));
 	else if (ft_strcmp(args[0], "export") == 0)
 		return (handle_export_command(bjsh, args));
 	else if (ft_strcmp(args[0], "unset") == 0)

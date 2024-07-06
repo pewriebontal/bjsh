@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/07/04 13:50:17 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/07/06 23:56:10 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,7 @@ int						bjsh_echo(char **args);
 
 // builtins env.c
 int						bjsh_env(t_bjsh *bjsh);
+int						bjsh_env2(t_bjsh *bjsh);
 
 // builtins exit.c
 void					bjsh_exit(t_bjsh *bjsh, char **args);
@@ -274,6 +275,7 @@ t_token					*bon_and_jason_tokenizer(char *command_input,
 							t_bjsh *bjsh);
 t_token					*remove_quotes_from_token(t_token *token);
 void					remove_quotes(char *str);
+void					replace_export_with_env(t_token *token);
 
 // evaluator/tokenizer2.c
 void					replace_special_characters(char *str,

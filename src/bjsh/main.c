@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:06:55 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/07/04 13:49:30 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/07/06 23:50:53 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,24 @@ void	blyat_(t_bjsh *bjsh)
 	}
 }
 
+void	increase_shlvl(t_bjsh *bjsh)
+{
+	t_env	*shlvl_node;
+	int		shlvl;
+
+	shlvl_node = find_env_node(bjsh->env, "SHLVL");
+	if (shlvl_node)
+	{
+		shlvl = ft_atoi(shlvl_node->value);
+		free(shlvl_node->value);
+		shlvl_node->value = ft_itoa(shlvl + 1);
+	}
+	else
+	{
+		bjsh_export(bjsh, "SHLVL", "1");
+	}
+}
+
 int	init_bjsh(t_bjsh *bjsh, char *env[])
 {
 	bjsh->history_path = bjsh_get_history_path();
@@ -46,6 +64,7 @@ int	init_bjsh(t_bjsh *bjsh, char *env[])
 	bjsh->first_run = 1;
 	bjsh->envp = env;
 	bjsh_env_init(bjsh);
+	increase_shlvl(bjsh);
 	return (UNDERSTOOD_THE_ASSIGNMENT);
 }
 
