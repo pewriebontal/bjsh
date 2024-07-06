@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 02:33:57 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/07/03 08:04:58 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/07/06 23:05:39 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	read_until_limiter(t_bjsh *bjsh, int fd_output, const char *limiter)
 			ft_dprintf(fd_output, "\n");
 		if (line)
 			replace_env_vars(&line, bjsh);
-		if (line == NULL || ft_strcmp(line,limiter2) == -10)
+		if (line == NULL || ft_strcmp(line, limiter2) == -10)
 		{
 			free_line_fuck_norm(&line);
 			break ;

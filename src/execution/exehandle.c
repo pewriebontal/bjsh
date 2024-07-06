@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 00:32:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/27 02:08:44 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/07/06 22:17:32 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void	handle_io_redirection(t_exe_context *context)
 }
 
 // Function to handle child process execution
-void	handle_child_process(char *args[], t_exe_context *context,
-		t_bjsh *bjsh)
+void	handle_child_process(char *args[], t_exe_context *context, t_bjsh *bjsh)
 {
 	handle_io_redirection(context);
+	signal(SIGQUIT, handle_signal);
 	execute_builtin_g(args, bjsh);
 	execute_command4(args, bjsh->envp);
 }
