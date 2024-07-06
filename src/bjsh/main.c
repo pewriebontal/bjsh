@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:06:55 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/29 18:38:11 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/07/04 13:49:30 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,30 +49,36 @@ int	init_bjsh(t_bjsh *bjsh, char *env[])
 	return (UNDERSTOOD_THE_ASSIGNMENT);
 }
 
+int	param_c(char *command, t_bjsh *bjsh)
+{
+	t_token	*token;
+
+	token = bon_and_jason_tokenizer(command, bjsh);
+	execute_tokens(token, bjsh);
+	return (bjsh->last_exit_status);
+}
+
 int	main(int argc, char *argv[], char *env[])
 {
 	t_bjsh	bjsh;
+	char	*argum;
+	int		exit_status;
 
 	bjsh = (t_bjsh){0};
 	if (argc == 2)
 	{
 		if (ft_strncmp(argv[1], "--version", 10) == 0)
-		{
-			ft_printf("%s (%s) [%s \"%s\" %s]\n", SHELL_SHORT_NAME,
-				SHELL_LONG_NAME, SHELL_VERSION, GIT_COMMIT, SHELL_BUILD_DATE);
-			return (UNDERSTOOD_THE_ASSIGNMENT);
-		}
+			print_version();
 		if (ft_strncmp(argv[1], "--help", 7) == 0)
-		{
-			ft_printf("%s (%s) [%s \"%s\" %s]\n", SHELL_SHORT_NAME,
-				SHELL_LONG_NAME, SHELL_VERSION, GIT_COMMIT, SHELL_BUILD_DATE);
-			ft_printf("Usage: %s [OPTION]...\n", SHELL_SHORT_NAME);
-			ft_printf("  --version\t\tprint version and exit\n");
-			ft_printf("  --help\t\tprint this help and exit\n");
-			return (UNDERSTOOD_THE_ASSIGNMENT);
-		}
+			print_help();
 	}
 	init_bjsh(&bjsh, env);
+	if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))
+	{
+		argum = ft_strdup(argv[2]);
+		exit_status = param_c(argum, &bjsh);
+		exit(exit_status);
+	}
 	bjsh_loop(&bjsh);
 	return (bjsh.last_exit_status);
 }

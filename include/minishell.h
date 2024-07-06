@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/07/03 14:53:07 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/07/04 13:50:17 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,10 @@ typedef struct s_history
 // main.c
 void					blyat_(t_bjsh *bjsh);
 void					bjsh_loop(t_bjsh *bjsh);
+
+// main2.c
+int						print_help(void);
+int						print_version(void);
 
 // bjsh/env.c
 void					append_env_node(t_env **head, t_env *new_node);
