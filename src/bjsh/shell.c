@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:07:03 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/07/06 23:46:15 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/07/07 11:37:07 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	bjsh_loop(t_bjsh *bjsh)
 	token = NULL;
 	while (bjsh->state == CHILLING)
 	{
+		signal(SIGINT, handle_signal);
 		line = readline(SHELL_PROMPT);
 		if (!line)
 			blyat_(bjsh);

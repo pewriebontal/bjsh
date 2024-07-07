@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/07/06 23:56:10 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/07/08 03:26:02 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,7 @@ int						handle_unset_command(t_bjsh *bjsh, char **args);
 
 // bjsh/signal_handler.c
 void					handle_signal(int sig);
+void					handle_sig_heredoc(int sig);
 
 // builtins cd.c
 char					*get_path(char **args);
