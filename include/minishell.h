@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 22:28:30 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/07/08 03:26:02 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/07/08 20:14:57 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,6 +214,7 @@ int						bjsh_unset(t_bjsh *bjsh, const char *key);
 
 // evaluator/envlocal.c
 char					*get_env_local(char **envp, const char *key);
+char					*get_env_local2(t_env *env, const char *key);
 
 // evaluator/evaluate_env.c
 void					fill_up_token_with_env(t_token *token, t_bjsh *bjsh);

@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:00:06 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/26 22:50:32 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/07/08 20:16:19 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*handle_no_path_set(t_bjsh *bjsh)
 	char	*env_path;
 	char	*path;
 
-	env_path = get_env_local(bjsh->envp, "HOME");
+	env_path = get_env_local2(bjsh->env, "HOME");
 	if (env_path == NULL || *env_path == '\0')
 	{
 		ft_dprintf(STDERR_FILENO, "🤌 ❯ cd: HOME not set\n");
