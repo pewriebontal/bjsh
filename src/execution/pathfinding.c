@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 00:34:58 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/29 16:42:40 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/07/08 22:14:21 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ char	*check_absolute_or_relative_path(const char *command)
 				|| command[1] == '.')))
 	{
 		if (access(command, X_OK) == 0)
-		{
 			return (ft_strdup(command));
-		}
 		return (NULL);
 	}
 	return (NULL);
@@ -69,6 +67,8 @@ char	*find_executable(const char *command, char **envp)
 	executable_path = check_absolute_or_relative_path(command);
 	if (executable_path)
 		return (executable_path);
+	else if (command[0] == '.' && (command[1] == '/' || command[1] == '.'))
+		return (NULL);
 	path_env = get_env_local(envp, "PATH");
 	if (!path_env)
 		return (NULL);
