@@ -51,9 +51,12 @@ char	*handle_dollar_sign(char *p, t_env_replacer *replacer, t_bjsh *bjsh)
 		return (suka(p, replacer));
 	env_start = p + 1;
 	env_end = env_start;
-	if (*env_start == '?')
+	if (*env_start == '?' || *env_start == '$')
 	{
-		env_value = ft_itoa(bjsh->last_exit_status);
+		if (*env_start == '?')
+			env_value = ft_itoa(bjsh->last_exit_status);
+		else
+		 	env_value = ft_itoa(getpid());
 		env_end++;
 	}
 	else
