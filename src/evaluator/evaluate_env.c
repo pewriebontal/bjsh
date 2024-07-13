@@ -6,7 +6,7 @@
 /*   By: mkhaing <0x@bontal.net>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 02:29:26 by mkhaing           #+#    #+#             */
-/*   Updated: 2024/06/29 16:41:53 by mkhaing          ###   ########.fr       */
+/*   Updated: 2024/07/13 17:38:21 by mkhaing          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,24 @@ char	*handle_quotes(char *p, t_env_replacer *replacer)
 	return (p);
 }
 
+char	*pid_return(char **env_end)
+{
+	char	*env_value;
+
+	env_value = ft_itoa(getpid());
+	(*env_end)++;
+	return (env_value);
+}
+
+char	*question_mark_return(t_bjsh *bjsh, char **env_end)
+{
+	char	*env_value;
+
+	env_value = ft_itoa(bjsh->last_exit_status);
+	(*env_end)++;
+	return (env_value);
+}
+
 char	*handle_dollar_sign(char *p, t_env_replacer *replacer, t_bjsh *bjsh)
 {
 	char	*env_start;
@@ -51,14 +69,10 @@ char	*handle_dollar_sign(char *p, t_env_replacer *replacer, t_bjsh *bjsh)
 		return (suka(p, replacer));
 	env_start = p + 1;
 	env_end = env_start;
-	if (*env_start == '?' || *env_start == '$')
-	{
-		if (*env_start == '?')
-			env_value = ft_itoa(bjsh->last_exit_status);
-		else
-		 	env_value = ft_itoa(getpid());
-		env_end++;
-	}
+	if (*env_start == '?')
+		env_value = question_mark_return(bjsh, &env_end);
+	else if (*env_start == '$')
+		env_value = pid_return(&env_end);
 	else
 	{
 		env_value = handle_env_var_a(env_start, &env_end, bjsh);
